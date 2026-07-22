@@ -1,0 +1,62 @@
+from django.views import View  
+from django.shortcuts import render, redirect  
+from django.contrib import messages  
+from .forms import UpdateProfileForm  
+from .models import Customer  
+from django.core.exceptions import ObjectDoesNotExist  
+from django.contrib.auth.mixins import LoginRequiredMixin  
+
+class UpdateProfileView(LoginRequiredMixin, View):  
+    def get(self, request):  
+        user = request.user  
+        try:  
+            customer = Customer.objects.get(user=user)  
+            initial_dict = {  
+                "mobile_number": user.mobile_number,  
+                "name": user.name,  # اصلاح نادرست "nmae" به "name"  
+                "family": user.family,  
+                "email": user.email,  
+                "phone_number": customer.phone_number,  
+                "address": customer.address,  
+            }  
+            image_url = customer.image_name  
+        except ObjectDoesNotExist:  
+            initial_dict = {  
+                "mobile_number": user.mobile_number,  
+                "name": user.name,  
+                "family": user.family,  
+                "email": user.email,  
+            }  
+            image_url = None  # اگر مشتری وجود ندارد  
+        form = UpdateProfileForm(initial=initial_dict)  
+        return render(request, 'account_app/update_profile.html', {"form": form, "image_url": image_url})  
+
+    def post(self, request):  
+        form = UpdateProfileForm(request.POST, request.FILES)  
+        if form.is_valid():  
+            cd = form.cleaned_data  
+            user = request.user  
+            user.name = cd['name']        
+            user.family = cd['family']  
+            user.email = cd['email']  
+            user.save()  
+            try:  
+                customer = Customer.objects.get(user=user)  
+                customer.phone_number = cd['phone_number']  
+                customer.address = cd['address']  
+                if 'image' in cd:  
+                    customer.image_name = cd['image']  
+                customer.save()  
+            except ObjectDoesNotExist:   
+                Customer.objects.create(  
+                    user=user,  
+                    phone_number=cd['phone_number'],  
+                    address=cd['address'],  
+                    image_name=cd['image']  # اصلاح نام کلید  
+                )  
+            messages.success(request, 'ویرایش پروفایل با موفقیت انجام شد', 'success')  
+            return redirect('accounts:userpanel')  
+
+        else:  
+            messages.error(request, 'اطلاعات وارد شده معتبر نمی باشد', 'danger')  
+            return render(request, 'main_app/update_profile.html', {'form': form})

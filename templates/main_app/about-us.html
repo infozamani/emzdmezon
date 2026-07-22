@@ -1,0 +1,217 @@
+<!--about_us-->
+   {% block content %}
+  <!DOCTYPE html>  
+  <html lang="fa">  
+  <head>  
+	<meta charset="UTF-8">  
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+	  <title>درباره ما</title>  
+	  <script src="https://cdn.tailwindcss.com"></script>  
+	  <style>  
+		  body {  
+			  font-family: Arial, sans-serif;  
+			  background-color: #f4f4f4;  
+			  margin: 0;  
+			  direction: rtl;  
+			  color: #333; 
+			  height: 300px; 
+			  position: relative; 
+		  }  
+		  header {  
+			  background: #007bff;  
+			  color: white;  
+			  padding: 10px 0;  
+			  text-align: center;  
+			  font-size: 40px;
+		  }  
+		  nav table {  
+			width: 50%;  
+			border-collapse: collapse;  
+		}  
+		
+		nav th {  
+			text-align: center;  
+			padding: 10px;  
+			border: 1px solid #ddd;  
+		} 
+		  nav ul {  
+			display: flex; 
+			list-style: none;    
+			padding: 0;   
+			margin: 0;    
+		}  
+		
+		nav li {  
+			margin: 0 15px; 
+		}  
+		
+		nav a {  
+			font-size: 20px;
+			text-decoration: none; 
+			color: yellow;    
+			transition: color 0.3s;  
+		}  
+		
+		nav a:hover {  
+			color: #fff;    
+			
+		}
+		 
+		  .container {  
+			  max-width: 950px;  
+			  margin: auto;  
+			  background: #a1a1;  
+			  padding: 20px;  
+			  border-radius: 8px;  
+			  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);  
+		  }  
+		  h1 {  
+			  margin-top: 0;  
+		  }  
+		  img {  
+			  max-width: 100%;  
+			  height: auto;  
+			  border-radius: 8px;
+			  text-align: center;
+			  
+		  }  
+		  .section {  
+			  margin: 20px 0;  
+		  }  
+		  footer {  
+			  text-align: center;  
+			  padding: 10px 0;  
+			  background: #007bff;  
+			  color: white;  
+			  position: relative;  
+			  bottom: 0;  
+			  width: 100%;  
+		  }  
+		  .socials a {  
+			  margin: 0 10px;  
+			  color: white;  
+			  text-decoration: none;  
+		  } 
+		  .team-member {  
+			  display: inline-block;  
+			  text-align: center;  
+			  margin: 20px;  
+		  }  
+		  
+		  .team-member img {  
+			  border-radius: 50%;  
+			  width: 150px; 
+			  height: 150px;   
+			  object-fit: cover;  
+		  } 
+		 
+        .arrow {  
+            position: fixed;  
+            width: 50px;  
+            height: 50px;  
+            background-color: #333;  
+            color: white;  
+            text-align: center;  
+            line-height: 50px;  
+            border-radius: 50%;  
+            cursor: pointer;  
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+			font-size: 24px;  
+			margin: 10px; 
+        }  
+ 
+        .arrow-up {  
+            top: 20px;  
+            left: 20px;  
+        }  
+        .arrow-down {  
+            bottom: 20px;  
+            left: 20px;  
+        } 
+		#team {  
+			max-height: 50px;  
+			overflow: auto;  
+			position: relative;  
+		}
+		#scroll-top {  
+			position: fixed;  
+			bottom: 20px;  
+			right: 20px;  
+			display: none; /* Initially hidden */  
+			z-index: 1000;  
+		}  
+	 
+	  </style>  
+
+  </head> 
+  <body class="container">  
+  <header>  
+	  <a href="{% url "main:index" %}">صفحه اصلی </a>   
+	  <nav >  
+		<ul> 
+			{% for about in abouts %}  
+				<li>  
+					<h1 style="align-items: center;">خدمات صنعت پویا در حوزه تکنولوژی</h1>
+
+					<a href="#about-{{ forloop.counter }}">{{ about.about_title }}</a>  
+					<img src="{{media_url}}{{about.image_title}}" alt="">
+				</li>  
+			{% endfor %}  
+		</ul>  
+	</nav>
+  </header>  
+  
+  <div class="container">  
+	<hr >  
+	<hr > 
+	{% for about in abouts %}  
+    <h2 id="about-{{ forloop.counter }}">{{about.about_title}}  </h2>
+    <div>  
+		{{ about.description|safe }}  
+		<img src="{{media_url}}{{about.image_title}}" alt="">
+    </div>   
+	{% endfor %} 
+	<hr >  
+	<hr >  
+	<div id="team"  class="section">  
+		<div   class="team-member">  
+			<div id="team"  class="section" style="max-height: 300px; overflow: auto; position: relative;">  
+				<a href="javascript:void(0);" id="scroll-top" class="topbutton btn-show bg-blue-500 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition duration-300">  
+					<span class="fa fa-angle-double-up"></span>  
+				</a>  
+			</div> 
+			</div> 
+			</div> 
+			<script> 
+	
+				// Show button when scrolling down  
+				window.onscroll = function() {  
+					const button = document.getElementById('scroll-top');  
+					if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {  
+						button.style.display = "block";  
+					} else {  
+						button.style.display = "none";  
+					}  
+				};  
+	
+				// Scroll to top function  
+				document.getElementById('scroll-top').onclick = function() {  
+					window.scrollTo({top: 0, behavior: 'smooth'});  
+				}; 
+			</script>
+   
+	<footer>  
+		<div class="socials">  
+			<a href="https://www.facebook.com/sanatpoya/"><i class="fab fa-facebook-f"></i></a>  
+			<a href="https://t.me/sanatpoya/" ><i class="fab fa-twitter"></i></a>  
+			<a href="https://www.instagram.com/sanatpoya/"><i class="fab fa-instagram"></i></a>  
+			<a  href="https://www.aparat.com/sanatpoya"><i class="fas fa-aparat"></i></a>  
+			<a  href="https://www.youtube.com/c/sanatpoya"><i  class="fab fa-youtube"></i></a>  
+		</div>  
+		<p>تمامی حقوق محفوظ است &copy; 1403</p>  
+	</footer> 
+	
+</body>  
+  </html>
+  {% endblock content %} 
+			<!-- about_us / end -->

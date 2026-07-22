@@ -1,0 +1,461 @@
+<style>
+/* ======================================================
+   RESET
+====================================================== */
+.snav, .snav * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+.snav ul { list-style: none; }
+.snav a { text-decoration: none; }
+
+/* ======================================================
+   نوار ناوبری اصلی
+====================================================== */
+.snav {
+  background: #16697a;
+  width: 100%;
+  direction: rtl;
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+  font-family: Tahoma, Arial, sans-serif;
+}
+
+.snav-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  height: 62px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* لوگو سمت راست، منو وسط، آیکن‌ها چپ */
+  gap: 10px;
+}
+
+/* ======================================================
+   لوگو
+====================================================== */
+.snav-logo {
+  flex-shrink: 0;
+}
+.snav-logo a {
+  color: #fff;
+  font-size: 26px;
+  font-weight: bold;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  letter-spacing: 1px;
+}
+.snav-logo span { color: #e94560; }
+.nav-panel__logo img {
+  height: 45px;
+  width: auto;
+}
+
+/* ======================================================
+   لیست منو — حالت افقی (دسکتاپ)
+====================================================== */
+.snav-menu {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  flex: 1;
+  justify-content: center; /* منو در وسط قرار می‌گیرد */
+}
+
+/* ======================================================
+   آیتم‌های منو
+====================================================== */
+.snav-item {
+  position: relative;
+}
+
+.snav-link {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 9px 15px;
+  color: #ddd;
+  font-size: 20px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  border-radius: 6px;
+  transition: background 0.2s, color 0.2s;
+  cursor: pointer;
+  white-space: nowrap;
+  border: none;
+  background: none;
+}
+
+.snav-link:hover,
+.snav-item.open > .snav-link {
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+}
+
+/* ======================================================
+   فلش کوچک زیرمنو
+====================================================== */
+.snav-arr {
+  font-size: 17px;
+  display: inline-block;
+  transition: transform 0.3s;
+  line-height: 1;
+}
+.snav-item.open .snav-arr {
+  transform: rotate(180deg);
+}
+
+/* ======================================================
+   دراپ‌داون
+====================================================== */
+.snav-drop {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  background: #16697a;
+  min-width: 210px;
+  border-radius: 0 0 10px 10px;
+  border-top: 3px solid #e94560;
+  z-index: 10000;
+  padding: 5px 0;
+  animation: snavFade 0.2s ease;
+}
+
+.snav-item.open .snav-drop {
+  display: block;
+}
+
+@keyframes snavFade {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.snav-drop li a {
+  display: block;
+  padding: 10px 18px;
+  color: #ccc;
+  font-size: 17px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  border-right: 3px solid transparent;
+  transition: all 0.2s;
+}
+.snav-drop li a:hover {
+  background: rgba(255,255,255,0.06);
+  color: #fff;
+  border-right-color: #e94560;
+  padding-right: 22px;
+}
+
+/* ======================================================
+   آیکون‌های کناری (علاقه، سبد، مقایسه) - سمت چپ
+====================================================== */
+.navbar-icons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.icon-btn {
+  position: relative;
+  color: #ddd;
+  font-size: 22px;
+  transition: color 0.2s, transform 0.2s;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-btn:hover {
+  color: #fff;
+  transform: scale(1.1);
+}
+
+.icon-badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background: #e94560;
+  color: #fff;
+  font-size: 11px;
+  font-weight: bold;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(233, 69, 96, 0.4);
+}
+
+/* ======================================================
+   دکمه همبرگری (فقط موبایل)
+====================================================== */
+.snav-burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  z-index: 10001;
+}
+.snav-burger span {
+  display: block;
+  width: 26px;
+  height: 2.5px;
+  background: #fff;
+  border-radius: 3px;
+  transition: all 0.3s;
+}
+.snav-burger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+.snav-burger.active span:nth-child(2) { opacity: 0; }
+.snav-burger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+/* ======================================================
+   حالت موبایل (زیر ۷۶۸ پیکسل)
+====================================================== */
+@media (max-width: 768px) {
+  .snav-burger {
+    display: flex;
+  }
+
+  /* منو را در موبایل مخفی و عمودی می‌کنیم */
+  .snav-menu {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 62px;
+    right: 0;
+    left: 0;
+    background: #1a1a2e;
+    border-top: 2px solid rgba(233, 69, 96, 0.4);
+    padding: 8px 0 16px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .snav-menu.active {
+    display: flex;
+  }
+
+  .snav-item {
+    width: 100%;
+  }
+
+  .snav-link {
+    padding: 13px 20px;
+    border-radius: 0;
+    font-size: 15px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    justify-content: flex-start;
+    gap: 10px;
+  }
+
+  .snav-drop {
+    position: static;
+    border-radius: 0;
+    border-top: none;
+    border-right: 3px solid #e94560;
+    background: #0f0f1f;
+    animation: none;
+    min-width: 100%;
+  }
+
+  .snav-drop li a {
+    padding-right: 30px;
+    border-right: none;
+  }
+  .snav-drop li a:hover {
+    padding-right: 34px;
+    border-right: none;
+  }
+
+  /* آیکون‌ها در موبایل */
+  .navbar-icons {
+    gap: 8px;
+  }
+  .icon-btn {
+    font-size: 18px;
+  }
+  .icon-badge {
+    width: 17px;
+    height: 17px;
+    font-size: 10px;
+    top: -5px;
+    right: -6px;
+  }
+}
+</style>
+
+<!-- ============================================================
+     HTML منو
+============================================================ -->
+<nav class="snav">
+  <div class="snav-wrap">
+
+    <!-- ====== لوگو (سمت راست) ====== -->
+    <div class="nav-panel__logo snav-logo">
+      <a href="/">
+        <img src="{{ media_url }}/images/shopLogo.png" alt="لوگو فروشگاه">
+      </a>
+    </div>
+
+    <!-- ====== لیست منو (وسط) ====== -->
+    <ul class="snav-menu" id="snavMenu">
+
+      <!-- ====== دسته‌بندی محصولات ====== -->
+      <li class="snav-item has-drop">
+        <a href="#" class="snav-link">
+          دسته‌بندی محصولات <span class="snav-arr">▾</span>
+        </a>
+        <ul class="snav-drop">
+          <li><a href="/products/product_of_group/shomesh/">شومیز</a></li>
+          <li><a href="/products/daman/">دامن</a></li>
+          <li><a href="/products/shalvar/">شلوار</a></li>
+          <li><a href="/products/kif/">کیف</a></li>
+          <li><a href="/products/kafsh/">کفش</a></li>
+          <li><a href="/products/kamarband/">کمربند</a></li>
+        </ul>
+      </li>
+
+      <!-- ====== آکادمی ====== -->
+      <li class="snav-item has-drop">
+        <a href="#" class="snav-link">
+          آکادمی <span class="snav-arr">▾</span>
+        </a>
+        <ul class="snav-drop">
+          <li><a href="/academy/courses/">دوره‌ها</a></li>
+          <li><a href="{% url 'blogs:blog' %}">مقالات</a></li>
+        </ul>
+      </li>
+
+      <!-- ====== بلاگ ====== -->
+      <li class="snav-item">
+        <a href="{% url 'blogs:blog' %}" class="snav-link">بلاگ</a>
+      </li>
+
+      <!-- ====== ورود / خروج ====== -->
+      {% if user.is_authenticated %}
+        <li class="snav-item">
+          <a href="{% url 'accounts:logout' %}" class="snav-link">خروج</a>
+        </li>
+      {% else %}
+        <li class="snav-item has-drop">
+          <a href="#" class="snav-link">
+            ورود <span class="snav-arr">▾</span>
+          </a>
+          <ul class="snav-drop">
+            <li><a href="{% url 'accounts:login' %}">ورود</a></li>
+            <li><a href="{% url 'accounts:register' %}">ثبت‌نام</a></li>
+          </ul>
+        </li>
+      {% endif %}
+
+    </ul>
+
+    <!-- ====== آیکون‌های کناری (سمت چپ) ====== -->
+    <div class="navbar-icons">
+      <a href="" class="icon-btn" title="علاقه‌مندی‌ها">
+      <a href="{% url 'csf:user_favorite' %}" class="icon-btn" title="علاقه‌مندی‌ها">
+        <i class="fas fa-heart"></i>
+        <span class="icon-badge" id="favoriteCount">0</span>
+      </a>
+      <a href="" class="icon-btn" title="سبد خرید">
+      <a href="{% url 'orders:shop_cart' %}" class="icon-btn" title="سبد خرید">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="icon-badge" id="cartCount">0</span>
+      </a>
+      <a href="/products/ShowCompareListView/" class="icon-btn" title="مقایسه">
+        <i class="fas fa-arrows-left-right"></i>
+        <span class="icon-badge" id="compareCount">0</span>
+      </a>
+    </div>
+
+    <!-- ====== دکمه همبرگری (موبایل) ====== -->
+    <button class="snav-burger" id="snavBurger" aria-label="باز کردن منو">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+  </div>
+</nav>
+
+<!-- ============================================================
+   JavaScript
+============================================================ -->
+<script>
+(function () {
+  'use strict';
+
+  var burger = document.getElementById('snavBurger');
+  var menu   = document.getElementById('snavMenu');
+
+  // همبرگری: باز/بسته کردن منوی موبایل
+  burger.addEventListener('click', function (e) {
+    e.stopPropagation();
+    burger.classList.toggle('active');
+    menu.classList.toggle('active');
+  });
+
+  // دراپ‌داون: با کلیک (هم دسکتاپ، هم موبایل)
+  var toggles = document.querySelectorAll('.snav-item.has-drop > .snav-link');
+
+  toggles.forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      var item   = link.closest('.snav-item');
+      var isOpen = item.classList.contains('open');
+
+      // بستن همه دراپ‌داون‌های باز
+      document.querySelectorAll('.snav-item.open').forEach(function (el) {
+        el.classList.remove('open');
+      });
+
+      // اگر این آیتم بسته بود، باز کن
+      if (!isOpen) {
+        item.classList.add('open');
+      }
+    });
+  });
+
+  // بستن با کلیک روی جای دیگر صفحه
+  document.addEventListener('click', function () {
+    document.querySelectorAll('.snav-item.open').forEach(function (el) {
+      el.classList.remove('open');
+    });
+    menu.classList.remove('active');
+    burger.classList.remove('active');
+  });
+
+})();
+
+// تابع برای دریافت تعداد سبد خرید
+function updateCartCount() {
+    fetch('{% url "orders:status_of_shop_cart" %}')
+        .then(response => response.text())
+        .then(count => {
+            document.getElementById('cartCount').textContent = count;
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+
+ 
+
+
+</script>

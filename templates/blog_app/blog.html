@@ -1,0 +1,170 @@
+{% extends 'main_template.html' %}
+{% block title %}
+فروشگاه
+{% endblock title %}
+
+{% block content %} 
+ 
+	<!-- site__body -->
+    <div class="site__body " >
+        <div class="page-header">
+            <div class="container" >
+                <div class="page-header__breadcrumb">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{% url "main:index" %}">خانه</a>
+                                /
+                            </li>
+
+                            <li class="breadcrumb-item active" aria-current="page">مقالات</li>
+                           
+                        </ol>
+                    </nav>
+                </div>
+                <h1>لیست مقالات</h1>
+                <div class="page-header__title">
+                    {% for blog in blogs  %}
+                    <div class="widget-posts__info">
+                        <div class="widget-posts__name">
+                          
+                        </div> 
+                        </div> 
+                    {% endfor %}  
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">  
+                <div class="col-12 col-lg-8">
+                    <div class="block">
+                        <div class="posts-view">
+                            <div class="posts-view__list posts-list posts-list--layout--list">
+                                <div class="posts-list__body">
+                                    {% for blog in blogs  %}
+                                        <div class="posts-list__item">
+                                            <div class="post-card post-card--layout--list post-card--size--nl">
+                                                <div class="post-card__image">
+                                                    <img src="{{media_url}}{{blog.main_image}}" alt="">
+                                                </div>
+                                                <div class="post-card__info">
+                                                    <div class="post-card__category"><a href="{% url "blogs:post_blog" blog.id%}">پیشنهادهای ویژه</a>
+                                                    </div>
+                                                    
+                                                    <div class="post-card__date">{{blog.register_data}}</div>
+                                                    
+                                                    <div class="post-card__content">    
+                                                        <div class="post-card__name"><a > 
+                                                            <h5 id="blog-{{ forloop.counter }}">{{blog.title}}  </h5> </a></div>
+                                                            {{blog.summery_description}}
+                                                          </div>
+                                                    <div class="post-card__read-more"><a href="{% url "blogs:post_blog" blog.id %}"
+                                                            class="btn btn-secondary btn-sm">بیشتر بخوانید</a></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                    {% endfor %}   
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-4">
+                    <div class="block block-sidebar block-sidebar--position--end">
+                        <div class="block-sidebar__item">
+                            <div class="widget-search">
+                                <form  class="search__form" action="{% url "search:search_view" %}" >
+                                    <input class="widget-search__input" name="q" placeholder="جستجوی بلاگ ..." type="text"
+                                        autocomplete="off" spellcheck="false">
+                                    <button class="widget-search__button" type="submit">
+                                        <svg width="20px" height="20px">
+                                            <use xlink:href="images/sprite.svg#search-20"></use>
+                                        </svg>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="block-sidebar__item">
+                            <div class="widget-aboutus widget">
+                                <h4 class="widget__title">درباره بلاگ</h4>
+                                <div class="widget-aboutus__text">صنعت به عنوان یکی از ارکان اصلی اقتصاد هر کشوری، شامل 
+                                     فعالیت‌هایی است که به تولید کالاها و خدمات مرتبط می‌شود. این بخش از اقتصاد به دو دسته کلی تقسیم می‌شود: صنعت تولیدی و صنعت خدماتی. صنعت تولیدی شامل فرآیندهای تبدیل مواد اولیه به محصولات نهایی می‌باشد، در حالی که صنعت خدماتی شامل مشاغلی است که خدمات به مشتریان ارائه می‌دهد، مانند بانکداری، آموزش، بهداشت و گردشگری. صنایع مختلف با توجه به نیازهای بازار و نوآوری‌های فناوری به‌سرعت در حال تغییر و تکامل هستند و این موضوع به رشد اقتصادی و توسعه پایدار کمک می‌کند.</div>
+                                <div class="widget-aboutus__socials">
+                                    <ul>
+                                        <li><a class="widget-aboutus__link widget-aboutus__link--rss" href="https://www.example.com/rss/sanatpoya"  
+                                                target="_blank"><i class="widget-social__icon fas fa-rss"></i></a>
+                                        </li>
+                                        <li><a class="widget-aboutus__link widget-aboutus__link--youtube" href="https://www.youtube.com/c/sanatpoya"
+                                                target="_blank"><i
+                                                    class="widget-aboutus__icon fab fa-youtube"></i></a></li>
+                                        <li><a class="widget-aboutus__link widget-aboutus__link--facebook" href="https://www.facebook.com/sanatpoya/"
+                                                target="_blank"><i
+                                                    class="widget-aboutus__icon fab fa-facebook-f"></i></a></li>
+                                        <li><a class="widget-aboutus__link widget-aboutus__link--twitter" href="https://twitter.com/sanatpoya/"
+                                                target="_blank"><i
+                                                    class="widget-aboutus__icon fab fa-twitter"></i></a></li>
+                                        <li><a class="widget-aboutus__link widget-aboutus__link--instagram" href="https://www.instagram.com/sanatpoya/"
+                                                target="_blank"><i
+                                                    class="widget-aboutus__icon fab fa-instagram"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="block-sidebar__item">
+                            <div class="widget-posts widget">
+                                <h4 class="widget__title">آخرین مطالب</h4>
+                                <div class="widget-posts__list">
+                                    {% for blog in blogs  %}
+                                    <div class="widget-posts__item">
+                                        <div class="post-card__image">
+                                            <img style="width: 105px; height: 105px;" src="{{media_url}}{{blog.main_image}}" alt="">
+                                        </div>
+                                        <div class="widget-posts__info">
+                                            <div class="widget-posts__name">
+                                                <a href="{% url "blogs:post_blog" blog.id%}" href="/templates/blog_app/post_blog.html"> <h5 id="blog-{{ forloop.counter }}" >{{blog.title}}  </h5>   
+                                                             </a>
+                                            </div>
+                                            <div class="widget-posts__date">20 فروردین 1401</div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+
+                                </div>
+                            </div>
+                        </div>
+
+   
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div>
+        <a href="javascript:void(0);" id="scroll-top" class="topbutton btn-show bg-blue-500 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition duration-300">  
+            <span class="fa fa-angle-double-up"></span>  
+        </a>  
+        <script>  
+            // Show button when scrolling down  
+            window.onscroll = function() {  
+                const button = document.getElementById('scroll-top');  
+                if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {  
+                    button.style.display = "block";  
+                } else {  
+                    button.style.display = "none";  
+                }  
+            };  
+
+            // Scroll to top function  
+            document.getElementById('scroll-top').onclick = function() {  
+                window.scrollTo({top: 0, behavior: 'smooth'});  
+            }; 
+             
+        </script>  
+        <script src="https://cdn.tailwindcss.com"><script> 
+    <!-- site__body / end -->
+{% endblock content %}

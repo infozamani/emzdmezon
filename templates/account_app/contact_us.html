@@ -1,0 +1,78 @@
+{% extends "main_template.html" %}
+
+{% block title %}
+    فروشگاه
+{% endblock title %}
+{% block content %}
+		<!-- site__body -->
+		<div class="site__body">
+			<div class="page-header">
+				<div class="page-header__container container">
+					<div class="page-header__breadcrumb">
+						<nav aria-label="breadcrumb">
+							<ol class="breadcrumb">
+								<li class="breadcrumb-item"><a href="index.html">خانه</a>
+									/
+								</li>
+								<li class="breadcrumb-item active" aria-current="page">تماس با ما</li>
+							</ol>
+						</nav>
+					</div>
+					<div class="page-header__title">
+						<h1>تماس با ما</h1></div>
+				</div>
+			</div>
+			<div class="block">
+				<div class="container">
+					<div class="card mb-0 contact-us">
+						<div class="card-body">
+							<div class="contact-us__container">
+								<div class="row">
+									<div class="col-12 col-lg-6 pb-4 pb-lg-0">
+										<h4 class="contact-us__header card-title">آدرس ما</h4>
+										<div class="contact-us__address">
+											<p><strong>آدرس : </strong>
+													ملایر، خیابان شهدا
+												<br><strong>ایمیل :</strong> info@darsman.com
+												<br><strong>شماره تلفن :</strong> 081-45231</p>
+											<p><strong>ساعات کاری</strong>
+												<br>شنبه تا چهارشنبه: 8 صبح - 8 شب
+												<br>پنجشنبه: 8 صبح - 6 عصر
+												<br>جمعه: 10 صبح - 4 عصر</p>
+											<p><strong>دیدگاه</strong>
+												<br>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی</p>
+										</div>
+									</div>
+									<div class="col-12 col-lg-6">
+										<h4 class="contact-us__header card-title">یک پیام برای ما بگذارید</h4>
+										<form>
+											<div class="form-row">
+												<div class="form-group col-md-6">
+													<label for="form-name">نام شما</label>
+													<input type="text" id="form-name" class="form-control" placeholder="نام شما">
+												</div>
+												<div class="form-group col-md-6">
+													<label for="form-email">ایمیل</label>
+													<input type="email" id="form-email" class="form-control" placeholder="آدرس ایمیل" dir="ltr">
+												</div>
+											</div>
+											<div class="form-group">
+												<label for="form-subject">موضوع</label>
+												<input type="text" id="form-subject" class="form-control" placeholder="موضوع">
+											</div>
+											<div class="form-group">
+												<label for="form-message">پیام</label>
+												<textarea id="form-message" class="form-control" rows="4"></textarea>
+											</div>
+											<button type="submit" class="btn btn-primary">ارسال پیام</button>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- site__body / end -->
+{% endblock content %}

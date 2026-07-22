@@ -1,0 +1,159 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1">
+		<meta name="format-detection" content="telephone=no">
+		
+		<title>
+			{% block title %}
+				zamani
+			{% endblock title %}
+		</title>
+	<link rel="icon" type="image/png" href="{{media_url}}/images/favicon.png">
+	<!-- css -->
+	<link rel="stylesheet" href="{% static 'vendor/bootstrap-4.5.3/css/bootstrap.min.css' %} ">
+	<link rel="stylesheet" href="{% static 'vendor/owl-carousel-2.3.4/assets/owl.carousel.min.css' %} ">
+	<link rel="stylesheet" href="{% static 'css/style.css' %} ">
+	<link rel="stylesheet" href="{% static 'css/custom.css' %} ">
+	
+	<!-- js -->
+	<script src="{% static 'vendor/jquery-3.3.1/jquery.min.js' %} "></script>
+	<script src="{% static 'vendor/bootstrap-4.5.3/js/bootstrap.bundle.min.js' %} "></script>
+	<script src="{% static 'vendor/owl-carousel-2.3.4/owl.carousel.min.js' %} "></script>
+	<script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/admin_script.js' %}"></script>
+	<script src="{% static 'js/myscript.js' %}"></script>
+	
+	<!-- font - fontawesome -->
+	<link rel="stylesheet" href="{% static 'vendor/fontawesome-5.6.3/css/all.min.css' %} ">
+</head>
+<body>
+    	{% include "partials/products/header.html" %}  
+		{% include "partials/products/messages.html" %}
+<!-- site__body -->
+<div class="site__body">
+    <div class="page-header">
+        <div class="page-header__container container">
+            <div class="page-header__breadcrumb">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="../index.html">خانه</a>
+                            /
+                        </li>
+                        <li class="breadcrumb-item"><a href="">داشبورد</a>
+                            
+                        </li>
+                        
+                    </ol>
+                </nav>
+            </div>
+            <div class="page-header__title">
+                <h1>حساب کاربری</h1></div>
+        </div>
+    </div>
+    <div class="block">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-3 d-flex">
+                    <div class="account-nav flex-grow-1">
+                        <h4 class="account-nav__title">منوی اصلی </h4>
+                        <ul>
+                            <li class="account-nav__item account-nav__item--active"><a href="user-dashboard.html">داشبورد</a></li>
+                            <li class="account-nav__item"><a href="accounts:update_profile">ویرایش پروفایل</a></li>
+                            <li class="account-nav__item"><a href="accounts:show_user_payments">سابقه پرداخت</a></li>
+                            <li class="account-nav__item"><a href="accounts:change_pass">تغییر رمز عبور</a></li>
+                            <li class="account-nav__item"><a href="accounts:logout">خروج</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-9 mt-4 mt-lg-0">
+                    {% block content %}{% endblock content %}
+                    {% comment %} <div class="dashboard">
+                        <div class="dashboard__profile card profile-card">
+                            <div class="card-body profile-card__body">
+                                <div class="profile-card__avatar"><img src="../images/avatars/avatar-2.jpg" alt=""></div>
+                                <div class="profile-card__name">علی رضایی</div>
+                                <div class="profile-card__email">ali@yahoo.com</div>
+                                <div class="profile-card__edit"><a href="user-profile.html" class="btn btn-secondary btn-sm">ویرایش پروفایل</a></div>
+                            </div>
+                        </div>
+                        <div class="dashboard__address card address-card address-card--featured">
+                            <div class="address-card__badge">آدرس </div>
+                            <div class="address-card__body">
+                                <div class="address-card__name">علی رضایی</div>
+                                <div class="address-card__row">تهران
+                                    <br>خیابان ولیعصر
+                                    <br>نبش زرتشت - کوچه شهید احمد کلهر</div>
+                                <div class="address-card__row">
+                                    <div class="address-card__row-title">شماره تلفن</div>
+                                    <div class="address-card__row-content"><span class="ltr_text">021-23456789</span></div>
+                                </div>
+                                <div class="address-card__row">
+                                    <div class="address-card__row-title">آدرس ایمیل</div>
+                                    <div class="address-card__row-content">ali@yahoo.com</div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <div class="dashboard__orders card">
+                            <div class="card-header">
+                                <h5>سفارشات اخیر</h5></div>
+                            <div class="card-divider"></div>
+                            <div class="card-table">
+                                <div class="table-responsive-sm">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>سفارش</th>
+                                                <th>تاریخ</th>
+                                                <th>وضعیت</th>
+                                                <th>جمع کل</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><a href="">#8132</a></td>
+                                                <td>2 فروردین 1401</td>
+                                                <td>در حال پردازش</td>
+                                                <td>2,425,000 تومان برای 5 محصول</td>
+                                            </tr>
+                                            <tr>
+                                                <td><a href="">#7592</a></td>
+                                                <td>28 فروردین 1401</td>
+                                                <td>در حال پردازش</td>
+                                                <td>325,000 تومان برای 3 محصول</td>
+                                            </tr>
+                                            <tr>
+                                                <td><a href="">#7192</a></td>
+                                                <td>15 فروردین 1401</td>
+                                                <td>ارسال شده</td>
+                                                <td>1,786,000 تومان برای 4 محصول</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div> {% endcomment %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- site__body / end -->
+   {% include "partials/products/footer.html" %}
+
+</body>
+</html> 
+
+
+
+
+
+
+

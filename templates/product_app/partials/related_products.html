@@ -1,0 +1,13 @@
+{% if  related_product%}
+<div class="block block-products-carousel" data-layout="grid-5">
+    <div class="container">
+        {% include 'partials/products/root_group.html' with title=' محصولات مرتبط'%}
+        <div class="product-flexbox" style="">
+        <div class="product-flexbox" style="">
+            {% for product in related_product %}
+                {% include 'partials/products/product_box.html' with type=2 %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}

@@ -1,0 +1,1 @@
+mysqldump -u root -p dbshop21 > dbshop21.sqll

@@ -1,0 +1,823 @@
+-- MySQL dump 10.13  Distrib 8.0.34, for Win64 (x86_64)
+--
+-- Host: localhost    Database: dbshop21
+-- ------------------------------------------------------
+-- Server version	8.0.34
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `accounts_customer`
+--
+
+DROP TABLE IF EXISTS `accounts_customer`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `accounts_customer` (
+  `user_id` bigint NOT NULL,
+  `phon_number` varchar(11) DEFAULT NULL,
+  `address` longtext,
+  `image_name` varchar(100) NOT NULL,
+  PRIMARY KEY (`user_id`),
+  CONSTRAINT `accounts_customer_user_id_11606857_fk_accounts_customuser_id` FOREIGN KEY (`user_id`) REFERENCES `accounts_customuser` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `accounts_customer`
+--
+
+LOCK TABLES `accounts_customer` WRITE;
+/*!40000 ALTER TABLE `accounts_customer` DISABLE KEYS */;
+INSERT INTO `accounts_customer` VALUES (44,NULL,NULL,''),(49,NULL,NULL,''),(51,'02156252525','dfghndfg','images/customer/8efa92a6-016a-4d01-bd36-0df5213124fa.jpg'),(52,'081525452','ghjmvh',''),(54,'0999','vmnhncfnn','');
+/*!40000 ALTER TABLE `accounts_customer` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `accounts_customuser`
+--
+
+DROP TABLE IF EXISTS `accounts_customuser`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `accounts_customuser` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `password` varchar(128) NOT NULL,
+  `last_login` datetime(6) DEFAULT NULL,
+  `is_superuser` tinyint(1) NOT NULL,
+  `mobile_number` varchar(11) NOT NULL,
+  `email` varchar(254) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `family` varchar(50) NOT NULL,
+  `gender` varchar(50) DEFAULT NULL,
+  `register_data` date NOT NULL,
+  `is_active` tinyint(1) NOT NULL,
+  `active_code` varchar(100) DEFAULT NULL,
+  `is_admin` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `mobile_number` (`mobile_number`)
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `accounts_customuser`
+--
+
+LOCK TABLES `accounts_customuser` WRITE;
+/*!40000 ALTER TABLE `accounts_customuser` DISABLE KEYS */;
+INSERT INTO `accounts_customuser` VALUES (1,'pbkdf2_sha256$720000$4QO2uno5ESOLhvN96PBs3g$XJS3tCG6W7blhMvou+ZfRvD8MJwMrvdxszSIDr6DvWA=','2024-04-19 17:05:16.884064',0,'09363281009','info@yahoo.com','fariborz','zamani','True','2024-04-07',0,NULL,0),(44,'pbkdf2_sha256$720000$no3GflhznhZKRnr3EfoVPm$mAdV54NfLVslLqHMUkTcyCusSBjOMRcTD3LPE7EKHnM=','2024-06-01 18:00:28.156451',1,'09123281009','','','','True','2024-04-20',1,'94633',1),(49,'pbkdf2_sha256$720000$vvQ01W5k2k6UvFSe3KPiLM$VXTzK3P3ynbPG6ho17YPY/FoYY4iAdC3hqJI7SaOCMw=','2024-05-27 19:39:59.826314',0,'0997','','','','True','2024-05-22',1,'73747',0),(51,'pbkdf2_sha256$720000$WIZeNRu4KiEpRNYoIUW3Lj$605TgGGraKf4jl8sn4p5XARIVJEXPDhFU0EBG+RSUpE=','2024-05-30 18:39:26.785558',0,'0909','ali@yahoo.com','ali','farhadi','True','2024-05-23',1,'72616',0),(52,'pbkdf2_sha256$720000$Jp4hFZ1RAm99u6o8PX1gN8$PM7sv9yUvqsghdkGxuE71XrhhNJIuFa+/0At4BIOf/4=','2024-05-28 08:39:26.931573',0,'0920','sara@gmail.com','farhad','zamani','True','2024-05-24',1,'69539',0),(53,'pbkdf2_sha256$720000$QaP5Z71zIC3XBmKoDR5zv5$5EtWsBivk8C7xxwf1It2ul2bcz0/3dHZEnYaY800gio=','2024-05-24 15:52:24.178826',0,'0993','','','','True','2024-05-24',1,'13793',0),(54,'pbkdf2_sha256$720000$tq3ey8XEvqdCt9813ZZGx5$RmbGyJrXtyvqCUskvzt4eqsFp6U4+SPq5Jhdo1cl/Ck=','2024-05-25 17:24:04.564299',0,'0999','ali@yahoo.com','sara','zamani','False','2024-05-25',1,'68386',0);
+/*!40000 ALTER TABLE `accounts_customuser` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `accounts_customuser_groups`
+--
+
+DROP TABLE IF EXISTS `accounts_customuser_groups`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `accounts_customuser_groups` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `customuser_id` bigint NOT NULL,
+  `group_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `accounts_customuser_groups_customuser_id_group_id_c074bdcb_uniq` (`customuser_id`,`group_id`),
+  KEY `accounts_customuser_groups_group_id_86ba5f9e_fk_auth_group_id` (`group_id`),
+  CONSTRAINT `accounts_customuser__customuser_id_bc55088e_fk_accounts_` FOREIGN KEY (`customuser_id`) REFERENCES `accounts_customuser` (`id`),
+  CONSTRAINT `accounts_customuser_groups_group_id_86ba5f9e_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `accounts_customuser_groups`
+--
+
+LOCK TABLES `accounts_customuser_groups` WRITE;
+/*!40000 ALTER TABLE `accounts_customuser_groups` DISABLE KEYS */;
+/*!40000 ALTER TABLE `accounts_customuser_groups` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `accounts_customuser_user_permissions`
+--
+
+DROP TABLE IF EXISTS `accounts_customuser_user_permissions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `accounts_customuser_user_permissions` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `customuser_id` bigint NOT NULL,
+  `permission_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `accounts_customuser_user_customuser_id_permission_9632a709_uniq` (`customuser_id`,`permission_id`),
+  KEY `accounts_customuser__permission_id_aea3d0e5_fk_auth_perm` (`permission_id`),
+  CONSTRAINT `accounts_customuser__customuser_id_0deaefae_fk_accounts_` FOREIGN KEY (`customuser_id`) REFERENCES `accounts_customuser` (`id`),
+  CONSTRAINT `accounts_customuser__permission_id_aea3d0e5_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `accounts_customuser_user_permissions`
+--
+
+LOCK TABLES `accounts_customuser_user_permissions` WRITE;
+/*!40000 ALTER TABLE `accounts_customuser_user_permissions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `accounts_customuser_user_permissions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `auth_group`
+--
+
+DROP TABLE IF EXISTS `auth_group`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `auth_group` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(150) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `auth_group`
+--
+
+LOCK TABLES `auth_group` WRITE;
+/*!40000 ALTER TABLE `auth_group` DISABLE KEYS */;
+INSERT INTO `auth_group` VALUES (1,'G1');
+/*!40000 ALTER TABLE `auth_group` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `auth_group_permissions`
+--
+
+DROP TABLE IF EXISTS `auth_group_permissions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `auth_group_permissions` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `group_id` int NOT NULL,
+  `permission_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `auth_group_permissions_group_id_permission_id_0cd325b0_uniq` (`group_id`,`permission_id`),
+  KEY `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` (`permission_id`),
+  CONSTRAINT `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
+  CONSTRAINT `auth_group_permissions_group_id_b120cbf9_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `auth_group_permissions`
+--
+
+LOCK TABLES `auth_group_permissions` WRITE;
+/*!40000 ALTER TABLE `auth_group_permissions` DISABLE KEYS */;
+INSERT INTO `auth_group_permissions` VALUES (2,1,4),(1,1,24);
+/*!40000 ALTER TABLE `auth_group_permissions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `auth_permission`
+--
+
+DROP TABLE IF EXISTS `auth_permission`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `auth_permission` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `content_type_id` int NOT NULL,
+  `codename` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `auth_permission_content_type_id_codename_01ab375a_uniq` (`content_type_id`,`codename`),
+  CONSTRAINT `auth_permission_content_type_id_2f476e4b_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `auth_permission`
+--
+
+LOCK TABLES `auth_permission` WRITE;
+/*!40000 ALTER TABLE `auth_permission` DISABLE KEYS */;
+INSERT INTO `auth_permission` VALUES (1,'Can add log entry',1,'add_logentry'),(2,'Can change log entry',1,'change_logentry'),(3,'Can delete log entry',1,'delete_logentry'),(4,'Can view log entry',1,'view_logentry'),(5,'Can add permission',2,'add_permission'),(6,'Can change permission',2,'change_permission'),(7,'Can delete permission',2,'delete_permission'),(8,'Can view permission',2,'view_permission'),(9,'Can add group',3,'add_group'),(10,'Can change group',3,'change_group'),(11,'Can delete group',3,'delete_group'),(12,'Can view group',3,'view_group'),(13,'Can add content type',4,'add_contenttype'),(14,'Can change content type',4,'change_contenttype'),(15,'Can delete content type',4,'delete_contenttype'),(16,'Can view content type',4,'view_contenttype'),(17,'Can add session',5,'add_session'),(18,'Can change session',5,'change_session'),(19,'Can delete session',5,'delete_session'),(20,'Can view session',5,'view_session'),(21,'Can add custom user',6,'add_customuser'),(22,'Can change custom user',6,'change_customuser'),(23,'Can delete custom user',6,'delete_customuser'),(24,'Can view custom user',6,'view_customuser'),(25,'Can add ویژکی محصول',7,'add_productfeature'),(26,'Can change ویژکی محصول',7,'change_productfeature'),(27,'Can delete ویژکی محصول',7,'delete_productfeature'),(28,'Can view ویژکی محصول',7,'view_productfeature'),(29,'Can add برند',8,'add_brand'),(30,'Can change برند',8,'change_brand'),(31,'Can delete برند',8,'delete_brand'),(32,'Can view برند',8,'view_brand'),(33,'Can add تصویر ',9,'add_productgallery'),(34,'Can change تصویر ',9,'change_productgallery'),(35,'Can delete تصویر ',9,'delete_productgallery'),(36,'Can view تصویر ',9,'view_productgallery'),(37,'Can add گروه کالا',10,'add_product_group'),(38,'Can change گروه کالا',10,'change_product_group'),(39,'Can delete گروه کالا',10,'delete_product_group'),(40,'Can view گروه کالا',10,'view_product_group'),(41,'Can add ویژگی',11,'add_feature'),(42,'Can change ویژگی',11,'change_feature'),(43,'Can delete ویژگی',11,'delete_feature'),(44,'Can view ویژگی',11,'view_feature'),(45,'Can add کالا',12,'add_product'),(46,'Can change کالا',12,'change_product'),(47,'Can delete کالا',12,'delete_product'),(48,'Can view کالا',12,'view_product'),(49,'Can add گروه کالا',13,'add_productgroup'),(50,'Can change گروه کالا',13,'change_productgroup'),(51,'Can delete گروه کالا',13,'delete_productgroup'),(52,'Can view گروه کالا',13,'view_productgroup'),(53,'Can add مقدار ویژگی ',14,'add_featuervalue'),(54,'Can change مقدار ویژگی ',14,'change_featuervalue'),(55,'Can delete مقدار ویژگی ',14,'delete_featuervalue'),(56,'Can view مقدار ویژگی ',14,'view_featuervalue');
+/*!40000 ALTER TABLE `auth_permission` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `discounts_coupons`
+--
+
+DROP TABLE IF EXISTS `discounts_coupons`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `discounts_coupons` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `coupon_code` varchar(10) NOT NULL,
+  `start_date` datetime(6) NOT NULL,
+  `end_date` datetime(6) NOT NULL,
+  `discount` int NOT NULL,
+  `is_active` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `coupon_code` (`coupon_code`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `discounts_coupons`
+--
+
+LOCK TABLES `discounts_coupons` WRITE;
+/*!40000 ALTER TABLE `discounts_coupons` DISABLE KEYS */;
+INSERT INTO `discounts_coupons` VALUES (1,'abcd','2024-05-25 05:15:59.000000','2024-05-29 05:16:24.000000',50,1);
+/*!40000 ALTER TABLE `discounts_coupons` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `discounts_discountbasket`
+--
+
+DROP TABLE IF EXISTS `discounts_discountbasket`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `discounts_discountbasket` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `discount_title` varchar(100) NOT NULL,
+  `start_date` datetime(6) NOT NULL,
+  `end_date` datetime(6) NOT NULL,
+  `discount` int NOT NULL,
+  `is_active` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `discounts_discountbasket`
+--
+
+LOCK TABLES `discounts_discountbasket` WRITE;
+/*!40000 ALTER TABLE `discounts_discountbasket` DISABLE KEYS */;
+INSERT INTO `discounts_discountbasket` VALUES (1,'به مناسبت روز عید فطر','2024-05-25 05:17:17.000000','2024-05-29 05:17:30.000000',50,1),(2,'به مناسبت روزدانشجو','2024-05-25 05:22:00.000000','2024-05-31 05:22:06.000000',25,1);
+/*!40000 ALTER TABLE `discounts_discountbasket` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `discounts_discountbasketdetails`
+--
+
+DROP TABLE IF EXISTS `discounts_discountbasketdetails`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `discounts_discountbasketdetails` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `discount_basket_id` bigint NOT NULL,
+  `product_id` bigint NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `discounts_discountba_product_id_0a8a924c_fk_products_` (`product_id`),
+  KEY `discounts_discountba_discount_basket_id_bf6bb9b3_fk_discounts` (`discount_basket_id`),
+  CONSTRAINT `discounts_discountba_discount_basket_id_bf6bb9b3_fk_discounts` FOREIGN KEY (`discount_basket_id`) REFERENCES `discounts_discountbasket` (`id`),
+  CONSTRAINT `discounts_discountba_product_id_0a8a924c_fk_products_` FOREIGN KEY (`product_id`) REFERENCES `products_product` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `discounts_discountbasketdetails`
+--
+
+LOCK TABLES `discounts_discountbasketdetails` WRITE;
+/*!40000 ALTER TABLE `discounts_discountbasketdetails` DISABLE KEYS */;
+INSERT INTO `discounts_discountbasketdetails` VALUES (1,1,2),(2,1,10),(3,1,8),(4,2,16),(5,2,5),(6,2,2),(7,2,7),(8,2,13),(9,2,9),(10,1,9);
+/*!40000 ALTER TABLE `discounts_discountbasketdetails` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `django_admin_log`
+--
+
+DROP TABLE IF EXISTS `django_admin_log`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `django_admin_log` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `action_time` datetime(6) NOT NULL,
+  `object_id` longtext,
+  `object_repr` varchar(200) NOT NULL,
+  `action_flag` smallint unsigned NOT NULL,
+  `change_message` longtext NOT NULL,
+  `content_type_id` int DEFAULT NULL,
+  `user_id` bigint NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `django_admin_log_content_type_id_c4bce8eb_fk_django_co` (`content_type_id`),
+  KEY `django_admin_log_user_id_c564eba6_fk_accounts_customuser_id` (`user_id`),
+  CONSTRAINT `django_admin_log_content_type_id_c4bce8eb_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`),
+  CONSTRAINT `django_admin_log_user_id_c564eba6_fk_accounts_customuser_id` FOREIGN KEY (`user_id`) REFERENCES `accounts_customuser` (`id`),
+  CONSTRAINT `django_admin_log_chk_1` CHECK ((`action_flag` >= 0))
+) ENGINE=InnoDB AUTO_INCREMENT=271 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `django_admin_log`
+--
+
+LOCK TABLES `django_admin_log` WRITE;
+/*!40000 ALTER TABLE `django_admin_log` DISABLE KEYS */;
+INSERT INTO `django_admin_log` VALUES (1,'2024-04-07 11:50:53.457939','1','fariborz zamani',2,'[{\"changed\": {\"fields\": [\"password\"]}}]',6,1),(2,'2024-04-07 12:02:22.478247','2','حمید محمدی',1,'[{\"added\": {}}]',6,1),(3,'2024-04-07 12:02:47.784426','2','حمید محمدی',2,'[{\"changed\": {\"fields\": [\"password\"]}}]',6,1),(4,'2024-04-07 12:04:18.535160','2','حمید محمدی',2,'[{\"changed\": {\"fields\": [\"password\"]}}]',6,1),(5,'2024-04-07 12:04:49.457315','2','حمید محمدی',2,'[{\"changed\": {\"fields\": [\"Is active\"]}}]',6,1),(6,'2024-04-07 12:06:57.783433','2','حمید محمدی',2,'[{\"changed\": {\"fields\": [\"password\"]}}]',6,1),(7,'2024-04-07 12:07:07.706558','2','حمید محمدی',2,'[]',6,1),(8,'2024-04-07 12:08:22.751798','2','حمید محمدی',2,'[{\"changed\": {\"fields\": [\"Mobile number\"]}}]',6,1),(9,'2024-04-07 12:09:09.927273','3','سارا رضایی',1,'[{\"added\": {}}]',6,1),(10,'2024-04-07 12:09:35.843761','3','سارا رضایی',2,'[{\"changed\": {\"fields\": [\"password\"]}}]',6,1),(11,'2024-04-07 12:18:32.599487','3','سارا رضایی',2,'[{\"changed\": {\"fields\": [\"Is active\", \"Is admin\"]}}]',6,1),(12,'2024-04-07 12:18:47.429411','3','سارا رضایی',2,'[]',6,1),(13,'2024-04-07 12:19:04.623500','2','حمید محمدی',2,'[]',6,1),(14,'2024-04-07 12:21:44.387199','3','سارا رضایی',2,'[{\"changed\": {\"fields\": [\"password\"]}}]',6,1),(15,'2024-04-07 12:24:08.674473','1','G1',1,'[{\"added\": {}}]',3,1),(16,'2024-04-07 12:24:17.294562','3','سارا رضایی',2,'[{\"changed\": {\"fields\": [\"Groups\"]}}]',6,1),(24,'2024-04-07 12:28:57.693708','2','حمید محمدی',2,'[{\"changed\": {\"fields\": [\"password\"]}}]',6,1),(25,'2024-04-07 12:30:33.286033','3','سارا رضایی',2,'[{\"changed\": {\"fields\": [\"Is admin\", \"Groups\"]}}]',6,1),(26,'2024-04-07 12:30:55.487384','2','حمید محمدی',2,'[{\"changed\": {\"fields\": [\"Active code\"]}}]',6,1),(27,'2024-04-07 12:31:53.359963','2','حمید محمدی',2,'[{\"changed\": {\"fields\": [\"password\"]}}]',6,1),(28,'2024-04-07 12:33:46.537011','2','حمید محمدی',2,'[{\"changed\": {\"fields\": [\"Is admin\"]}}]',6,1),(30,'2024-04-07 12:44:00.456581','4','admin admini',2,'[{\"changed\": {\"fields\": [\"password\"]}}]',6,1),(31,'2024-04-07 12:45:09.080975','4','admin admini',3,'',6,1),(32,'2024-04-07 12:53:45.334593','6','fri frer',3,'',6,1),(33,'2024-04-08 03:34:45.401394','20',' ',2,'[{\"changed\": {\"fields\": [\"password\"]}}]',6,1),(34,'2024-04-08 03:36:01.375369','19',' ',2,'[{\"changed\": {\"fields\": [\"password\"]}}]',6,1),(35,'2024-04-08 05:20:48.169667','18',' ',2,'[{\"changed\": {\"fields\": [\"password\"]}}]',6,1),(36,'2024-04-08 05:22:49.319206','18',' ',2,'[{\"changed\": {\"fields\": [\"password\"]}}]',6,1),(37,'2024-04-08 05:23:46.531086','3','سارا رضایی',2,'[{\"changed\": {\"fields\": [\"password\"]}}]',6,1),(38,'2024-04-08 05:29:48.357775','11',' ',3,'',6,1),(39,'2024-04-08 05:29:48.362172','17',' ',3,'',6,1),(40,'2024-04-08 05:29:48.365083','18',' ',3,'',6,1),(41,'2024-04-08 05:29:48.367970','25',' ',3,'',6,1),(42,'2024-04-08 05:29:48.371243','3','سارا رضایی',3,'',6,1),(43,'2024-04-08 05:29:48.376091','5','ali zamani',3,'',6,1),(44,'2024-04-08 05:29:48.378979','9',' ',3,'',6,1),(45,'2024-04-08 05:29:48.381717','10',' ',3,'',6,1),(46,'2024-04-08 05:29:48.384459','21',' ',3,'',6,1),(47,'2024-04-08 05:29:48.386889','24',' ',3,'',6,1),(48,'2024-04-08 05:29:48.390803','23',' ',3,'',6,1),(49,'2024-04-08 05:29:48.393825','22',' ',3,'',6,1),(50,'2024-04-08 05:29:48.396581','13',' ',3,'',6,1),(51,'2024-04-08 05:29:48.399239','2','حمید محمدی',3,'',6,1),(52,'2024-04-08 05:29:48.402086','14',' ',3,'',6,1),(53,'2024-04-08 05:29:48.404553','15',' ',3,'',6,1),(54,'2024-04-08 05:29:48.408240','19',' ',3,'',6,1),(55,'2024-04-08 05:29:48.411176','20',' ',3,'',6,1),(56,'2024-04-08 05:29:48.414179','16',' ',3,'',6,1),(57,'2024-04-08 05:29:48.417087','8',' ',3,'',6,1),(58,'2024-04-08 05:29:48.419887','12',' ',3,'',6,1),(59,'2024-04-08 05:30:53.675037','26','ali zamani',1,'[{\"added\": {}}]',6,1),(60,'2024-04-08 05:31:15.172923','26','ali zamani',2,'[{\"changed\": {\"fields\": [\"password\"]}}]',6,1),(61,'2024-04-08 05:33:34.810554','26','ali zamani',2,'[{\"changed\": {\"fields\": [\"Is active\"]}}]',6,1),(62,'2024-04-19 17:11:09.854839','32',' ',2,'[{\"changed\": {\"fields\": [\"password\"]}}]',6,1),(63,'2024-04-22 22:50:37.692771','1','کالا دیجیتال',1,'[{\"added\": {}}]',8,44),(64,'2024-04-22 22:51:44.245874','2','پوشاک',1,'[{\"added\": {}}]',8,44),(65,'2024-04-22 22:52:32.089351','3','آشپزخانه',1,'[{\"added\": {}}]',8,44),(66,'2024-04-22 23:05:48.174702','1','lg',2,'[{\"changed\": {\"fields\": [\"\\u0646\\u0627\\u0645 \\u0628\\u0631\\u0646\\u062f\", \"Slgn\"]}}]',8,44),(67,'2024-04-22 23:06:14.970556','3','cheken',2,'[{\"changed\": {\"fields\": [\"\\u0646\\u0627\\u0645 \\u0628\\u0631\\u0646\\u062f\"]}}]',8,44),(68,'2024-04-22 23:06:29.469572','2','lebas',2,'[{\"changed\": {\"fields\": [\"\\u0646\\u0627\\u0645 \\u0628\\u0631\\u0646\\u062f\"]}}]',8,44),(69,'2024-04-22 23:07:20.735938','1','کالا دیجیتال',1,'[{\"added\": {}}]',10,44),(70,'2024-04-22 23:08:26.371218','2','کامپیوتر',1,'[{\"added\": {}}]',10,44),(71,'2024-04-22 23:09:47.021692','3','پوشاک',1,'[{\"added\": {}}]',10,44),(72,'2024-04-22 23:10:32.069872','4','پوشاکبچه گانه',1,'[{\"added\": {}}]',10,44),(73,'2024-04-22 23:11:19.242788','5','آشپز خانه',1,'[{\"added\": {}}]',10,44),(74,'2024-04-22 23:12:10.883568','6','لوازمآشپز خانه',1,'[{\"added\": {}}]',10,44),(75,'2024-04-23 08:12:01.497255','1','lg',1,'[{\"added\": {}}]',8,44),(76,'2024-04-23 08:14:26.075052','1','کالا دیجیتال',1,'[{\"added\": {}}, {\"added\": {\"name\": \"\\u06af\\u0631\\u0648\\u0647 \\u06a9\\u0627\\u0644\\u0627\", \"object\": \"\\u062f\\u0648\\u0631\\u0628\\u06cc\\u0646\"}}, {\"added\": {\"name\": \"\\u06af\\u0631\\u0648\\u0647 \\u06a9\\u0627\\u0644\\u0627\", \"object\": \"tv\"}}]',13,44),(77,'2024-04-23 08:17:11.491179','4','پوشاک',1,'[{\"added\": {}}, {\"added\": {\"name\": \"\\u06af\\u0631\\u0648\\u0647 \\u06a9\\u0627\\u0644\\u0627\", \"object\": \"\\u0628\\u0686\\u0647 \\u06af\\u0627\\u0646\\u0647\"}}, {\"added\": {\"name\": \"\\u06af\\u0631\\u0648\\u0647 \\u06a9\\u0627\\u0644\\u0627\", \"object\": \"\\u0645\\u0631\\u062f\\u0627\\u0646\\u0647\"}}]',13,44),(78,'2024-04-23 08:24:44.798800','1','کالا دیجیتال',2,'[{\"added\": {\"name\": \"\\u06af\\u0631\\u0648\\u0647 \\u06a9\\u0627\\u0644\\u0627\", \"object\": \"printer\"}}]',13,44),(79,'2024-04-23 09:00:19.659069','3','tv',2,'[{\"changed\": {\"fields\": [\"\\u0648\\u0636\\u0639\\u06cc\\u062a \\u0641\\u0639\\u0627\\u0644 /\\u063a\\u06cc\\u0631 \\u0641\\u0639\\u0627\\u0644\"]}}]',13,44),(80,'2024-04-23 09:00:56.245027','7','printer',2,'[]',13,44),(81,'2024-04-23 09:01:20.003873','7','printer',2,'[]',13,44),(82,'2024-04-23 09:01:28.181553','3','tv',2,'[{\"changed\": {\"fields\": [\"\\u0648\\u0636\\u0639\\u06cc\\u062a \\u0641\\u0639\\u0627\\u0644 /\\u063a\\u06cc\\u0631 \\u0641\\u0639\\u0627\\u0644\"]}}]',13,44),(83,'2024-04-23 09:01:43.931494','5','بچه گانه',2,'[{\"changed\": {\"fields\": [\"\\u0648\\u0636\\u0639\\u06cc\\u062a \\u0641\\u0639\\u0627\\u0644 /\\u063a\\u06cc\\u0631 \\u0641\\u0639\\u0627\\u0644\"]}}]',13,44),(84,'2024-04-23 17:45:59.292260','8','سوپر مارکت',1,'[{\"added\": {}}]',13,44),(85,'2024-04-23 17:46:58.203060','2','میهن',1,'[{\"added\": {}}]',8,44),(86,'2024-04-23 17:47:00.519359','1','شیر پاستوریزه',1,'[{\"added\": {}}]',12,44),(87,'2024-04-23 17:48:50.887669','2','tv52ing',1,'[{\"added\": {}}]',12,44),(88,'2024-04-23 17:51:17.554267','3','sumsong',1,'[{\"added\": {}}]',8,44),(89,'2024-04-23 17:51:20.866488','3','tv52ing_sumsong',1,'[{\"added\": {}}]',12,44),(90,'2024-04-23 17:51:34.898218','2','tv52ing',2,'[{\"changed\": {\"fields\": [\"\\u0642\\u06cc\\u0645\\u062a \\u06a9\\u0627\\u0644\\u0627\"]}}]',12,44),(91,'2024-04-23 18:46:42.716033','1','رنگ',1,'[{\"added\": {}}]',11,44),(92,'2024-04-23 18:47:48.683853','2','وزن',1,'[{\"added\": {}}]',11,44),(93,'2024-04-23 18:48:31.159486','3','اندازه',1,'[{\"added\": {}}]',11,44),(94,'2024-04-23 18:49:40.210579','1','شیر پاستوریزه',2,'[{\"added\": {\"name\": \"\\u0648\\u06cc\\u0698\\u06a9\\u06cc \\u0645\\u062d\\u0635\\u0648\\u0644\", \"object\": \"\\u0634\\u06cc\\u0631 \\u067e\\u0627\\u0633\\u062a\\u0648\\u0631\\u06cc\\u0632\\u0647 - \\u0648\\u0632\\u0646 : 500\\u06af\\u0631\\u0645\"}}]',12,44),(95,'2024-04-23 18:50:33.286120','3','tv52ing_sumsong',2,'[{\"added\": {\"name\": \"\\u0648\\u06cc\\u0698\\u06a9\\u06cc \\u0645\\u062d\\u0635\\u0648\\u0644\", \"object\": \"tv52ing_sumsong - \\u0627\\u0646\\u062f\\u0627\\u0632\\u0647 : 52ing\"}}, {\"added\": {\"name\": \"\\u0648\\u06cc\\u0698\\u06a9\\u06cc \\u0645\\u062d\\u0635\\u0648\\u0644\", \"object\": \"tv52ing_sumsong - \\u0648\\u0632\\u0646 : 12.5kg\"}}, {\"added\": {\"name\": \"\\u0648\\u06cc\\u0698\\u06a9\\u06cc \\u0645\\u062d\\u0635\\u0648\\u0644\", \"object\": \"tv52ing_sumsong - \\u0631\\u0646\\u06af : \\u0645\\u0634\\u06a9\\u06cc\"}}]',12,44),(96,'2024-04-23 19:59:13.472074','3','tv52ing_sumsong',2,'[{\"changed\": {\"fields\": [\"\\u06af\\u0631\\u0648\\u0647 \\u06a9\\u0627\\u0644\\u0627\"]}}]',12,44),(97,'2024-04-23 20:05:04.680699','4','ترک',1,'[{\"added\": {}}]',8,44),(98,'2024-04-23 20:06:01.248930','4','تیشرت',1,'[{\"added\": {}}, {\"added\": {\"name\": \"\\u0648\\u06cc\\u0698\\u06a9\\u06cc \\u0645\\u062d\\u0635\\u0648\\u0644\", \"object\": \"\\u062a\\u06cc\\u0634\\u0631\\u062a - \\u0627\\u0646\\u062f\\u0627\\u0632\\u0647 : xx2\"}}, {\"added\": {\"name\": \"\\u0648\\u06cc\\u0698\\u06a9\\u06cc \\u0645\\u062d\\u0635\\u0648\\u0644\", \"object\": \"\\u062a\\u06cc\\u0634\\u0631\\u062a - \\u0631\\u0646\\u06af : \\u0642\\u0631\\u0645\\u0632-\\u0622\\u0628\\u06cc -\\u0645\\u0634\\u06a9\\u06cc\"}}, {\"added\": {\"name\": \"\\u0648\\u06cc\\u0698\\u06a9\\u06cc \\u0645\\u062d\\u0635\\u0648\\u0644\", \"object\": \"\\u062a\\u06cc\\u0634\\u0631\\u062a - \\u0648\\u0632\\u0646 : 20\\u06af\\u0631\\u0645\"}}]',12,44),(99,'2024-04-24 05:49:13.021829','1','LG',1,'[{\"added\": {}}]',8,44),(100,'2024-04-24 05:51:25.256124','1','کالا دیجیتال',1,'[{\"added\": {}}]',13,44),(101,'2024-04-24 05:52:01.829726','1','رنگ',1,'[{\"added\": {}}]',11,44),(102,'2024-04-24 05:55:13.908550','2','وزن',1,'[{\"added\": {}}]',11,44),(103,'2024-04-24 05:56:11.248550','2','کالا دیجیتال',1,'[{\"added\": {}}]',13,44),(104,'2024-04-24 05:58:04.141104','1','کالا دیجیتال',3,'',13,44),(105,'2024-04-24 06:00:42.629712','2','کالا دیجیتال',3,'',13,44),(106,'2024-04-24 06:05:04.619013','3','کالا دیجیتال',1,'[{\"added\": {}}, {\"added\": {\"name\": \"\\u06af\\u0631\\u0648\\u0647 \\u06a9\\u0627\\u0644\\u0627\", \"object\": \"\\u062f\\u0648\\u0631\\u0628\\u06cc\\u0646\"}}]',13,44),(107,'2024-04-24 06:07:21.716578','3','کالا دیجیتال',2,'[{\"changed\": {\"fields\": [\"\\u0648\\u0627\\u0644\\u062f \\u06af\\u0631\\u0648\\u0647 \\u06a9\\u0627\\u0644\\u0627\"]}}]',13,44),(108,'2024-04-24 06:08:37.442523','1','tv52ing',1,'[{\"added\": {}}, {\"added\": {\"name\": \"\\u0648\\u06cc\\u0698\\u06a9\\u06cc \\u0645\\u062d\\u0635\\u0648\\u0644\", \"object\": \"tv52ing - \\u0631\\u0646\\u06af : \\u0645\\u0634\\u06a9\\u06cc\"}}, {\"added\": {\"name\": \"\\u0648\\u06cc\\u0698\\u06a9\\u06cc \\u0645\\u062d\\u0635\\u0648\\u0644\", \"object\": \"tv52ing - \\u0648\\u0632\\u0646 : \\u0642\\u0631\\u0645\\u0632-\\u0622\\u0628\\u06cc -\\u0645\\u0634\\u06a9\\u06cc\"}}]',12,44),(109,'2024-04-24 16:34:03.751409','2','آدیداس',1,'[{\"added\": {}}]',8,44),(110,'2024-04-24 16:34:28.479310','3','ال جی',1,'[{\"added\": {}}]',8,44),(111,'2024-04-24 16:34:54.956289','4','اپل',1,'[{\"added\": {}}]',8,44),(112,'2024-04-24 16:35:14.898060','5','پگاه',1,'[{\"added\": {}}]',8,44),(113,'2024-04-24 16:35:55.184362','6','ایسوس',1,'[{\"added\": {}}]',8,44),(114,'2024-04-24 16:37:00.730934','3','ابعاد',1,'[{\"added\": {}}]',11,44),(115,'2024-04-24 16:39:34.296514','5','کالاهای سوپرمارکتی',1,'[{\"added\": {}}, {\"added\": {\"name\": \"\\u06af\\u0631\\u0648\\u0647 \\u06a9\\u0627\\u0644\\u0627\", \"object\": \"\\u0634\\u06cc\\u0631\"}}]',13,44),(116,'2024-04-24 16:41:01.577129','4','لیتر',1,'[{\"added\": {}}]',11,44),(117,'2024-04-24 16:41:28.403766','5','رزولوشن',1,'[{\"added\": {}}]',11,44),(118,'2024-04-24 16:41:52.416184','6','سازنده پردازنده',1,'[{\"added\": {}}]',11,44),(119,'2024-04-24 16:42:08.708082','7','جنس',1,'[{\"added\": {}}]',11,44),(120,'2024-04-24 16:45:51.172181','7','تنقلات',1,'[{\"added\": {}}, {\"added\": {\"name\": \"\\u06af\\u0631\\u0648\\u0647 \\u06a9\\u0627\\u0644\\u0627\", \"object\": \"\\u067e\\u0633\\u062a\\u0647 \\u062e\\u0646\\u062f\\u0627\\u0646\"}}, {\"added\": {\"name\": \"\\u06af\\u0631\\u0648\\u0647 \\u06a9\\u0627\\u0644\\u0627\", \"object\": \"\\u0641\\u0646\\u062f\\u0648\\u0642\"}}, {\"added\": {\"name\": \"\\u06af\\u0631\\u0648\\u0647 \\u06a9\\u0627\\u0644\\u0627\", \"object\": \"\\u0628\\u0627\\u062f\\u0627\\u0645\"}}]',13,44),(121,'2024-04-24 18:36:20.938877','3','کالا دیجیتال',2,'[{\"changed\": {\"fields\": [\"\\u0648\\u0627\\u0644\\u062f \\u06af\\u0631\\u0648\\u0647 \\u06a9\\u0627\\u0644\\u0627\"]}}]',13,44),(122,'2024-04-24 18:41:19.625362','11','مدوپوشاک',1,'[{\"added\": {}}, {\"added\": {\"name\": \"\\u06af\\u0631\\u0648\\u0647 \\u06a9\\u0627\\u0644\\u0627\", \"object\": \"\\u0628\\u0686\\u0647 \\u06af\\u0627\\u0646\\u0647\"}}, {\"added\": {\"name\": \"\\u06af\\u0631\\u0648\\u0647 \\u06a9\\u0627\\u0644\\u0627\", \"object\": \"\\u0632\\u0646\\u0627\\u0646\\u0647\"}}, {\"added\": {\"name\": \"\\u06af\\u0631\\u0648\\u0647 \\u06a9\\u0627\\u0644\\u0627\", \"object\": \"\\u0645\\u0631\\u062f\\u0627\\u0646\\u0647\"}}]',13,44),(123,'2024-04-24 18:42:40.902687','14','مردانه',3,'',13,44),(124,'2024-04-24 18:45:41.030926','15','ورزشی و کوه نوردی',1,'[{\"added\": {}}, {\"added\": {\"name\": \"\\u06af\\u0631\\u0648\\u0647 \\u06a9\\u0627\\u0644\\u0627\", \"object\": \"\\u06a9\\u062a\\u0627\\u0646\\u06cc\"}}]',13,44),(125,'2024-04-24 18:49:29.016427','16','کتانی',3,'',13,44),(126,'2024-04-24 18:52:00.323461','8','سایز',1,'[{\"added\": {}}]',11,44),(127,'2024-04-24 18:52:25.870919','2','کتانی',1,'[{\"added\": {}}, {\"added\": {\"name\": \"\\u0648\\u06cc\\u0698\\u06a9\\u06cc \\u0645\\u062d\\u0635\\u0648\\u0644\", \"object\": \"\\u06a9\\u062a\\u0627\\u0646\\u06cc - \\u0631\\u0646\\u06af : \\u0645\\u0634\\u06a9\\u06cc\"}}, {\"added\": {\"name\": \"\\u0648\\u06cc\\u0698\\u06a9\\u06cc \\u0645\\u062d\\u0635\\u0648\\u0644\", \"object\": \"\\u06a9\\u062a\\u0627\\u0646\\u06cc - \\u0633\\u0627\\u06cc\\u0632 : 42\"}}]',12,44),(128,'2024-04-24 18:54:30.653033','17','پنیرخامه ی',1,'[{\"added\": {}}]',13,44),(129,'2024-04-24 18:56:26.484383','6','شیر',2,'[{\"added\": {\"name\": \"\\u06af\\u0631\\u0648\\u0647 \\u06a9\\u0627\\u0644\\u0627\", \"object\": \"\\u0634\\u06cc\\u0631 \\u067e\\u0631 \\u0686\\u0631\\u0628\"}}]',13,44),(130,'2024-04-24 18:59:50.614044','6','شیر',2,'[{\"changed\": {\"fields\": [\"\\u0648\\u0627\\u0644\\u062f \\u06af\\u0631\\u0648\\u0647 \\u06a9\\u0627\\u0644\\u0627\"]}}, {\"added\": {\"name\": \"\\u06af\\u0631\\u0648\\u0647 \\u06a9\\u0627\\u0644\\u0627\", \"object\": \"\\u0634\\u06cc\\u0631 \\u0637\\u0639\\u0645 \\u062f\\u0627\\u0631\"}}]',13,44),(131,'2024-04-24 19:04:04.960915','20','لبنیات',1,'[{\"added\": {}}, {\"added\": {\"name\": \"\\u06af\\u0631\\u0648\\u0647 \\u06a9\\u0627\\u0644\\u0627\", \"object\": \"\\u067e\\u0646\\u06cc\\u0631 \\u0644\\u0642\\u0648\\u0627\\u0646\"}}]',13,44),(132,'2024-04-24 19:04:41.344998','17','پنیرخامه ی',2,'[{\"changed\": {\"fields\": [\"\\u0648\\u0627\\u0644\\u062f \\u06af\\u0631\\u0648\\u0647 \\u06a9\\u0627\\u0644\\u0627\"]}}]',13,44),(133,'2024-04-24 19:05:20.900207','6','شیر',2,'[{\"changed\": {\"fields\": [\"\\u0648\\u0627\\u0644\\u062f \\u06af\\u0631\\u0648\\u0647 \\u06a9\\u0627\\u0644\\u0627\"]}}]',13,44),(134,'2024-04-24 19:08:06.701334','3','شیر پاستوریزه',1,'[{\"added\": {}}, {\"added\": {\"name\": \"\\u0648\\u06cc\\u0698\\u06a9\\u06cc \\u0645\\u062d\\u0635\\u0648\\u0644\", \"object\": \"\\u0634\\u06cc\\u0631 \\u067e\\u0627\\u0633\\u062a\\u0648\\u0631\\u06cc\\u0632\\u0647 - \\u0648\\u0632\\u0646 : 500\\u06af\\u0631\\u0645\"}}, {\"added\": {\"name\": \"\\u0648\\u06cc\\u0698\\u06a9\\u06cc \\u0645\\u062d\\u0635\\u0648\\u0644\", \"object\": \"\\u0634\\u06cc\\u0631 \\u067e\\u0627\\u0633\\u062a\\u0648\\u0631\\u06cc\\u0632\\u0647 - \\u062c\\u0646\\u0633 : \\u06af\\u0627\\u0648\\u06cc\"}}]',12,44),(135,'2024-04-28 20:12:26.915242','4','پفک نمکی',1,'[{\"added\": {}}]',12,44),(136,'2024-04-28 20:13:58.805556','22','کالا دیجیتال',1,'[{\"added\": {}}]',13,44),(137,'2024-04-28 20:14:51.406720','5','لپ تای ایسوس',1,'[{\"added\": {}}]',12,44),(138,'2024-04-28 21:08:40.422527','1','tv52ing',2,'[{\"changed\": {\"fields\": [\"\\u06af\\u0631\\u0648\\u0647 \\u06a9\\u0627\\u0644\\u0627\", \"Description\"]}}]',12,44),(139,'2024-04-28 21:09:26.410548','2','کتانی',2,'[{\"changed\": {\"fields\": [\"Description\"]}}]',12,44),(140,'2024-04-28 21:09:51.517813','5','لپ تای ایسوس',2,'[{\"changed\": {\"fields\": [\" \\u062a\\u0635\\u0648\\u06cc\\u0631  \\u06a9\\u0627\\u0644\\u0627\", \"Description\"]}}]',12,44),(141,'2024-04-28 21:23:22.208186','3','شیر پاستوریزه',2,'[{\"changed\": {\"fields\": [\"\\u0642\\u06cc\\u0645\\u062a \\u06a9\\u0627\\u0644\\u0627\", \"Description\"]}}]',12,44),(142,'2024-04-28 21:24:03.059345','4','پفک نمکی',2,'[{\"changed\": {\"fields\": [\"\\u0642\\u06cc\\u0645\\u062a \\u06a9\\u0627\\u0644\\u0627\"]}}]',12,44),(143,'2024-04-28 21:24:18.808669','5','لپ تای ایسوس',2,'[{\"changed\": {\"fields\": [\"\\u0642\\u06cc\\u0645\\u062a \\u06a9\\u0627\\u0644\\u0627\"]}}]',12,44),(144,'2024-04-28 21:24:35.760345','2','کتانی',2,'[{\"changed\": {\"fields\": [\"\\u0642\\u06cc\\u0645\\u062a \\u06a9\\u0627\\u0644\\u0627\"]}}]',12,44),(145,'2024-04-29 07:22:36.482760','3','شیر پاستوریزه',2,'[{\"changed\": {\"fields\": [\" \\u062a\\u0635\\u0648\\u06cc\\u0631  \\u06a9\\u0627\\u0644\\u0627\"]}}]',12,44),(146,'2024-04-29 07:23:12.803745','2','کتانی',2,'[{\"changed\": {\"fields\": [\" \\u062a\\u0635\\u0648\\u06cc\\u0631  \\u06a9\\u0627\\u0644\\u0627\"]}}]',12,44),(147,'2024-04-29 08:03:59.106644','23','آشپز خانه',1,'[{\"added\": {}}]',13,44),(148,'2024-04-29 08:03:59.144706','24','آشپز خانه',1,'[{\"added\": {}}]',13,44),(149,'2024-04-29 08:05:02.549297','6','قندان',1,'[{\"added\": {}}]',12,44),(150,'2024-04-29 19:52:57.324016','1','tv52ing',2,'[{\"changed\": {\"fields\": [\"\\u0642\\u06cc\\u0645\\u062a \\u06a9\\u0627\\u0644\\u0627\"]}}]',12,44),(151,'2024-04-29 19:56:25.318637','7','مزمز',1,'[{\"added\": {}}, {\"added\": {\"name\": \"\\u0648\\u06cc\\u0698\\u06a9\\u06cc \\u0645\\u062d\\u0635\\u0648\\u0644\", \"object\": \"\\u0645\\u0632\\u0645\\u0632 - \\u062c\\u0646\\u0633 : \\u062e\\u0648\\u0631\\u0627\\u06a9\\u06cc\"}}, {\"added\": {\"name\": \"\\u0648\\u06cc\\u0698\\u06a9\\u06cc \\u0645\\u062d\\u0635\\u0648\\u0644\", \"object\": \"\\u0645\\u0632\\u0645\\u0632 - \\u0648\\u0632\\u0646 : 100\\u06af\\u0631\\u0645\"}}]',12,44),(152,'2024-04-29 19:57:49.574962','7','مزمز',2,'[{\"changed\": {\"fields\": [\"Description\"]}}]',12,44),(153,'2024-04-29 19:58:32.919151','7','مزمز',2,'[{\"changed\": {\"fields\": [\"Description\"]}}]',12,44),(154,'2024-04-29 19:59:01.044610','7','مزمز',2,'[{\"changed\": {\"fields\": [\"\\u0648\\u0636\\u0639\\u06cc\\u062a \\u0641\\u0639\\u0627\\u0644 /\\u063a\\u06cc\\u0631 \\u0641\\u0639\\u0627\\u0644\"]}}]',12,44),(155,'2024-04-29 19:59:34.991333','7','مزمز',2,'[{\"changed\": {\"fields\": [\"\\u0648\\u0636\\u0639\\u06cc\\u062a \\u0641\\u0639\\u0627\\u0644 /\\u063a\\u06cc\\u0631 \\u0641\\u0639\\u0627\\u0644\"]}}]',12,44),(156,'2024-04-29 20:04:10.391054','4','پفک نمکی',2,'[{\"changed\": {\"fields\": [\" \\u062a\\u0648\\u0636\\u06cc\\u062d\\u0627\\u062a \\u06a9\\u0648\\u062a\\u0627\\u0647\", \"Description\"]}}]',12,44),(157,'2024-04-29 20:05:14.686164','4','پفک نمکی',2,'[{\"added\": {\"name\": \"\\u0648\\u06cc\\u0698\\u06a9\\u06cc \\u0645\\u062d\\u0635\\u0648\\u0644\", \"object\": \"\\u067e\\u0641\\u06a9 \\u0646\\u0645\\u06a9\\u06cc - \\u0648\\u0632\\u0646 : 50\\u06af\\u0631\\u0645\"}}, {\"added\": {\"name\": \"\\u0648\\u06cc\\u0698\\u06a9\\u06cc \\u0645\\u062d\\u0635\\u0648\\u0644\", \"object\": \"\\u067e\\u0641\\u06a9 \\u0646\\u0645\\u06a9\\u06cc - \\u062c\\u0646\\u0633 : \\u062e\\u0648\\u0631\\u0627\\u06a9\\u06cc\"}}]',12,44),(158,'2024-04-30 06:35:57.898353','4','پفک نمکی',2,'[{\"changed\": {\"fields\": [\"Description\"]}}, {\"added\": {\"name\": \"\\u062a\\u0635\\u0648\\u06cc\\u0631 \", \"object\": \"ProductGallery object (2)\"}}, {\"added\": {\"name\": \"\\u062a\\u0635\\u0648\\u06cc\\u0631 \", \"object\": \"ProductGallery object (3)\"}}, {\"added\": {\"name\": \"\\u062a\\u0635\\u0648\\u06cc\\u0631 \", \"object\": \"ProductGallery object (4)\"}}]',12,44),(159,'2024-04-30 06:57:14.938657','4','پفک نمکی',3,'',12,44),(160,'2024-04-30 07:00:15.065349','7','شیائومی',1,'[{\"added\": {}}]',8,44),(161,'2024-04-30 07:06:06.794261','8','موبایل',1,'[{\"added\": {}}, {\"added\": {\"name\": \"\\u0648\\u06cc\\u0698\\u06a9\\u06cc \\u0645\\u062d\\u0635\\u0648\\u0644\", \"object\": \"\\u0645\\u0648\\u0628\\u0627\\u06cc\\u0644 - \\u062c\\u0646\\u0633 : \\u0644\\u06cc\\u062a\\u06cc\\u0648\\u0645\"}}, {\"added\": {\"name\": \"\\u0648\\u06cc\\u0698\\u06a9\\u06cc \\u0645\\u062d\\u0635\\u0648\\u0644\", \"object\": \"\\u0645\\u0648\\u0628\\u0627\\u06cc\\u0644 - \\u0631\\u0646\\u06af : \\u0645\\u0634\\u06a9\\u06cc -\\u0622\\u0628\\u06cc -\\u0633\\u0641\\u06cc\\u062f\"}}, {\"added\": {\"name\": \"\\u0648\\u06cc\\u0698\\u06a9\\u06cc \\u0645\\u062d\\u0635\\u0648\\u0644\", \"object\": \"\\u0645\\u0648\\u0628\\u0627\\u06cc\\u0644 - \\u0648\\u0632\\u0646 : 485\\u06af\\u0631\\u0645\"}}, {\"added\": {\"name\": \"\\u062a\\u0635\\u0648\\u06cc\\u0631 \", \"object\": \"ProductGallery object (5)\"}}, {\"added\": {\"name\": \"\\u062a\\u0635\\u0648\\u06cc\\u0631 \", \"object\": \"ProductGallery object (6)\"}}, {\"added\": {\"name\": \"\\u062a\\u0635\\u0648\\u06cc\\u0631 \", \"object\": \"ProductGallery object (7)\"}}]',12,44),(162,'2024-04-30 07:18:25.383028','25','مردانه',1,'[{\"added\": {}}]',13,44),(163,'2024-04-30 07:18:47.035320','2','کتانی',2,'[{\"changed\": {\"fields\": [\"\\u06af\\u0631\\u0648\\u0647 \\u06a9\\u0627\\u0644\\u0627\"]}}]',12,44),(164,'2024-04-30 08:00:32.769361','7','مزمز',2,'[{\"changed\": {\"fields\": [\"\\u06af\\u0631\\u0648\\u0647 \\u06a9\\u0627\\u0644\\u0627\"]}}]',12,44),(165,'2024-04-30 08:07:16.820832','1','tv52ing',2,'[{\"changed\": {\"fields\": [\"\\u0648\\u0636\\u0639\\u06cc\\u062a \\u0641\\u0639\\u0627\\u0644 /\\u063a\\u06cc\\u0631 \\u0641\\u0639\\u0627\\u0644\"]}}]',12,44),(166,'2024-04-30 08:07:41.446729','1','tv52ing',2,'[{\"changed\": {\"fields\": [\"\\u0648\\u0636\\u0639\\u06cc\\u062a \\u0641\\u0639\\u0627\\u0644 /\\u063a\\u06cc\\u0631 \\u0641\\u0639\\u0627\\u0644\"]}}]',12,44),(167,'2024-04-30 18:53:56.249183','8','کاله',1,'[{\"added\": {}}]',8,44),(168,'2024-04-30 18:57:17.375880','9','پنیر کاله',1,'[{\"added\": {}}, {\"added\": {\"name\": \"\\u0648\\u06cc\\u0698\\u06a9\\u06cc \\u0645\\u062d\\u0635\\u0648\\u0644\", \"object\": \"\\u067e\\u0646\\u06cc\\u0631 \\u06a9\\u0627\\u0644\\u0647 - \\u0648\\u0632\\u0646 : 500\\u06af\\u0631\\u0645\"}}, {\"added\": {\"name\": \"\\u0648\\u06cc\\u0698\\u06a9\\u06cc \\u0645\\u062d\\u0635\\u0648\\u0644\", \"object\": \"\\u067e\\u0646\\u06cc\\u0631 \\u06a9\\u0627\\u0644\\u0647 - \\u062c\\u0646\\u0633 : \\u062e\\u0648\\u0631\\u0627\\u06a9\\u06cc\"}}, {\"added\": {\"name\": \"\\u062a\\u0635\\u0648\\u06cc\\u0631 \", \"object\": \"ProductGallery object (8)\"}}, {\"added\": {\"name\": \"\\u062a\\u0635\\u0648\\u06cc\\u0631 \", \"object\": \"ProductGallery object (9)\"}}]',12,44),(169,'2024-05-01 17:35:33.799732','1','tv52ing',2,'[{\"changed\": {\"fields\": [\"Slug\"]}}]',12,44),(170,'2024-05-01 19:31:59.557463','1','tv52ing',2,'[{\"changed\": {\"fields\": [\"Slug\"]}}]',12,44),(171,'2024-05-01 20:09:28.093977','5','لپ تای ایسوس',2,'[{\"changed\": {\"fields\": [\"\\u0642\\u06cc\\u0645\\u062a \\u06a9\\u0627\\u0644\\u0627\"]}}]',12,44),(172,'2024-05-03 08:13:25.919769','26','مبلمان',1,'[{\"added\": {}}]',13,44),(173,'2024-05-03 08:15:36.930077','9','furnituer_vafa',1,'[{\"added\": {}}]',8,44),(174,'2024-05-03 08:16:38.289813','9','تعداد',1,'[{\"added\": {}}]',11,44),(175,'2024-05-03 08:18:10.211715','26','مبلمان',2,'[{\"changed\": {\"fields\": [\"\\u0648\\u0627\\u0644\\u062f \\u06af\\u0631\\u0648\\u0647 \\u06a9\\u0627\\u0644\\u0627\"]}}]',13,44),(176,'2024-05-03 08:26:57.329144','10','مبل راحتی',1,'[{\"added\": {}}, {\"added\": {\"name\": \"\\u0648\\u06cc\\u0698\\u06a9\\u06cc \\u0645\\u062d\\u0635\\u0648\\u0644\", \"object\": \"\\u0645\\u0628\\u0644 \\u0631\\u0627\\u062d\\u062a\\u06cc - \\u062a\\u0639\\u062f\\u0627\\u062f : 7\\u0646\\u0641\\u0631\\u0647 -9\\u0646\\u0641\\u0631\\u0647\"}}, {\"added\": {\"name\": \"\\u0648\\u06cc\\u0698\\u06a9\\u06cc \\u0645\\u062d\\u0635\\u0648\\u0644\", \"object\": \"\\u0645\\u0628\\u0644 \\u0631\\u0627\\u062d\\u062a\\u06cc - \\u0631\\u0646\\u06af : \\u0645\\u0634\\u06a9\\u06cc -\\u0622\\u0628\\u06cc -\\u0633\\u0641\\u06cc\\u062f-\\u0637\\u0648\\u0633\\u06cc\"}}, {\"added\": {\"name\": \"\\u062a\\u0635\\u0648\\u06cc\\u0631 \", \"object\": \"ProductGallery object (10)\"}}, {\"added\": {\"name\": \"\\u062a\\u0635\\u0648\\u06cc\\u0631 \", \"object\": \"ProductGallery object (11)\"}}, {\"added\": {\"name\": \"\\u062a\\u0635\\u0648\\u06cc\\u0631 \", \"object\": \"ProductGallery object (12)\"}}]',12,44),(177,'2024-05-03 08:41:46.100149','11','مبل مدرن',1,'[{\"added\": {}}, {\"added\": {\"name\": \"\\u0648\\u06cc\\u0698\\u06a9\\u06cc \\u0645\\u062d\\u0635\\u0648\\u0644\", \"object\": \"\\u0645\\u0628\\u0644 \\u0645\\u062f\\u0631\\u0646 - \\u062a\\u0639\\u062f\\u0627\\u062f : 7\\u0646\\u0641\\u0631\\u0647 -9\\u0646\\u0641\\u0631\\u0647\"}}, {\"added\": {\"name\": \"\\u0648\\u06cc\\u0698\\u06a9\\u06cc \\u0645\\u062d\\u0635\\u0648\\u0644\", \"object\": \"\\u0645\\u0628\\u0644 \\u0645\\u062f\\u0631\\u0646 - \\u0631\\u0646\\u06af : \\u0645\\u0634\\u06a9\\u06cc -\\u0622\\u0628\\u06cc -\\u0633\\u0641\\u06cc\\u062f-\\u0637\\u0648\\u0633\\u06cc\"}}, {\"added\": {\"name\": \"\\u062a\\u0635\\u0648\\u06cc\\u0631 \", \"object\": \"ProductGallery object (13)\"}}, {\"added\": {\"name\": \"\\u062a\\u0635\\u0648\\u06cc\\u0631 \", \"object\": \"ProductGallery object (14)\"}}, {\"added\": {\"name\": \"\\u062a\\u0635\\u0648\\u06cc\\u0631 \", \"object\": \"ProductGallery object (15)\"}}]',12,44),(178,'2024-05-03 08:44:22.398416','11','مبل مدرن',2,'[{\"changed\": {\"fields\": [\"Slug\"]}}]',12,44),(179,'2024-05-03 08:59:15.691993','10','مبل راحتی',2,'[{\"changed\": {\"fields\": [\"Slug\"]}}]',12,44),(180,'2024-05-03 08:59:47.413021','11','مبل مدرن',2,'[{\"changed\": {\"fields\": [\"Slug\"]}}]',12,44),(181,'2024-05-03 08:59:47.446301','11','مبل مدرن',2,'[{\"changed\": {\"fields\": [\"Slug\"]}}]',12,44),(182,'2024-05-03 09:43:08.664250','12','مبل کلاسیک',1,'[{\"added\": {}}, {\"added\": {\"name\": \"\\u0648\\u06cc\\u0698\\u06a9\\u06cc \\u0645\\u062d\\u0635\\u0648\\u0644\", \"object\": \"\\u0645\\u0628\\u0644 \\u06a9\\u0644\\u0627\\u0633\\u06cc\\u06a9 - \\u062a\\u0639\\u062f\\u0627\\u062f : 7\\u0646\\u0641\\u0631\\u0647 -9\\u0646\\u0641\\u0631\\u0647\"}}, {\"added\": {\"name\": \"\\u0648\\u06cc\\u0698\\u06a9\\u06cc \\u0645\\u062d\\u0635\\u0648\\u0644\", \"object\": \"\\u0645\\u0628\\u0644 \\u06a9\\u0644\\u0627\\u0633\\u06cc\\u06a9 - \\u0631\\u0646\\u06af : \\u0645\\u0634\\u06a9\\u06cc -\\u0622\\u0628\\u06cc -\\u0633\\u0641\\u06cc\\u062f-\\u0637\\u0648\\u0633\\u06cc\"}}, {\"added\": {\"name\": \"\\u062a\\u0635\\u0648\\u06cc\\u0631 \", \"object\": \"ProductGallery object (16)\"}}, {\"added\": {\"name\": \"\\u062a\\u0635\\u0648\\u06cc\\u0631 \", \"object\": \"ProductGallery object (17)\"}}, {\"added\": {\"name\": \"\\u062a\\u0635\\u0648\\u06cc\\u0631 \", \"object\": \"ProductGallery object (18)\"}}]',12,44),(183,'2024-05-05 07:30:19.214364','10','آستین',1,'[{\"added\": {}}, {\"added\": {\"name\": \"\\u0645\\u0642\\u062f\\u0627\\u0631 \\u0648\\u06cc\\u0698\\u06af\\u06cc \", \"object\": \"1  \\u06a9\\u0648\\u062a\\u0627\\u0647\"}}, {\"added\": {\"name\": \"\\u0645\\u0642\\u062f\\u0627\\u0631 \\u0648\\u06cc\\u0698\\u06af\\u06cc \", \"object\": \"2  \\u0628\\u0644\\u0646\\u062f\"}}, {\"added\": {\"name\": \"\\u0645\\u0642\\u062f\\u0627\\u0631 \\u0648\\u06cc\\u0698\\u06af\\u06cc \", \"object\": \"3  \\u0633\\u0647 \\u0631\\u0628\\u0639\"}}]',11,44),(184,'2024-05-05 07:52:23.445403','4','4  آستین',1,'[{\"added\": {}}]',14,44),(185,'2024-05-05 08:03:05.046532','4','4  آستین',3,'',14,44),(186,'2024-05-05 08:03:05.050627','3','3  سه ربع',3,'',14,44),(187,'2024-05-05 08:03:05.054213','2','2  بلند',3,'',14,44),(188,'2024-05-05 08:03:05.059422','1','1  کوتاه',3,'',14,44),(189,'2024-05-05 08:14:46.851380','11','آستین',1,'[{\"added\": {}}, {\"added\": {\"name\": \"\\u0645\\u0642\\u062f\\u0627\\u0631 \\u0648\\u06cc\\u0698\\u06af\\u06cc \", \"object\": \"5  \\u06a9\\u0648\\u062a\\u0627\\u0647\"}}, {\"added\": {\"name\": \"\\u0645\\u0642\\u062f\\u0627\\u0631 \\u0648\\u06cc\\u0698\\u06af\\u06cc \", \"object\": \"6  \\u0628\\u0644\\u0646\\u062f\"}}, {\"added\": {\"name\": \"\\u0645\\u0642\\u062f\\u0627\\u0631 \\u0648\\u06cc\\u0698\\u06af\\u06cc \", \"object\": \"7  \\u0633\\u0647 \\u0631\\u0628\\u0639\"}}]',11,44),(190,'2024-05-05 08:14:46.940321','12','آستین',1,'[{\"added\": {}}, {\"added\": {\"name\": \"\\u0645\\u0642\\u062f\\u0627\\u0631 \\u0648\\u06cc\\u0698\\u06af\\u06cc \", \"object\": \"8  \\u06a9\\u0648\\u062a\\u0627\\u0647\"}}, {\"added\": {\"name\": \"\\u0645\\u0642\\u062f\\u0627\\u0631 \\u0648\\u06cc\\u0698\\u06af\\u06cc \", \"object\": \"9  \\u0628\\u0644\\u0646\\u062f\"}}, {\"added\": {\"name\": \"\\u0645\\u0642\\u062f\\u0627\\u0631 \\u0648\\u06cc\\u0698\\u06af\\u06cc \", \"object\": \"10  \\u0633\\u0647 \\u0631\\u0628\\u0639\"}}]',11,44),(191,'2024-05-05 18:41:45.287469','9','پگاه',2,'[{\"changed\": {\"fields\": [\"\\u0646\\u0627\\u0645 \\u0628\\u0631\\u0646\\u062f\", \"Slug\"]}}]',8,44),(192,'2024-05-05 18:42:42.314381','8','کالا دیجیتال',2,'[{\"changed\": {\"fields\": [\"\\u0646\\u0627\\u0645 \\u0628\\u0631\\u0646\\u062f\", \"Slug\"]}}]',8,44),(193,'2024-05-05 18:44:09.846556','1','آدیداس',2,'[{\"changed\": {\"fields\": [\"\\u0646\\u0627\\u0645 \\u0628\\u0631\\u0646\\u062f\", \"Slug\"]}}]',8,44),(194,'2024-05-05 18:44:57.682943','2','آدیسان',2,'[{\"changed\": {\"fields\": [\"\\u0646\\u0627\\u0645 \\u0628\\u0631\\u0646\\u062f\"]}}]',8,44),(195,'2024-05-05 18:45:37.350719','3','مبل وفا',2,'[{\"changed\": {\"fields\": [\"\\u0646\\u0627\\u0645 \\u0628\\u0631\\u0646\\u062f\", \"Slug\"]}}]',8,44),(196,'2024-05-05 18:46:20.096985','4','کاله',2,'[{\"changed\": {\"fields\": [\"\\u0646\\u0627\\u0645 \\u0628\\u0631\\u0646\\u062f\", \"Slug\"]}}]',8,44),(197,'2024-05-05 18:46:45.535771','5','tv',2,'[{\"changed\": {\"fields\": [\"Slug\"]}}]',8,44),(198,'2024-05-05 18:47:30.863669','7','شیائومی',2,'[{\"changed\": {\"fields\": [\"\\u0646\\u0627\\u0645 \\u0628\\u0631\\u0646\\u062f\"]}}]',8,44),(199,'2024-05-05 18:48:03.457654','5','موبایل',2,'[{\"changed\": {\"fields\": [\"\\u0646\\u0627\\u0645 \\u0628\\u0631\\u0646\\u062f\"]}}]',8,44),(200,'2024-05-05 18:48:20.563442','6','لپ تاپ',2,'[{\"changed\": {\"fields\": [\"\\u0646\\u0627\\u0645 \\u0628\\u0631\\u0646\\u062f\"]}}]',8,44),(201,'2024-05-05 18:49:29.560220','9','پنیر کاله',2,'[{\"changed\": {\"fields\": [\"\\u0628\\u0631\\u0646\\u062f \\u06a9\\u0627\\u0644\\u0627\"]}}]',12,44),(202,'2024-05-05 18:49:46.539011','3','شیر پاستوریزه',2,'[{\"changed\": {\"fields\": [\"\\u0628\\u0631\\u0646\\u062f \\u06a9\\u0627\\u0644\\u0627\"]}}]',12,44),(203,'2024-05-05 18:51:17.287536','10','چین زرین',1,'[{\"added\": {}}]',8,44),(204,'2024-05-05 18:51:36.920800','6','قندان',2,'[{\"changed\": {\"fields\": [\"\\u0628\\u0631\\u0646\\u062f \\u06a9\\u0627\\u0644\\u0627\", \" \\u062a\\u0648\\u0636\\u06cc\\u062d\\u0627\\u062a \\u06a9\\u0648\\u062a\\u0627\\u0647\"]}}]',12,44),(205,'2024-05-05 18:51:59.779248','2','کتانی',2,'[{\"changed\": {\"fields\": [\"\\u0628\\u0631\\u0646\\u062f \\u06a9\\u0627\\u0644\\u0627\"]}}]',12,44),(206,'2024-05-05 18:53:04.531959','11','آیدین',1,'[{\"added\": {}}]',8,44),(207,'2024-05-05 18:53:21.160837','7','مزمز',2,'[{\"changed\": {\"fields\": [\"\\u0628\\u0631\\u0646\\u062f \\u06a9\\u0627\\u0644\\u0627\", \" \\u062a\\u0648\\u0636\\u06cc\\u062d\\u0627\\u062a \\u06a9\\u0648\\u062a\\u0627\\u0647\"]}}]',12,44),(208,'2024-05-05 18:53:41.117298','1','tv52ing',2,'[{\"changed\": {\"fields\": [\"\\u0628\\u0631\\u0646\\u062f \\u06a9\\u0627\\u0644\\u0627\"]}}]',12,44),(209,'2024-05-05 18:53:56.040320','10','مبل راحتی',2,'[{\"changed\": {\"fields\": [\"\\u0628\\u0631\\u0646\\u062f \\u06a9\\u0627\\u0644\\u0627\"]}}]',12,44),(210,'2024-05-05 18:54:14.897134','11','مبل مدرن',2,'[{\"changed\": {\"fields\": [\"\\u0628\\u0631\\u0646\\u062f \\u06a9\\u0627\\u0644\\u0627\"]}}]',12,44),(211,'2024-05-05 18:54:30.019709','12','مبل کلاسیک',2,'[{\"changed\": {\"fields\": [\"\\u0628\\u0631\\u0646\\u062f \\u06a9\\u0627\\u0644\\u0627\"]}}]',12,44),(212,'2024-05-05 19:43:50.894737','27','فرهاد',1,'[{\"added\": {}}]',13,44),(213,'2024-05-05 19:44:39.333283','12','فرهاد',1,'[{\"added\": {}}]',8,44),(214,'2024-05-05 19:47:45.087561','13','تیشرت',1,'[{\"added\": {}}, {\"added\": {\"name\": \"\\u0648\\u06cc\\u0698\\u06a9\\u06cc \\u0645\\u062d\\u0635\\u0648\\u0644\", \"object\": \"\\u062a\\u06cc\\u0634\\u0631\\u062a - \\u0622\\u0633\\u062a\\u06cc\\u0646 : \\u0645\\u0634\\u06a9\\u06cc\"}}, {\"added\": {\"name\": \"\\u0648\\u06cc\\u0698\\u06a9\\u06cc \\u0645\\u062d\\u0635\\u0648\\u0644\", \"object\": \"\\u062a\\u06cc\\u0634\\u0631\\u062a - \\u062c\\u0646\\u0633 : \\u06a9\\u062a\\u0627\\u0646\"}}, {\"added\": {\"name\": \"\\u0648\\u06cc\\u0698\\u06a9\\u06cc \\u0645\\u062d\\u0635\\u0648\\u0644\", \"object\": \"\\u062a\\u06cc\\u0634\\u0631\\u062a - \\u0631\\u0646\\u06af : \\u0645\\u0634\\u06a9\\u06cc - \\u0622\\u0628\\u06cc -\\u0642\\u0631\\u0645\\u0632\"}}, {\"added\": {\"name\": \"\\u062a\\u0635\\u0648\\u06cc\\u0631 \", \"object\": \"ProductGallery object (19)\"}}, {\"added\": {\"name\": \"\\u062a\\u0635\\u0648\\u06cc\\u0631 \", \"object\": \"ProductGallery object (20)\"}}]',12,44),(215,'2024-05-05 19:49:58.118849','7','سایز رزولوشن',2,'[{\"changed\": {\"fields\": [\"\\u0646\\u0627\\u0645 \\u0648\\u06cc\\u0698\\u06af\\u06cc\", \"\\u06af\\u0631\\u0648\\u0647 \\u06a9\\u0627\\u0644\\u0627\"]}}, {\"added\": {\"name\": \"\\u0645\\u0642\\u062f\\u0627\\u0631 \\u0648\\u06cc\\u0698\\u06af\\u06cc \", \"object\": \"11  2*4\"}}, {\"added\": {\"name\": \"\\u0645\\u0642\\u062f\\u0627\\u0631 \\u0648\\u06cc\\u0698\\u06af\\u06cc \", \"object\": \"12  3*5\"}}]',11,44),(216,'2024-05-05 19:51:14.549319','11','آستین',3,'',11,44),(217,'2024-05-05 19:51:14.556005','10','آستین',3,'',11,44),(218,'2024-05-05 19:54:17.859960','28','تلویزیون',1,'[{\"added\": {}}, {\"added\": {\"name\": \"\\u06af\\u0631\\u0648\\u0647 \\u06a9\\u0627\\u0644\\u0627\", \"object\": \"\\u0633\\u0648\\u0646\\u06cc\"}}]',13,44),(219,'2024-05-05 19:55:22.414497','3','ابعاد',2,'[{\"changed\": {\"fields\": [\"\\u06af\\u0631\\u0648\\u0647 \\u06a9\\u0627\\u0644\\u0627\"]}}, {\"added\": {\"name\": \"\\u0645\\u0642\\u062f\\u0627\\u0631 \\u0648\\u06cc\\u0698\\u06af\\u06cc \", \"object\": \"13  12in\"}}, {\"added\": {\"name\": \"\\u0645\\u0642\\u062f\\u0627\\u0631 \\u0648\\u06cc\\u0698\\u06af\\u06cc \", \"object\": \"14  52in\"}}, {\"added\": {\"name\": \"\\u0645\\u0642\\u062f\\u0627\\u0631 \\u0648\\u06cc\\u0698\\u06af\\u06cc \", \"object\": \"15  60in\"}}]',11,44),(220,'2024-05-05 20:28:27.577474','8','سایز',2,'[{\"changed\": {\"fields\": [\"\\u06af\\u0631\\u0648\\u0647 \\u06a9\\u0627\\u0644\\u0627\"]}}, {\"added\": {\"name\": \"\\u0645\\u0642\\u062f\\u0627\\u0631 \\u0648\\u06cc\\u0698\\u06af\\u06cc \", \"object\": \"16  mimum\"}}, {\"added\": {\"name\": \"\\u0645\\u0642\\u062f\\u0627\\u0631 \\u0648\\u06cc\\u0698\\u06af\\u06cc \", \"object\": \"17  xl\"}}, {\"added\": {\"name\": \"\\u0645\\u0642\\u062f\\u0627\\u0631 \\u0648\\u06cc\\u0698\\u06af\\u06cc \", \"object\": \"18  xx\"}}]',11,44),(221,'2024-05-05 20:29:50.746102','4','لیتر',2,'[{\"changed\": {\"fields\": [\"\\u06af\\u0631\\u0648\\u0647 \\u06a9\\u0627\\u0644\\u0627\"]}}, {\"added\": {\"name\": \"\\u0645\\u0642\\u062f\\u0627\\u0631 \\u0648\\u06cc\\u0698\\u06af\\u06cc \", \"object\": \"19  200g\"}}, {\"added\": {\"name\": \"\\u0645\\u0642\\u062f\\u0627\\u0631 \\u0648\\u06cc\\u0698\\u06af\\u06cc \", \"object\": \"20  300g\"}}, {\"added\": {\"name\": \"\\u0645\\u0642\\u062f\\u0627\\u0631 \\u0648\\u06cc\\u0698\\u06af\\u06cc \", \"object\": \"21  500g\"}}, {\"added\": {\"name\": \"\\u0645\\u0642\\u062f\\u0627\\u0631 \\u0648\\u06cc\\u0698\\u06af\\u06cc \", \"object\": \"22  2liter\"}}]',11,44),(222,'2024-05-05 20:30:37.896895','6','سازنده پردازنده',2,'[{\"added\": {\"name\": \"\\u0645\\u0642\\u062f\\u0627\\u0631 \\u0648\\u06cc\\u0698\\u06af\\u06cc \", \"object\": \"23  64Bit\"}}, {\"added\": {\"name\": \"\\u0645\\u0642\\u062f\\u0627\\u0631 \\u0648\\u06cc\\u0698\\u06af\\u06cc \", \"object\": \"24  32Bit\"}}]',11,44),(223,'2024-05-05 20:31:34.199643','5','رزولوشن',2,'[{\"added\": {\"name\": \"\\u0645\\u0642\\u062f\\u0627\\u0631 \\u0648\\u06cc\\u0698\\u06af\\u06cc \", \"object\": \"25  64g\"}}, {\"added\": {\"name\": \"\\u0645\\u0642\\u062f\\u0627\\u0631 \\u0648\\u06cc\\u0698\\u06af\\u06cc \", \"object\": \"26  128g\"}}, {\"added\": {\"name\": \"\\u0645\\u0642\\u062f\\u0627\\u0631 \\u0648\\u06cc\\u0698\\u06af\\u06cc \", \"object\": \"27  256g\"}}]',11,44),(224,'2024-05-05 20:32:10.296498','9','تعداد',2,'[{\"added\": {\"name\": \"\\u0645\\u0642\\u062f\\u0627\\u0631 \\u0648\\u06cc\\u0698\\u06af\\u06cc \", \"object\": \"28  7\\u0646\\u0641\\u0631\\u0647\"}}, {\"added\": {\"name\": \"\\u0645\\u0642\\u062f\\u0627\\u0631 \\u0648\\u06cc\\u0698\\u06af\\u06cc \", \"object\": \"29  9\\u0646\\u0641\\u0631\\u0647\"}}, {\"added\": {\"name\": \"\\u0645\\u0642\\u062f\\u0627\\u0631 \\u0648\\u06cc\\u0698\\u06af\\u06cc \", \"object\": \"30  12\\u0646\\u0641\\u0631\\u0647\"}}]',11,44),(225,'2024-05-06 07:17:10.859587','13','راما',1,'[{\"added\": {}}]',8,44),(226,'2024-05-08 17:57:15.382022','1','آدیداس',1,'[{\"added\": {}}]',8,44),(227,'2024-05-08 17:58:47.803683','1','ورزشی و کوه نوردی',1,'[{\"added\": {}}]',13,44),(228,'2024-05-08 18:00:02.540654','1','رنگ',1,'[{\"added\": {}}, {\"added\": {\"name\": \"\\u0645\\u0642\\u062f\\u0627\\u0631 \\u0648\\u06cc\\u0698\\u06af\\u06cc \", \"object\": \"1  \\u0645\\u0634\\u06a9\\u06cc\"}}, {\"added\": {\"name\": \"\\u0645\\u0642\\u062f\\u0627\\u0631 \\u0648\\u06cc\\u0698\\u06af\\u06cc \", \"object\": \"2  \\u0633\\u0641\\u06cc\\u062f\"}}, {\"added\": {\"name\": \"\\u0645\\u0642\\u062f\\u0627\\u0631 \\u0648\\u06cc\\u0698\\u06af\\u06cc \", \"object\": \"3  \\u0622\\u0628\\u06cc\"}}]',11,44),(229,'2024-05-08 18:02:39.647867','1','کتانی',1,'[{\"added\": {}}, {\"added\": {\"name\": \"\\u0648\\u06cc\\u0698\\u06a9\\u06cc \\u0645\\u062d\\u0635\\u0648\\u0644\", \"object\": \"\\u06a9\\u062a\\u0627\\u0646\\u06cc - \\u0631\\u0646\\u06af : \\u0622\\u0628\\u06cc_\\u0633\\u0641\\u06cc\\u062f\"}}, {\"added\": {\"name\": \"\\u062a\\u0635\\u0648\\u06cc\\u0631 \", \"object\": \"ProductGallery object (1)\"}}]',12,44),(230,'2024-05-08 18:06:49.323713','2','سایز',1,'[{\"added\": {}}, {\"added\": {\"name\": \"\\u0645\\u0642\\u062f\\u0627\\u0631 \\u0648\\u06cc\\u0698\\u06af\\u06cc \", \"object\": \"4  42\"}}, {\"added\": {\"name\": \"\\u0645\\u0642\\u062f\\u0627\\u0631 \\u0648\\u06cc\\u0698\\u06af\\u06cc \", \"object\": \"5  41\"}}, {\"added\": {\"name\": \"\\u0645\\u0642\\u062f\\u0627\\u0631 \\u0648\\u06cc\\u0698\\u06af\\u06cc \", \"object\": \"6  39\"}}, {\"added\": {\"name\": \"\\u0645\\u0642\\u062f\\u0627\\u0631 \\u0648\\u06cc\\u0698\\u06af\\u06cc \", \"object\": \"7  40\"}}]',11,44),(231,'2024-05-08 18:08:45.344363','2','کتانی ورزشی',1,'[{\"added\": {}}, {\"added\": {\"name\": \"\\u0648\\u06cc\\u0698\\u06a9\\u06cc \\u0645\\u062d\\u0635\\u0648\\u0644\", \"object\": \"\\u06a9\\u062a\\u0627\\u0646\\u06cc \\u0648\\u0631\\u0632\\u0634\\u06cc - \\u0633\\u0627\\u06cc\\u0632 : 40\"}}, {\"added\": {\"name\": \"\\u0648\\u06cc\\u0698\\u06a9\\u06cc \\u0645\\u062d\\u0635\\u0648\\u0644\", \"object\": \"\\u06a9\\u062a\\u0627\\u0646\\u06cc \\u0648\\u0631\\u0632\\u0634\\u06cc - \\u0631\\u0646\\u06af : \\u0645\\u0634\\u06a9\\u06cc -\\u0622\\u0628\\u06cc -\\u0633\\u0641\\u06cc\\u062f-\\u0637\\u0648\\u0633\\u06cc\"}}, {\"added\": {\"name\": \"\\u062a\\u0635\\u0648\\u06cc\\u0631 \", \"object\": \"ProductGallery object (2)\"}}, {\"added\": {\"name\": \"\\u062a\\u0635\\u0648\\u06cc\\u0631 \", \"object\": \"ProductGallery object (3)\"}}, {\"added\": {\"name\": \"\\u062a\\u0635\\u0648\\u06cc\\u0631 \", \"object\": \"ProductGallery object (4)\"}}]',12,44),(232,'2024-05-08 18:09:16.109114','1','کتانی',2,'[{\"changed\": {\"fields\": [\"\\u0642\\u06cc\\u0645\\u062a \\u06a9\\u0627\\u0644\\u0627\"]}}, {\"added\": {\"name\": \"\\u062a\\u0635\\u0648\\u06cc\\u0631 \", \"object\": \"ProductGallery object (5)\"}}, {\"added\": {\"name\": \"\\u062a\\u0635\\u0648\\u06cc\\u0631 \", \"object\": \"ProductGallery object (6)\"}}]',12,44),(233,'2024-05-09 10:17:45.371540','2','شیائومی',1,'[{\"added\": {}}]',8,44),(234,'2024-05-09 10:18:58.073328','2','کالا دیجیتال',1,'[{\"added\": {}}]',13,44),(235,'2024-05-09 10:21:23.745671','3','موبایل',1,'[{\"added\": {}}, {\"added\": {\"name\": \"\\u0648\\u06cc\\u0698\\u06a9\\u06cc \\u0645\\u062d\\u0635\\u0648\\u0644\", \"object\": \"\\u0645\\u0648\\u0628\\u0627\\u06cc\\u0644 - \\u0631\\u0646\\u06af : \\u0622\\u0628\\u06cc_\\u0633\\u0641\\u06cc\\u062f\"}}, {\"added\": {\"name\": \"\\u062a\\u0635\\u0648\\u06cc\\u0631 \", \"object\": \"ProductGallery object (7)\"}}, {\"added\": {\"name\": \"\\u062a\\u0635\\u0648\\u06cc\\u0631 \", \"object\": \"ProductGallery object (8)\"}}, {\"added\": {\"name\": \"\\u062a\\u0635\\u0648\\u06cc\\u0631 \", \"object\": \"ProductGallery object (9)\"}}]',12,44),(236,'2024-05-14 07:50:15.108329','1','fariborz zamani',1,'[{\"added\": {}}]',15,44),(237,'2024-05-17 22:44:45.297161','16','کسب و کار',1,'[{\"added\": {}}]',8,44),(238,'2024-05-17 22:48:11.721587','31','کسب و کار',1,'[{\"added\": {}}]',13,44),(239,'2024-05-17 22:48:51.633385','32','مشاور',1,'[{\"added\": {}}]',13,44),(240,'2024-05-17 22:52:17.480819','20','مشاور',1,'[{\"added\": {}}]',12,44),(241,'2024-05-21 21:58:45.142325','1','fariborz zamani',1,'[{\"added\": {}}]',15,44),(242,'2024-05-21 22:00:15.093919','1','fariborz zamani	1	True',1,'[{\"added\": {}}, {\"added\": {\"name\": \"order details\", \"object\": \"fariborz zamani\\t1\\tTrue\\t\\u0645\\u0648\\u0628\\u0627\\u06cc\\u0644\\t1\\t250000\"}}]',16,44),(243,'2024-05-22 13:23:58.017291','1','fariborz zamani	1	True',3,'',16,44),(244,'2024-05-22 13:25:18.896326','48','ali zamani',1,'[{\"added\": {}}]',6,44),(245,'2024-05-22 13:25:53.009193','48','ali zamani',1,'[{\"added\": {}}]',15,44),(246,'2024-05-22 13:26:20.335076','2','ali zamani	2	True',1,'[{\"added\": {}}, {\"added\": {\"name\": \"order details\", \"object\": \"ali zamani\\t2\\tTrue\\t\\u0645\\u0648\\u0628\\u0627\\u06cc\\u0644 \\u0634\\u06cc\\u0627\\u06cc\\u0648\\u0645\\u06cc\\t1\\t25000000\"}}]',16,44),(247,'2024-05-23 09:57:29.710493','51','ali rezaei',1,'[{\"added\": {}}]',6,44),(248,'2024-05-23 09:58:25.189588','51','ali rezaei',2,'[{\"changed\": {\"fields\": [\"Is active\"]}}]',6,44),(249,'2024-05-23 09:58:56.003040','51','ali rezaei',1,'[{\"added\": {}}]',15,44),(250,'2024-05-23 10:01:33.887295','3','ali rezaei	3	True',1,'[{\"added\": {}}, {\"added\": {\"name\": \"order details\", \"object\": \"ali rezaei\\t3\\tTrue\\t\\u062f\\u0648\\u0631\\u0628\\u06cc\\u0646 \\u0639\\u06a9\\u0627\\u0633\\u06cc\\t1\\t250000\"}}]',16,44),(251,'2024-05-24 15:43:57.351651','52','ahad zamani',1,'[{\"added\": {}}]',6,44),(252,'2024-05-24 15:44:23.537412','52','ahad zamani',1,'[{\"added\": {}}]',15,44),(253,'2024-05-24 15:56:06.856547','52','ahad zamani',2,'[{\"changed\": {\"fields\": [\"password\"]}}]',6,44),(254,'2024-05-25 08:46:34.709104','1','abcd',1,'[{\"added\": {}}]',17,44),(255,'2024-05-25 08:47:54.676364','1','به مناسبت روز عید فطر',1,'[{\"added\": {}}]',18,44),(256,'2024-05-25 08:48:22.093855','1','به مناسبت روز عید فطر',2,'[]',18,44),(257,'2024-05-25 08:51:17.791807','1','به مناسبت روز عید فطر',2,'[{\"added\": {\"name\": \"\\u062c\\u0632\\u0650\\u0626\\u06cc\\u0627\\u062a \\u0633\\u0628\\u062f \\u062a\\u062e\\u0641\\u06cc\\u0641\", \"object\": \"DiscountBasketDetails object (1)\"}}, {\"added\": {\"name\": \"\\u062c\\u0632\\u0650\\u0626\\u06cc\\u0627\\u062a \\u0633\\u0628\\u062f \\u062a\\u062e\\u0641\\u06cc\\u0641\", \"object\": \"DiscountBasketDetails object (2)\"}}, {\"added\": {\"name\": \"\\u062c\\u0632\\u0650\\u0626\\u06cc\\u0627\\u062a \\u0633\\u0628\\u062f \\u062a\\u062e\\u0641\\u06cc\\u0641\", \"object\": \"DiscountBasketDetails object (3)\"}}]',18,44),(258,'2024-05-25 08:52:15.731710','2','به مناسبت روزدانشجو',1,'[{\"added\": {}}, {\"added\": {\"name\": \"\\u062c\\u0632\\u0650\\u0626\\u06cc\\u0627\\u062a \\u0633\\u0628\\u062f \\u062a\\u062e\\u0641\\u06cc\\u0641\", \"object\": \"DiscountBasketDetails object (4)\"}}]',18,44),(259,'2024-05-25 08:52:31.584725','2','به مناسبت روزدانشجو',2,'[{\"added\": {\"name\": \"\\u062c\\u0632\\u0650\\u0626\\u06cc\\u0627\\u062a \\u0633\\u0628\\u062f \\u062a\\u062e\\u0641\\u06cc\\u0641\", \"object\": \"DiscountBasketDetails object (5)\"}}, {\"added\": {\"name\": \"\\u062c\\u0632\\u0650\\u0626\\u06cc\\u0627\\u062a \\u0633\\u0628\\u062f \\u062a\\u062e\\u0641\\u06cc\\u0641\", \"object\": \"DiscountBasketDetails object (6)\"}}]',18,44),(260,'2024-05-25 17:16:18.869747','50',' ',3,'',6,44),(261,'2024-05-25 17:17:33.003011','54','sara zamani',1,'[{\"added\": {}}]',6,44),(262,'2024-05-25 17:17:54.604175','54','sara zamani',2,'[{\"changed\": {\"fields\": [\"Is active\"]}}]',6,44),(263,'2024-05-25 17:18:25.643397','54','sara zamani',1,'[{\"added\": {}}]',15,44),(264,'2024-05-25 17:20:39.650900','54','sara zamani',2,'[{\"changed\": {\"fields\": [\"Active code\"]}}]',6,44),(265,'2024-05-25 18:33:08.889247','2','به مناسبت روزدانشجو',2,'[{\"added\": {\"name\": \"\\u062c\\u0632\\u0650\\u0626\\u06cc\\u0627\\u062a \\u0633\\u0628\\u062f \\u062a\\u062e\\u0641\\u06cc\\u0641\", \"object\": \"DiscountBasketDetails object (7)\"}}, {\"added\": {\"name\": \"\\u062c\\u0632\\u0650\\u0626\\u06cc\\u0627\\u062a \\u0633\\u0628\\u062f \\u062a\\u062e\\u0641\\u06cc\\u0641\", \"object\": \"DiscountBasketDetails object (8)\"}}, {\"added\": {\"name\": \"\\u062c\\u0632\\u0650\\u0626\\u06cc\\u0627\\u062a \\u0633\\u0628\\u062f \\u062a\\u062e\\u0641\\u06cc\\u0641\", \"object\": \"DiscountBasketDetails object (9)\"}}]',18,44),(266,'2024-05-25 18:33:43.782536','1','به مناسبت روز عید فطر',2,'[{\"added\": {\"name\": \"\\u062c\\u0632\\u0650\\u0626\\u06cc\\u0627\\u062a \\u0633\\u0628\\u062f \\u062a\\u062e\\u0641\\u06cc\\u0641\", \"object\": \"DiscountBasketDetails object (10)\"}}]',18,44),(267,'2024-05-27 17:31:37.107590','51','ali rezaei',2,'[{\"changed\": {\"fields\": [\"password\"]}}]',6,44),(268,'2024-05-28 07:53:31.066998','101','ahad zamani	101	False',1,'[{\"added\": {}}, {\"added\": {\"name\": \"order details\", \"object\": \"ahad zamani\\t101\\tFalse\\t\\u0645\\u0628\\u0644 \\u0631\\u0627\\u062d\\u062a\\u06cc\\t1\\t4500000\"}}]',16,44),(269,'2024-05-28 07:55:16.309296','52','ahad zamani',2,'[{\"changed\": {\"fields\": [\"password\"]}}]',6,44),(270,'2024-05-28 08:33:19.051306','51','ali rezaei',2,'[{\"changed\": {\"fields\": [\"password\"]}}]',6,44);
+/*!40000 ALTER TABLE `django_admin_log` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `django_content_type`
+--
+
+DROP TABLE IF EXISTS `django_content_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `django_content_type` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `app_label` varchar(100) NOT NULL,
+  `model` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `django_content_type_app_label_model_76bd3d3b_uniq` (`app_label`,`model`)
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `django_content_type`
+--
+
+LOCK TABLES `django_content_type` WRITE;
+/*!40000 ALTER TABLE `django_content_type` DISABLE KEYS */;
+INSERT INTO `django_content_type` VALUES (15,'accounts','customer'),(6,'accounts','customuser'),(1,'admin','logentry'),(3,'auth','group'),(2,'auth','permission'),(4,'contenttypes','contenttype'),(17,'discounts','coupons'),(18,'discounts','discountbasket'),(16,'orders','order'),(8,'products','brand'),(14,'products','featuervalue'),(11,'products','feature'),(12,'products','product'),(10,'products','product_group'),(7,'products','productfeature'),(9,'products','productgallery'),(13,'products','productgroup'),(5,'sessions','session'),(19,'warehouses','warehouse'),(20,'warehouses','warehousetype');
+/*!40000 ALTER TABLE `django_content_type` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `django_migrations`
+--
+
+DROP TABLE IF EXISTS `django_migrations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `django_migrations` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `app` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `applied` datetime(6) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=130 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `django_migrations`
+--
+
+LOCK TABLES `django_migrations` WRITE;
+/*!40000 ALTER TABLE `django_migrations` DISABLE KEYS */;
+INSERT INTO `django_migrations` VALUES (1,'contenttypes','0001_initial','2024-04-07 11:42:07.630633'),(2,'contenttypes','0002_remove_content_type_name','2024-04-07 11:42:07.830076'),(3,'auth','0001_initial','2024-04-07 11:42:08.108757'),(4,'auth','0002_alter_permission_name_max_length','2024-04-07 11:42:08.154852'),(5,'auth','0003_alter_user_email_max_length','2024-04-07 11:42:08.165461'),(6,'auth','0004_alter_user_username_opts','2024-04-07 11:42:08.177453'),(7,'auth','0005_alter_user_last_login_null','2024-04-07 11:42:08.187452'),(8,'auth','0006_require_contenttypes_0002','2024-04-07 11:42:08.192450'),(9,'auth','0007_alter_validators_add_error_messages','2024-04-07 11:42:08.202440'),(10,'auth','0008_alter_user_username_max_length','2024-04-07 11:42:08.210561'),(11,'auth','0009_alter_user_last_name_max_length','2024-04-07 11:42:08.219555'),(12,'auth','0010_alter_group_name_max_length','2024-04-07 11:42:08.243777'),(13,'auth','0011_update_proxy_permissions','2024-04-07 11:42:08.254772'),(14,'auth','0012_alter_user_first_name_max_length','2024-04-07 11:42:08.263437'),(15,'accounts','0001_initial','2024-04-07 11:42:08.480286'),(16,'admin','0001_initial','2024-04-07 11:42:08.582979'),(17,'admin','0002_logentry_remove_auto_add','2024-04-07 11:42:08.594040'),(18,'admin','0003_logentry_add_action_flag_choices','2024-04-07 11:42:08.607265'),(31,'accounts','0002_alter_customuser_mobile_number','2024-05-05 14:34:23.466114'),(32,'products','0001_initial','2024-05-08 17:51:35.772719'),(33,'accounts','0003_customer','2024-05-14 06:48:44.065608'),(34,'accounts','0004_alter_customer_image_name','2024-05-14 06:48:44.074950'),(35,'accounts','0005_alter_customer_image_name','2024-05-14 06:48:44.084944'),(36,'accounts','0006_alter_customer_image_name','2024-05-14 06:48:44.094695'),(37,'accounts','0007_alter_customer_image_name','2024-05-14 06:48:44.106705'),(38,'products','0002_alter_brand_image_name_alter_product_image_name_and_more','2024-05-14 06:48:44.137686'),(39,'products','0003_alter_brand_image_name_alter_product_image_name_and_more','2024-05-14 06:48:44.180258'),(40,'orders','0001_initial','2024-05-14 06:48:44.395458'),(41,'products','0004_alter_brand_image_name_alter_product_image_name_and_more','2024-05-14 06:48:44.440079'),(42,'products','0005_alter_brand_image_name_alter_product_image_name_and_more','2024-05-14 06:48:44.497028'),(43,'products','0006_alter_brand_image_name_alter_product_image_name_and_more','2024-05-14 06:48:44.546610'),(44,'accounts','0008_alter_customer_image_name','2024-05-14 07:01:40.415520'),(45,'products','0007_alter_brand_image_name_alter_product_image_name_and_more','2024-05-14 07:01:40.461512'),(46,'accounts','0009_alter_customer_image_name','2024-05-14 07:44:18.730738'),(47,'products','0008_alter_brand_image_name_alter_product_image_name_and_more','2024-05-14 07:44:18.777694'),(48,'accounts','0010_rename_ohon_number_customer_phon_number_and_more','2024-05-14 07:48:50.938905'),(49,'products','0009_alter_brand_image_name_alter_product_image_name_and_more','2024-05-14 07:48:50.982880'),(50,'accounts','0011_alter_customer_image_name','2024-05-20 21:00:02.809595'),(51,'products','0010_alter_brand_image_name_alter_product_image_name_and_more','2024-05-20 21:00:02.867576'),(52,'accounts','0012_alter_customer_image_name','2024-05-21 18:22:12.050444'),(53,'orders','0002_paymenttype_order_description_order_payment_type','2024-05-21 18:22:12.274986'),(54,'products','0011_alter_brand_image_name_alter_product_image_name_and_more','2024-05-21 18:22:12.334079'),(55,'accounts','0013_alter_customer_image_name','2024-05-22 17:21:54.214866'),(56,'orders','0003_alter_order_discount','2024-05-22 17:21:54.230857'),(57,'products','0012_alter_brand_image_name_alter_product_image_name_and_more','2024-05-22 17:21:54.298705'),(58,'accounts','0014_alter_customer_image_name','2024-05-25 08:44:47.916365'),(59,'products','0013_alter_brand_image_name_alter_product_image_name_and_more','2024-05-25 08:44:47.997311'),(60,'discounts','0001_initial','2024-05-25 08:44:48.422595'),(61,'accounts','0015_alter_customer_image_name','2024-05-25 17:49:59.097828'),(62,'products','0014_alter_brand_image_name_alter_product_image_name_and_more','2024-05-25 17:49:59.145793'),(63,'accounts','0016_alter_customer_image_name','2024-05-25 18:01:52.458829'),(64,'discounts','0002_rename_discoun_btasket_discountbasketdetails_discoun_basket','2024-05-25 18:01:52.612246'),(65,'products','0015_alter_brand_image_name_alter_product_image_name_and_more','2024-05-25 18:01:52.658598'),(66,'accounts','0017_alter_customer_image_name','2024-05-25 18:24:59.319841'),(67,'discounts','0003_rename_discoun_basket_discountbasketdetails_discount_basket','2024-05-25 18:24:59.481661'),(68,'products','0016_alter_brand_image_name_alter_product_image_name_and_more','2024-05-25 18:24:59.531637'),(69,'accounts','0018_alter_customer_image_name','2024-05-28 10:06:53.405423'),(70,'orders','0004_alter_order_payment_type','2024-05-28 10:06:53.595343'),(71,'payments','0001_initial','2024-05-28 10:06:53.729797'),(72,'products','0017_alter_brand_image_name_alter_product_image_name_and_more','2024-05-28 10:06:53.772630'),(73,'accounts','0019_alter_customer_image_name','2024-06-02 05:17:20.533886'),(74,'payments','0002_alter_payment_register_date','2024-06-02 05:17:20.551735'),(75,'products','0018_alter_brand_image_name_alter_product_image_name_and_more','2024-06-02 05:17:20.616731'),(76,'accounts','0020_alter_customer_image_name','2024-06-02 05:21:34.932314'),(77,'products','0019_alter_brand_image_name_alter_product_image_name_and_more','2024-06-02 05:21:35.027257'),(78,'accounts','0021_alter_customer_image_name','2024-06-02 05:22:48.317992'),(79,'products','0020_alter_brand_image_name_alter_product_image_name_and_more','2024-06-02 05:22:48.377751'),(80,'accounts','0022_alter_customer_image_name','2024-06-02 05:28:05.828756'),(81,'products','0021_alter_brand_image_name_alter_product_image_name_and_more','2024-06-02 05:28:05.909709'),(82,'accounts','0023_alter_customer_image_name','2024-06-02 05:29:42.775880'),(83,'products','0022_alter_brand_image_name_alter_product_image_name_and_more','2024-06-02 05:29:42.831843'),(84,'accounts','0024_alter_customer_image_name','2024-06-02 05:32:21.255687'),(85,'products','0023_alter_brand_image_name_alter_product_image_name_and_more','2024-06-02 05:32:21.307972'),(86,'accounts','0025_alter_customer_image_name','2024-06-02 05:36:38.304615'),(87,'products','0024_alter_brand_image_name_alter_product_image_name_and_more','2024-06-02 05:36:38.356311'),(88,'accounts','0026_alter_customer_image_name','2024-06-02 05:41:05.181670'),(89,'products','0025_alter_brand_image_name_alter_product_image_name_and_more','2024-06-02 05:41:05.244631'),(90,'accounts','0027_alter_customer_image_name','2024-06-02 05:44:37.447258'),(91,'products','0026_alter_brand_image_name_alter_product_image_name_and_more','2024-06-02 05:44:37.504050'),(92,'accounts','0028_alter_customer_image_name','2024-06-02 05:54:55.779452'),(93,'products','0027_alter_brand_image_name_alter_product_image_name_and_more','2024-06-02 05:54:55.832941'),(94,'accounts','0029_alter_customer_image_name','2024-06-02 06:01:17.498769'),(95,'products','0028_alter_brand_image_name_alter_product_image_name_and_more','2024-06-02 06:01:17.558788'),(96,'accounts','0030_alter_customer_image_name','2024-06-02 06:07:10.459308'),(97,'accounts','0031_alter_customer_image_name','2024-06-02 06:07:10.472384'),(98,'products','0029_alter_brand_image_name_alter_product_image_name_and_more','2024-06-02 06:07:10.520355'),(99,'products','0030_alter_brand_image_name_alter_product_image_name_and_more','2024-06-02 06:07:10.561349'),(100,'accounts','0032_alter_customer_image_name','2024-06-02 06:12:28.451429'),(101,'products','0031_alter_brand_image_name_alter_product_image_name_and_more','2024-06-02 06:12:28.500400'),(102,'accounts','0033_alter_customer_image_name','2024-06-02 06:25:41.498813'),(103,'products','0032_alter_brand_image_name_alter_product_image_name_and_more','2024-06-02 06:25:41.551781'),(104,'accounts','0034_alter_customer_image_name','2024-06-02 06:29:34.580438'),(105,'products','0033_alter_brand_image_name_alter_product_image_name_and_more','2024-06-02 06:29:34.644369'),(106,'accounts','0035_alter_customer_image_name','2024-06-02 06:37:29.451334'),(107,'products','0034_alter_brand_image_name_alter_product_image_name_and_more','2024-06-02 06:37:29.500307'),(108,'accounts','0036_alter_customer_image_name','2024-06-02 06:40:10.663135'),(109,'products','0035_alter_brand_image_name_alter_product_image_name_and_more','2024-06-02 06:40:10.713311'),(110,'accounts','0037_alter_customer_image_name','2024-06-02 06:43:42.987753'),(111,'products','0036_alter_brand_image_name_alter_product_image_name_and_more','2024-06-02 06:43:43.056713'),(112,'accounts','0038_alter_customer_image_name','2024-06-02 06:47:09.986934'),(113,'products','0037_alter_brand_image_name_alter_product_image_name_and_more','2024-06-02 06:47:10.047125'),(114,'accounts','0039_alter_customer_image_name','2024-06-02 07:00:23.418267'),(115,'products','0038_alter_brand_image_name_alter_product_image_name_and_more','2024-06-02 07:00:23.465913'),(116,'accounts','0040_alter_customer_image_name','2024-06-02 07:02:12.372767'),(117,'products','0039_alter_brand_image_name_alter_product_image_name_and_more','2024-06-02 07:02:12.427783'),(118,'accounts','0041_alter_customer_image_name','2024-06-02 07:06:19.493830'),(119,'products','0040_alter_brand_image_name_alter_product_image_name_and_more','2024-06-02 07:06:19.543401'),(120,'accounts','0042_alter_customer_image_name','2024-06-02 07:10:14.260448'),(121,'products','0041_alter_brand_image_name_alter_product_image_name_and_more','2024-06-02 07:10:14.307420'),(122,'accounts','0043_alter_customer_image_name','2024-06-02 16:52:35.202540'),(123,'products','0042_alter_brand_image_name_alter_product_image_name_and_more','2024-06-02 16:52:35.257509'),(124,'accounts','0044_alter_customer_image_name','2024-06-02 17:00:30.201429'),(125,'products','0043_alter_brand_image_name_alter_product_image_name_and_more','2024-06-02 17:00:30.272388'),(126,'accounts','0045_alter_customer_image_name','2024-06-02 17:13:24.511117'),(127,'products','0044_alter_brand_image_name_alter_product_image_name_and_more','2024-06-02 17:13:24.562110'),(128,'accounts','0046_alter_customer_image_name','2024-06-02 17:16:59.691573'),(129,'products','0045_alter_brand_image_name_alter_product_image_name_and_more','2024-06-02 17:16:59.747539');
+/*!40000 ALTER TABLE `django_migrations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `django_session`
+--
+
+DROP TABLE IF EXISTS `django_session`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `django_session` (
+  `session_key` varchar(40) NOT NULL,
+  `session_data` longtext NOT NULL,
+  `expire_date` datetime(6) NOT NULL,
+  PRIMARY KEY (`session_key`),
+  KEY `django_session_expire_date_a5c62663` (`expire_date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `django_session`
+--
+
+LOCK TABLES `django_session` WRITE;
+/*!40000 ALTER TABLE `django_session` DISABLE KEYS */;
+INSERT INTO `django_session` VALUES ('2sx8wt39wmpfblsxgrw35inaa44joxno','.eJxtzM8OgjAMBvB36ZmQdWxj4-jdZyBdNwQ1gPw5GOO7CxExJvbQQ3_f1weMddeXTMMExQP0um7THQpMoB8ajlAoLZZ5JoD2j6IRG5td1Vftp-x2NbvKNy5a0jzV5TzGoWwCFKAU_Bw98SW2q4Qztacu5a6dhsanayTddEyPXYjXw5b9eVDTWC9tLzNEXUmJHARlygt0KpMhskUncnKUc5RoY_A2SIyGtMurnIP1mZGa4fkC49Rc-g:1sA2QI:doADyFAriU4qZF_7zAryLXOcgI1D6c_q-WHYJFqDsGU','2024-06-06 10:29:34.010897'),('2zwctr1l0j9y26skaqapbxhuj3ntfvdu','.eJyrVirOyC-IT04sKlGyqlYyBxGFJZVKVoY6SgVFmcmpSlYmpgYGBrU6SobGWCQNjQxAsrW1ADrMFZU:1sATsw:n5i_zDQrYKh8S1jLnHnXq5iZia1rh1Gup6D4XyfwVyQ','2024-06-07 15:48:58.985642'),('3bpk2e44lwwjw5crnr8a1zzqq6qw3qe3','.eJyrVirOyC-IT04sKlGyqlYyBxGFJZVKVoY6SgVFmcmpSlYmpgYGBrU6SobGWCQNjQxAsrW1ADrMFZU:1s9Rs8:18ZgaiJCxM47-rh45LX1l5K9LBYCFxZtAO1mEURLCjM','2024-06-04 19:27:52.874698'),('41o2f434h7x1u0np0pm8n1gxhunr4t4o','.eJyrVirOyC-IT04sKlGyqlYyBxGFJZVKVoY6SgVFmcmpSlYmpgYGBrU6SoamuCSB0rW1AFAfFc0:1s6v8D:nuiiKQqgTFAC_hgAhCgpV86eW40WOh1vqPtJYFK4r8E','2024-05-28 20:06:01.898976'),('44w6q3bclrcvi981o76478cyuzwscu1a','eyJzaG9wX2NhcnQiOnt9fQ:1s9IAa:TMCFoP3q0Og8fCeixgBhpwq80AdLUqDDwdIoMmVEbbM','2024-06-04 09:06:16.018298'),('4t8w45xtflyr6uoeyxt2f2zg08fbz4ad','eyJzaG9wX2NhcnQiOnsiMTMiOnsicXR5IjoxLCJwcmljZSI6MTIwMDAwfX19:1s9Is3:EcP8n8USaWejI9wAaboc7qXUBQkjkyerLmamHSHnqrk','2024-06-04 09:51:11.377620'),('4usbbz0i27irkfzkbsk3rajw08xlioxf','.eJyrVirOyC-IT04sKlGyqlYyBxGFJZVKVoY6SgVFmcmpSlYmpgYGBrU6SobGcEljuKShkQFItrYWADryFZc:1sA0BF:U1XLMF6CSA8aluL-1TOlfktFqnP5dX0DBQAJo3BsjQ4','2024-06-06 08:05:53.204595'),('53fhtqvxnefghgsmrmpfjw7k22nv90mn','.eJxVzD0OgzAMBeC7eEZREsJPGbv3DMiJTUNbAU1gqBB3L5FQKxYP73vPK0Q_Tq3DMEOzQpXOe_5AozKYQu8YGlNIKbcMVP7H8qdKy8S7t7jMvl0ih7YnaMCUcAotuicPSeiBw30Ubhzm0FuRKuLQKG4j8et6dE8PPEa_r7Wunb4gM5LSldSmqMkaktJa3WkjbVcZVStUOTHteCE0HeeK2Dh0JcH2BWIdTao:1s9i8p:miC4LdgguFkGId_lPRJundD555MgjTjh51lNIVLsQs4','2024-06-05 12:50:11.192511'),('6dvqwp20ey14htzh8w2u4sifvjkqnagu','.eJyrVirOyC-IT04sKlGyqlYyBxGFJZVKVoY6SgVFmcmpSlYmpgYGBrU6SobGcEkjuKShkQFItrYWADrfFZY:1s9SCR:-geUifzFB-Bi24PY6WkMHv3rlgjcKn9OSU4TW-0nP4A','2024-06-04 19:48:51.707378'),('6tvxg05zi5nzqmephscex7yf29oyyfbe','eyJzaG9wX2NhcnQiOnt9fQ:1s9n6I:spBX2CdczWnOxIzXRd1NHGyi-Zle34K5Bm70IU8LuQc','2024-06-05 18:07:54.075851'),('7emhux59onmy42wxeo2jw9srbqasc1xj','eyJzaG9wX2NhcnQiOnsiNyI6eyJxdHkiOjIsInByaWNlIjo0NTAwMH19fQ:1sAU2t:s-wZ9WSPFn9VvXydOwIngFpLR3NWSD5lEcMPUH1gcU8','2024-06-07 15:59:15.161494'),('7uy7fumfsa8y7h4ues50tezrb7b29rsp','.eJyrVirOyC-ITy4tKlGyyivNydGBCiSCBKqVzEFEYUmlkpWhjlJBUWZyqpKViamBgUGtjpKhMRZJQyMDkGxtLQA8xxvR:1s97Ap:QzotSsO-F_BMe2lwD_qGL8_DKbehwmoMihsVXGfJYng','2024-06-03 21:21:47.944492'),('9kfn1alqylsyktc6bku7nqnyx65t1sa2','.eJxVjEsOwjAMBe-SNYpqJ20Sluw5Q-XYLimgVOpnhbg7VOoCtm9m3sv0tK2l3xad-1HM2XhvTr9jJn5o3Yncqd4my1Nd5zHbXbEHXex1En1eDvfvoNBSvnVGB9AOiMDSkPO5geQdinKE1ARKFFgRokqOgqAdtSkMgSVm12HL5v0B-Kc39w:1s8NQx:wiFv8G8o0yhRbofrxAwWYGAajpvGQMjJPnH5rCFZqKY','2024-06-01 20:31:23.960427'),('9mk9rb2xhb71eotu2sxpdnvr00eepdnz','eyJzaG9wX2NhcnQiOnsiMTMiOnsicXR5IjoxLCJwcmljZSI6MTIwMDAwfX19:1sAkFS:teom91_mjR4MUetVIvjhuhYxFWl0CEnPpOltCtgp6wo','2024-06-08 09:17:18.673455'),('ahi3h7netpubb4o21vh01wrn1p21zr47','.eJyrVirOyC-IT04sKlGyqlYyBxGFJZVKViY6SgVFmcmpQJapgYFBrY6SGVzO0BAuaWgBkjWora0FAFH0FdY:1s9imk:Z32Or-jRFX3T52yboaYb0NVZHUhzEqh7zpthSQXSJ8c','2024-06-05 13:31:26.551326'),('akhwrjklp29tu8lrsdgmfskftpl5dj4u','eyJzaG9wX2NhcnQiOnsiNiI6eyJxdHkiOjMsInByaWNlIjoxODUwMDAwfX19:1sAkcM:0VUh7IeDmNM0yy_s9sdNhfbwiBmepCpfBt45S09psDo','2024-06-08 09:40:58.300725'),('aotimhqsamy8j7sxfr4t81nuw6fqfyu2','.eJyrVirOyC-IT04sKlGyqlYyBxGFJZVKVoY6SgVFmcmpSlYmpgYGBrU6SobGcEkjuKShkQFE1hiLTkMzsNbaWgATOh1h:1s9I7f:U9dzZ4jIIC3H_XsofIQnn6FTiEBo8fw09um6le5gqe0','2024-06-04 09:03:15.466257'),('c5r2p82btvcpkn6zp1zggk7z7cuofurt','.eJxVjDsOgzAQBe-ydWThD9imTJ8zWOtdE5NEOMJQIe6eINHQvpl5G9RcvoFwXqDf9hsEXJcc1prmMDL0YAxcxoj0TtNB-IXTswgq0zKPURyKOGkVj8Lpcz_dy0HGmv91VFrKdlBKEjeoTWykN1pxIid9Y9GjpaSkSxwdK5k6bL0dLLGLulMtwf4Dxmo9XA:1s8Mpi:Rv_-0YNRBKwdLuXgdt3GOzjT46CXQbv1HuPwnU_iQuI','2024-06-01 19:52:54.693040'),('cpwgusp3qk6itku6lsajk9ivmumtkskd','.eJxVjEEOgyAQRe_CuiEOoECX3fcMZJjBYttII7oy3r2auGi3_73_VhFwmXNYaprCwOIqjBGX3zEivdJ4EH7i-CiSyjhPQ5SHIk9a5b1wet9O9y-Qseb9HZUGaHulgLhBbWID3mjFiRz4xqJHS0mBSxwdK0gdtt72lthF3amW9mjN5RMIp1lc1237AmdpPVw:1sDbNB:6pHz6ORKL6JZRe1FgWzkTlwnjiejcGbdJgq5_nwgM3o','2024-06-16 06:25:05.568609'),('d6xotvfy3mqtuomoapvwicl8owkrgl4o','eyJzaG9wX2NhcnQiOnt9fQ:1s9J2d:MXjPzABTEG0fGBN1vjK8bGkns2hi5iRItl0-GDqcoY0','2024-06-04 10:02:07.413401'),('e1xyzf03gndcyowt4gu48xfuv3ptyyxs','eyJzaG9wX2NhcnQiOnt9fQ:1s9m6W:aSolhIUQwbpNpkpHXwPVr5UvkkdqRVImfeH6Ryz6TIQ','2024-06-05 17:04:04.777004'),('fb0q5m0mkij4kvoaxaff0or9pu0wjlwk','eyJzaG9wX2NhcnQiOnsiMTMiOnsicXR5IjoxLCJwcmljZSI6MTIwMDAwfX19:1s9SG5:kquXjwRB7umzkasmfmgW4OWIm2QzvZLTdlDzUjAFrEE','2024-06-04 19:52:37.442207'),('gfejhuat4vf0p032iz69w49ohwyhwfzb','.eJyrVirOyC-IT04sKlGyqlYyBxGFJZVKVoY6SgVFmcmpSlYmpgYGBrU6SobGWCQNjQwgspZwSVO4pJEpWLK2FgAT4h1l:1sAW26:Z485E6M_rZIDwzgTn8Vn9tzggDSKjZLZt0lJvB5TFYw','2024-06-07 18:06:34.962140'),('i3eh4qt2fz1hddyvjg2b63pymng0vooj','eyJzaG9wX2NhcnQiOnt9fQ:1sAkIa:40GYcJw2zHtY_UnGliGs0M9tkfrwOuY2JvLC9hqrC3U','2024-06-08 09:20:32.165628'),('ihcjhl1e6ga0xyjn63glj2w8xcb30m7r','.eJyrVirOyC-IT04sKlGyqlYyBxGFJZVKVoY6SgVFmcmpSlYmpgYGBrU6SobGcEkjuKShkQFE1hiLTkMzsNbaWgATOh1h:1s9IXj:9cnO9YuL9dRwOHFBYEn4xI5HHicfjBr3gaeMFNYfDHw','2024-06-04 09:30:11.530864'),('j2uiiwqvdjb7si61pgy4lggx6q23ccov','.eJyrVirOyC-IT04sKlGyqlYyNAaRhSWVSlaGOkoFRZnJqUCWkQEQ1OoomWORNDEFydXWAgA1GBWV:1s9UJV:PgIT8X4QeF12F3MY4mAArzw5J2u2ffm0IqUGooSLfAg','2024-06-04 22:04:17.275198'),('k7bsjey86c9ssl48gybgtblwdqeajkcr','eyJzaG9wX2NhcnQiOnt9fQ:1s9UKW:-HqF43BVZ-7EKj0gTaBSA3GOMGGf4m35vLqIqoEV8Mk','2024-06-04 22:05:20.948998'),('l3zis9a5mk3demy3zexu6rk2pziu9bps','.eJxtyz0OwyAMhuG7eGYwSf_gMogQV0UKgeIkVRVx90I7tEMXD-_zeQe-xWSczQvoHc7t3JcnaCkgZe8I9OGIiEWA7P-g7PCjP4hfPb1_K69M2TAx-zi3pXWL38i4ONYZqEunEASEOPiJzLyGgXLtqFRfc6ZArZhkmR8xj6CvdmIq5QVy4DuR:1sATvd:uq7iARKJW9otZ8UKhMeqen6HM-4qMKPiJG3Fx5H1eNs','2024-06-07 15:51:45.877540'),('lw6wrx53ih0rmuki2tai48gfju9xuocd','.eJyrVirOyC-IT04sKlGyqlYyNAaRhSWVSlaGOkoFRZnJqUCWkQEQ1OoomcMljeCSJqYgudpaADUqFZY:1sA2cb:zgMpLXuSLv7z8JDJNJIk7zfAHp35d_vpENTXoylrEt0','2024-06-06 10:42:17.514108'),('m5qz0kgpy1lu6ozof0u7x3cwkv32l5ic','.eJyrVirOyC-IT04sKlGyqlYyBxGFJZVKVqY6SgVFmcmpSlYmpgYGBrU6SsZwOUO4nKEZWLK2FgApFxVx:1sA2Gf:HBxssCYnEs8bFZHZpTLow9BjK_0FnXDX1OZF4lTS5MI','2024-06-06 10:19:37.317287'),('niz6ftsmfcuut6w6kknq8swbxjmm8nxg','.eJxVjEsOwjAMBe-SNYpqJ20Sluw5Q-XYLimgVOpnhbg7VOoCtm9m3sv0tK2l3xad-1HM2XhvTr9jJn5o3Yncqd4my1Nd5zHbXbEHXex1En1eDvfvoNBSvnVGB9AOiMDSkPO5geQdinKE1ARKFFgRokqOgqAdtSkMgSVm12HL5v0B-Kc39w:1sDPOA:QQTAUINP7M707GjFIWk1J2Scnqo4ymEOVU4YU-adclk','2024-06-15 17:37:18.450276'),('nq97sjas5gxobf64gckoirbwqqak72or','.eJyrVirOyC-IT04sKlGyqlYyNAaRhSWVSlaGxjpKBUWZyalAppEBENTqKCHJIiTNTCGSllgkjUzBOmtrAT-oHcM:1s9HwU:l-R1SqHdEIuaPrrU_7m_U2WEg2UA-_m1bZ7iD-9cUc0','2024-06-04 08:51:42.640956'),('p7zolco7m8evtwaelq8q3bhk5g1f69is','.eJxVjEEOgyAQRe_CuiEOoECX3fcMZJjBYttII7oy3r2auGi3_73_VhFwmXNYaprCwOIqjBGX3zEivdJ4EH7i-CiSyjhPQ5SHIk9a5b1wet9O9y-Qseb9HZUGaHulgLhBbWID3mjFiRz4xqJHS0mBSxwdK0gdtt72lthF3amW9mjN5RMIp1lc1237AmdpPVw:1sDbKu:OBcpxOderRp-lEdx4Zf2lOUCPvXZaXjS-q6zn_9cYTM','2024-06-16 06:22:44.169202'),('pjx5inmc3ujdjmzfrtk7qqq6aiyk0gkl','.eJyrVirOyC-IT04sKlGyqlYyNAaRhSWVSlZGOkoFRZnJqUpWhkYGQFCro4SQNEFImplCJM3gkpYISQtTsNbaWgBF6B3Q:1s9m3Q:3ww8McYhyQApPxdsR8TGZCRmkIN3FTBgwQqvbMybMxM','2024-06-05 17:00:52.820740'),('r98vfrei93qo1y5de3tqwhoopeop4s06','eyJzaG9wX2NhcnQiOnt9fQ:1s9IaE:nP8TBrlzS12Lq_-q5ec8RbA5QaF9dD8gEk1mZIBajbU','2024-06-04 09:32:46.086660'),('trnyy46fya9ixkw77nqiwn5f5n4jguc5','.eJxVjEsOwjAMBe-SNYpqJ20Sluw5Q-XYLimgVOpnhbg7VOoCtm9m3sv0tK2l3xad-1HM2XhvTr9jJn5o3Yncqd4my1Nd5zHbXbEHXex1En1eDvfvoNBSvnVGB9AOiMDSkPO5geQdinKE1ARKFFgRokqOgqAdtSkMgSVm12HL5v0B-Kc39w:1s4xpf:6Jg4urS8SC6PSfhRhLFEWw1xDAI7jEWi8r8Rn6nEVOo','2024-05-23 10:34:47.676079'),('u6eb53lkznnhmrvrueqb2mcydvov73kl','eyJzaG9wX2NhcnQiOnsiMTMiOnsicXR5IjoxLCJwcmljZSI6MTIwMDAwfX19:1sAVwN:St-yrd9wrGrsBKoSGVEfX0kb-5Z8HuuM-WghF2r_FXM','2024-06-07 18:00:39.502326'),('vj1uxzk4o4z6m4xuj23z48y0gs45t3ox','.eJyrVirOyC-ITy4tKlGyyivNydGBCiSCBKqVDE1BZGFJpZKVoY5SQVFmcqqSlYmpAQjU6igZY5E1NANJ19bWAgBsFBw4:1s977U:v0FmEuwrPGBG_UAVEwK93vmSfNrKePvEYAhcEKM_R80','2024-06-03 21:18:20.050832'),('w22y3e0j8hmesywmzinnilhflt8lud3d','.eJxtzD0OgzAMBeC7eEYoMeGnjN17BuTEptBWQAkMFeLuBYGEkPDgwd97nsBXbVc46gfIJ9DRur_DD3IMoOtrJ5BrVMvMARyoD0ziDZOrZhbv1fiiajZctKBxqIrRS1_UDDmYBE5HS-4tzSr8oubZhq5thr624RoJd_Xho2X53Pfs6UFFvlraiJnDG4kQa0wVmjhja1gpa7FEo2yZGp1p0hELL3hjMqVEmsU4cgnD_AenC11v:1s9i7g:rBmZOzv3wHUnEhWlNAHYoWqv9enT7a4RJf6UW1F7_Rc','2024-06-05 12:49:00.882089'),('wtc4mpo04tsq39yjh8glju235nopa7h5','.eJyrVirOyC-IT04sKlGyqlYyAxGFJZVKVoY6SgVFmcmpQJaFqQEQ1OooWcJljeCyRhDJ2loATlsV0w:1s9n2K:nVQ4NduQRhTHNW3pCJzVCixEej7T9U2qqGf8eAXPp4k','2024-06-05 18:03:48.573848'),('wvz0d0cj2putva2pidumkfsrqfljq2i3','eyJzaG9wX2NhcnQiOnt9fQ:1sAkGB:948hWxDVhPiB22a4IBCXYVsci5PTqbPadSJObeS3zdU','2024-06-08 09:18:03.435595'),('x5ukl3ennlrwmm8borsno7sy4dib5jp7','.eJyrVirOyC-IT04sKlGyqlYyNAORhSWVSlaGOkoFRZnJqUpWRqYGYFCro2RogUXe0AwiXVsLAJn8Fow:1sAkef:_CEN1wqFaNAH7srxcvnek5APN3kj2l5PRHT6E1946N4','2024-06-08 09:43:21.554079'),('yduns84jxyriezfz6nbemigje2oj5ba7','.eJxVjEsOwjAMBe-SNYpqJ20Sluw5Q-XYLimgVOpnhbg7VOoCtm9m3sv0tK2l3xad-1HM2XhvTr9jJn5o3Yncqd4my1Nd5zHbXbEHXex1En1eDvfvoNBSvnVGB9AOiMDSkPO5geQdinKE1ARKFFgRokqOgqAdtSkMgSVm12HL5v0B-Kc39w:1s3q8M:-WJTdPiaYAL789qEADYvlwjcxbvwo3PLdBvxc--HO5I','2024-05-20 08:09:26.132941'),('z8zmmqlaieo1ozbfj9r3qksdovgi6nsk','eyJzaG9wX2NhcnQiOnt9fQ:1s977g:D_sO0qRGpjaCPwB5LFjEW4lntT8QpaNzDzdDS78V7E0','2024-06-03 21:18:32.983528'),('zr4u7t3t7er43gz4tc4sxv1ozaewgbfi','.eJxtjDsOgzAQRO-yNULetcFAmT5nQOu1CSQRED5FhLh7sESRSGmmmPdmNqh5Xdp6ncNUdx4qMAaS79KxPEIfib9zfxtSGfpl6lwalfSkc3odfHheTvfnoOW5PdaONGLWEKF4xdo4haXR5IMUWCrLJVsJhEXwrvCEIeestI0VXzidUybH6dwOYy08LVBtYGO8ljdUlMA4dRKgMplSak8A9R-IpCLd9w-3qUzB:1s9muF:I7RpQPfD8rXv7vSTsERnAxHxvm0vM7ghOuiwFEg05T4','2024-06-05 17:55:27.860313');
+/*!40000 ALTER TABLE `django_session` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `orders_order`
+--
+
+DROP TABLE IF EXISTS `orders_order`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `orders_order` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `update_date` date NOT NULL,
+  `register_date` date NOT NULL,
+  `is_finaly` tinyint(1) NOT NULL,
+  `order_code` char(32) NOT NULL,
+  `discount` int DEFAULT NULL,
+  `customer_id` bigint NOT NULL,
+  `description` longtext,
+  `payment_type_id` bigint DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `order_code` (`order_code`),
+  KEY `orders_order_customer_id_0b76f6a4_fk_accounts_customer_user_id` (`customer_id`),
+  KEY `orders_order_payment_type_id_fa27978f_fk_orders_paymenttype_id` (`payment_type_id`),
+  CONSTRAINT `orders_order_customer_id_0b76f6a4_fk_accounts_customer_user_id` FOREIGN KEY (`customer_id`) REFERENCES `accounts_customer` (`user_id`),
+  CONSTRAINT `orders_order_payment_type_id_fa27978f_fk_orders_paymenttype_id` FOREIGN KEY (`payment_type_id`) REFERENCES `orders_paymenttype` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=117 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `orders_order`
+--
+
+LOCK TABLES `orders_order` WRITE;
+/*!40000 ALTER TABLE `orders_order` DISABLE KEYS */;
+INSERT INTO `orders_order` VALUES (62,'2024-05-27','2024-05-27',0,'74ec605b37fa475cb4cd938d8f140880',0,49,NULL,1),(63,'2024-05-27','2024-05-27',0,'45a2d901f06d41279b744023aaf7d95a',0,49,NULL,1),(64,'2024-05-27','2024-05-27',0,'d5d3ae9fa80e4940a6ac55d73b3312c1',0,49,NULL,1),(65,'2024-05-27','2024-05-27',0,'d499acbcc12c43abaccc2a189fe53cfe',0,49,NULL,1),(66,'2024-05-27','2024-05-27',0,'a4a6726723a1490ca539457ac26eaba7',0,49,NULL,1),(67,'2024-05-27','2024-05-27',0,'73fadb8259f348739fc84be4932e6da6',0,51,NULL,1),(68,'2024-05-27','2024-05-27',0,'a2c48855eb184f44879784782360ac93',0,51,NULL,1),(69,'2024-05-27','2024-05-27',1,'7b158fbc361445828193fc894dc3cc32',0,51,NULL,1),(70,'2024-05-27','2024-05-27',0,'7a2a04f1cd964bdaad6fe3f87261b848',0,51,NULL,1),(71,'2024-05-27','2024-05-27',0,'138d4976bb4c44bb83498b591ba0dcbf',0,51,NULL,1),(72,'2024-05-27','2024-05-27',0,'e833a79a84ce45ccbc1b8b2d3607f5ca',0,51,NULL,1),(73,'2024-05-27','2024-05-27',0,'02f0acce8e02438ab73545080b01407f',0,51,NULL,1),(74,'2024-05-27','2024-05-27',0,'56dabdfc6b844c179565a063cdb6ee69',0,51,NULL,1),(75,'2024-05-27','2024-05-27',0,'233cd6c3fa114fe5978cb3cd778ed826',0,51,NULL,1),(76,'2024-05-27','2024-05-27',0,'ff0e015e177f4bb89c500ee35142e62c',0,51,NULL,1),(77,'2024-05-27','2024-05-27',0,'e215a3b31d184b58a8d88a3c539502a2',0,51,NULL,1),(78,'2024-05-27','2024-05-27',0,'b2109b4913f24288ba4a7ba858be3ff2',0,51,NULL,1),(79,'2024-05-27','2024-05-27',0,'966424a5f068424abe11c5e75c3f4639',0,51,NULL,1),(80,'2024-05-27','2024-05-27',0,'5a26a28d78004da8a39f18fa2e08f7b0',0,51,NULL,1),(81,'2024-05-27','2024-05-27',0,'3db1b4d0275d4e48affa5036fcfb3e21',0,51,NULL,1),(82,'2024-05-27','2024-05-27',0,'6e4b6592b76147708cee98d27c64f40c',0,49,NULL,1),(83,'2024-05-27','2024-05-27',0,'20f5150c47074688a4c6e3a94de357dc',0,51,'fghdef',1),(84,'2024-05-27','2024-05-27',0,'d11fedf7e8f8406f847cab25dfc6a89e',0,51,NULL,1),(85,'2024-05-27','2024-05-27',0,'d0f7dd6a0f854effbc5d04b085499863',0,51,NULL,1),(86,'2024-05-27','2024-05-27',0,'b23d94a288a0414aad409243758d1df6',0,51,NULL,1),(87,'2024-05-27','2024-05-27',0,'f3caa7dbdac446e7bc0267dd417475fc',0,51,NULL,1),(88,'2024-05-27','2024-05-27',0,'198074e9c1a54270a58c9053b0d400b2',0,51,NULL,1),(89,'2024-05-27','2024-05-27',0,'8f98a5ca866742498617d0f49977642d',0,51,NULL,1),(90,'2024-05-27','2024-05-27',0,'9380415e2e164c14943c28d3c862de45',0,51,NULL,1),(91,'2024-05-27','2024-05-27',0,'71a482a17f4a43179df9388ceadfc87f',0,49,NULL,1),(92,'2024-05-27','2024-05-27',0,'caac724d66ce4a6dbf83501f712db310',0,49,NULL,1),(93,'2024-05-27','2024-05-27',0,'3b36f3652ceb44b5bdbf41a0069b3bc7',0,51,NULL,1),(94,'2024-05-27','2024-05-27',0,'60d66dbc80f44fa4b42499e537614d62',0,51,NULL,1),(95,'2024-05-27','2024-05-27',0,'7739fad908c34b61b00d0296901673d2',0,51,NULL,1),(96,'2024-05-27','2024-05-27',0,'ab6950c3de8f47fa8c809b50769230bb',0,51,NULL,1),(97,'2024-05-27','2024-05-27',0,'9455806701a2457986e22ec013a569b3',0,51,NULL,1),(98,'2024-05-27','2024-05-27',0,'88420016610648e79a9369b90a31e919',0,51,NULL,1),(99,'2024-05-28','2024-05-28',1,'8b555c8a6c6a4d949209844e8fda8f29',0,51,NULL,1),(100,'2024-05-28','2024-05-28',0,'b51c25edd4dd4af8bcdca71686889657',0,51,NULL,1),(101,'2024-05-28','2024-05-28',0,'1c550891312b403f8150138719d63a1c',20,52,'dfvbdfgfb',1),(102,'2024-05-28','2024-05-28',0,'475aaf63a50546a18c1218441fd15478',0,52,NULL,1),(103,'2024-05-28','2024-05-28',0,'e49b2826fad94855b579a3216e3ec043',0,52,NULL,1),(104,'2024-05-28','2024-05-28',0,'7053357bb15547c190c5f3b521f31ea1',0,52,NULL,1),(105,'2024-05-28','2024-05-28',0,'997af035e3ff4b4982de6ded45660b60',50,52,NULL,1),(106,'2024-05-28','2024-05-28',0,'ce50cde24c994a74b55b107bd0adb435',50,52,'لطفا بین ساعات 6 تا 8 بعد ازظهر کالای مرا تحویل دهید',1),(107,'2024-05-28','2024-05-28',0,'508b5931b20a443f88542c3848eea3c1',50,51,'لطفا محصول را بین ساعات 12 تا 18 تحویل دهید.',1),(108,'2024-05-28','2024-05-28',0,'fe92c8806d5d4fcaba8cbc59041f0705',0,52,NULL,1),(109,'2024-05-29','2024-05-29',0,'f0347fe364534fb19772aca3fbb4ac46',0,52,'ghjnfg',1),(110,'2024-05-30','2024-05-30',0,'0c30aa06b9754ec991ce08f5bc75c186',0,52,NULL,1),(111,'2024-05-30','2024-05-30',0,'cd20830eaa2d441fbab33c253d1a1d72',0,51,'dgghdfgh',1),(112,'2024-06-01','2024-06-01',0,'79aa9c90300d4d239e4bbdf669d0f68c',0,51,NULL,1),(113,'2024-06-01','2024-06-01',0,'facc3896a0ef4e96931f2ae7c1331dec',0,51,NULL,1),(114,'2024-06-01','2024-06-01',0,'0a6d455fb7554cd2aa5ea696645cfbc7',0,51,NULL,1),(115,'2024-06-01','2024-06-01',0,'3b921190dfea47e091566ffa76e0dabc',0,51,NULL,1),(116,'2024-06-01','2024-06-01',0,'07ebec0a690a4ef584c04ba8dd86e63a',0,51,NULL,1);
+/*!40000 ALTER TABLE `orders_order` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `orders_orderdetails`
+--
+
+DROP TABLE IF EXISTS `orders_orderdetails`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `orders_orderdetails` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `qty` int unsigned NOT NULL,
+  `price` int NOT NULL,
+  `order_id` bigint NOT NULL,
+  `product_id` bigint NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `orders_orderdetails_order_id_d7985cfb_fk_orders_order_id` (`order_id`),
+  KEY `orders_orderdetails_product_id_e66102b1_fk_products_product_id` (`product_id`),
+  CONSTRAINT `orders_orderdetails_order_id_d7985cfb_fk_orders_order_id` FOREIGN KEY (`order_id`) REFERENCES `orders_order` (`id`),
+  CONSTRAINT `orders_orderdetails_product_id_e66102b1_fk_products_product_id` FOREIGN KEY (`product_id`) REFERENCES `products_product` (`id`),
+  CONSTRAINT `orders_orderdetails_chk_1` CHECK ((`qty` >= 0))
+) ENGINE=InnoDB AUTO_INCREMENT=287 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `orders_orderdetails`
+--
+
+LOCK TABLES `orders_orderdetails` WRITE;
+/*!40000 ALTER TABLE `orders_orderdetails` DISABLE KEYS */;
+INSERT INTO `orders_orderdetails` VALUES (270,11,45000,107,7),(271,11,45000,108,7),(272,11,45000,109,7),(273,12,45000,110,7),(274,4,120000,110,13),(275,12,45000,111,7),(276,4,120000,111,13),(277,12,45000,112,7),(278,4,120000,112,13),(279,12,45000,113,7),(280,4,120000,113,13),(281,12,45000,114,7),(282,4,120000,114,13),(283,12,45000,115,7),(284,4,120000,115,13),(285,12,45000,116,7),(286,4,120000,116,13);
+/*!40000 ALTER TABLE `orders_orderdetails` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `orders_paymenttype`
+--
+
+DROP TABLE IF EXISTS `orders_paymenttype`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `orders_paymenttype` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `payment_title` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `orders_paymenttype`
+--
+
+LOCK TABLES `orders_paymenttype` WRITE;
+/*!40000 ALTER TABLE `orders_paymenttype` DISABLE KEYS */;
+INSERT INTO `orders_paymenttype` VALUES (1,'درگاه بانکی'),(2,'  پرداخت نقدی در محل'),(3,'فیش بانکی'),(4,'کیف پول');
+/*!40000 ALTER TABLE `orders_paymenttype` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `payments_payment`
+--
+
+DROP TABLE IF EXISTS `payments_payment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `payments_payment` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `register_date` datetime(6) NOT NULL,
+  `update_date` datetime(6) NOT NULL,
+  `amount` int NOT NULL,
+  `description` longtext,
+  `is_finally` tinyint(1) NOT NULL,
+  `status_code` int DEFAULT NULL,
+  `ref_id` varchar(50) DEFAULT NULL,
+  `customer_id` bigint NOT NULL,
+  `order_id` bigint NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `payments_payment_customer_id_8b4d6141_fk_orders_order_id` (`customer_id`),
+  KEY `payments_payment_order_id_22c479b7_fk_orders_order_id` (`order_id`),
+  CONSTRAINT `payments_payment_customer_id_8b4d6141_fk_orders_order_id` FOREIGN KEY (`customer_id`) REFERENCES `orders_order` (`id`),
+  CONSTRAINT `payments_payment_order_id_22c479b7_fk_orders_order_id` FOREIGN KEY (`order_id`) REFERENCES `orders_order` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `payments_payment`
+--
+
+LOCK TABLES `payments_payment` WRITE;
+/*!40000 ALTER TABLE `payments_payment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `payments_payment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `products_brand`
+--
+
+DROP TABLE IF EXISTS `products_brand`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `products_brand` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `brand_name` varchar(100) NOT NULL,
+  `image_name` varchar(100) NOT NULL,
+  `slug` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `products_brand_slug_925fd11b` (`slug`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `products_brand`
+--
+
+LOCK TABLES `products_brand` WRITE;
+/*!40000 ALTER TABLE `products_brand` DISABLE KEYS */;
+INSERT INTO `products_brand` VALUES (1,'آدیداس','images/brand/dad2bee9-74ff-49c7-8560-ebba1071e72f.jpg','adisa'),(3,'مبل وفا','images/brand/7a06633a-ce10-4137-9418-43f885718ab8.jpg','furnituer_vafa'),(4,'کاله','images/brand/d113c788-d872-4fc7-8859-791d307efc63.jpg','kaleh'),(6,'لپ تاپ','images/brand/dcf4076d-0ab2-44c2-834a-c30e6ef1fbc3.webp','labtab'),(7,'شیائومی','images/brand/e5c8f430-340b-4b36-93fe-fd027cfe3cc1.jpg','shiaeomi'),(9,'پگاه','images/brand/41b70360-2034-4dca-a148-07c4de4dbdb3.jpg','plah'),(10,'چین زرین','images/brand/ef257649-0b00-4d22-b813-3e128ce65b6d.webp','zarin'),(11,'آیدین','images/brand/ee8c7619-0f6f-4447-a1ec-660697cc0418.jpg','aidin'),(12,'فرهاد','images/brand/c5e30d80-32ea-4095-9b4f-7c6e8c9965b2.jpg','farhad'),(14,'کالا دیجیتال','images/brand/57dd23b5-671a-4270-8d9c-701c1f1e063d.jpg','digi_kala'),(15,'sumsong','images/brand/c8a05ff9-05c7-4ec0-b8f5-6ed528e426bb.jpg','sumsong'),(16,'کسب و کار','images/brand/fde306ec-45ab-4b52-8619-6a951ffbfa70.png','kasb_car');
+/*!40000 ALTER TABLE `products_brand` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `products_featuervalue`
+--
+
+DROP TABLE IF EXISTS `products_featuervalue`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `products_featuervalue` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `value_title` varchar(50) NOT NULL,
+  `featuer_id` bigint NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `products_featuervalue_featuer_id_f831ca25_fk_products_feature_id` (`featuer_id`),
+  CONSTRAINT `products_featuervalue_featuer_id_f831ca25_fk_products_feature_id` FOREIGN KEY (`featuer_id`) REFERENCES `products_feature` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `products_featuervalue`
+--
+
+LOCK TABLES `products_featuervalue` WRITE;
+/*!40000 ALTER TABLE `products_featuervalue` DISABLE KEYS */;
+INSERT INTO `products_featuervalue` VALUES (8,'کوتاه',12),(9,'بلند',12),(10,'سه ربع',12),(11,'2*4',7),(12,'3*5',7),(13,'12in',3),(14,'52in',3),(15,'60in',3),(16,'mimum',8),(17,'xl',8),(18,'xx',8),(19,'200g',4),(20,'300g',4),(21,'500g',4),(22,'2liter',4),(23,'64Bit',6),(24,'32Bit',6),(25,'64g',5),(26,'128g',5),(27,'256g',5),(28,'7نفره',9),(29,'9نفره',9),(30,'12نفره',9),(31,'161*256',3),(32,'مشکی',1),(33,'سفید',1),(34,'آبی',1);
+/*!40000 ALTER TABLE `products_featuervalue` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `products_feature`
+--
+
+DROP TABLE IF EXISTS `products_feature`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `products_feature` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `feature_name` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `products_feature`
+--
+
+LOCK TABLES `products_feature` WRITE;
+/*!40000 ALTER TABLE `products_feature` DISABLE KEYS */;
+INSERT INTO `products_feature` VALUES (1,'رنگ'),(2,'سایز');
+/*!40000 ALTER TABLE `products_feature` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `products_feature_productgroup`
+--
+
+DROP TABLE IF EXISTS `products_feature_productgroup`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `products_feature_productgroup` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `feature_id` bigint NOT NULL,
+  `productgroup_id` bigint NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `products_feature_product_feature_id_productgroup__b7e0f83e_uniq` (`feature_id`,`productgroup_id`),
+  KEY `products_feature_pro_productgroup_id_606d673d_fk_products_` (`productgroup_id`),
+  CONSTRAINT `products_feature_pro_feature_id_cdf795e0_fk_products_` FOREIGN KEY (`feature_id`) REFERENCES `products_feature` (`id`),
+  CONSTRAINT `products_feature_pro_productgroup_id_606d673d_fk_products_` FOREIGN KEY (`productgroup_id`) REFERENCES `products_productgroup` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `products_feature_productgroup`
+--
+
+LOCK TABLES `products_feature_productgroup` WRITE;
+/*!40000 ALTER TABLE `products_feature_productgroup` DISABLE KEYS */;
+INSERT INTO `products_feature_productgroup` VALUES (28,1,12),(29,1,13),(30,1,15),(31,1,25),(32,1,26),(33,1,30),(20,3,28),(27,3,29),(4,4,5),(26,4,6),(24,4,18),(25,4,19),(5,5,4),(6,6,3),(8,7,4),(22,8,12),(23,8,13),(21,8,25),(11,9,26),(18,12,12),(19,12,13),(17,12,25);
+/*!40000 ALTER TABLE `products_feature_productgroup` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `products_product`
+--
+
+DROP TABLE IF EXISTS `products_product`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `products_product` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `product_name` varchar(500) NOT NULL,
+  `description` longtext NOT NULL,
+  `image_name` varchar(100) NOT NULL,
+  `price` int unsigned NOT NULL,
+  `is_active` tinyint(1) NOT NULL,
+  `slug` varchar(200) DEFAULT NULL,
+  `register_date` datetime(6) NOT NULL,
+  `published_date` datetime(6) NOT NULL,
+  `update_date` datetime(6) NOT NULL,
+  `brand_id` bigint NOT NULL,
+  `summery_description` longtext,
+  PRIMARY KEY (`id`),
+  KEY `products_product_brand_id_3e2e8fd1_fk_products_brand_id` (`brand_id`),
+  KEY `products_product_slug_70d3148d` (`slug`),
+  CONSTRAINT `products_product_brand_id_3e2e8fd1_fk_products_brand_id` FOREIGN KEY (`brand_id`) REFERENCES `products_brand` (`id`),
+  CONSTRAINT `products_product_chk_1` CHECK ((`price` >= 0))
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `products_product`
+--
+
+LOCK TABLES `products_product` WRITE;
+/*!40000 ALTER TABLE `products_product` DISABLE KEYS */;
+INSERT INTO `products_product` VALUES (2,'کتانی','<p>کتانی کتانی کتانی کتانی کتانی کتانی کتانی<img alt=\"\" src=\"/media/images/cketitor/upload_files/2024/04/28/115173704.webp\" style=\"height:300px; width:300px\" /> کتانی کتانی کتانی کتانی کتانی کتانی کتانی کتانی کتانی کتانی کتانی کتانی کتانی کتانی کتانی کتانی کتانی کتانی کتانی کتانی کتانی کتانی کتانی کتانی کتانی</p>','images/Product/0024320c-3578-4f44-8d27-7298ffbf59ac.webp',7500000,1,'katani','2024-04-24 18:52:25.863816','2024-04-24 18:52:25.841621','2024-05-05 18:51:59.777249',1,''),(3,'شیر پاستوریزه','<p><img alt=\"\" src=\"/media/images/cketitor/upload_files/2024/04/28/1.webp\" style=\"height:300px; width:300px\" />شیر پاستوریزهشیر پاستوریزهشیر پاستوریزهشیر پاستوریزهشیر پاستوریزهشیر پاستوریزهشیر پاستوریزهشیر پاستوریزهشیر پاستوریزهشیر پاستوریزهشیر پاستوریزهشیر پاستوریزهشیر پاستوریزهشیر پاستوریزهشیر پاستوریزهشیر پاستوریزهشیر پاستوریزهشیر پاستوریزهشیر پاستوریزهشیر پاستوریزهشیر پاستوریزهشیر پاستوریزهشیر پاستوریزهشیر پاستوریزهشیر پاستوریزهشیر پاستوریزهشیر پاستوریزهشیر پاستوریزهشیر پاستوریزهشیر پاستوریزهشیر پاستوریزه</p>','images/Product/001c8724-bf75-4477-8d8d-db860b86390f.webp',165000,1,'mike_gavi','2024-04-24 19:08:06.695337','2024-04-24 19:08:06.670350','2024-05-05 18:49:46.533028',9,''),(5,'لپ تای ایسوس','<p><img alt=\"\" src=\"/media/images/cketitor/upload_files/2024/04/28/5.webp\" style=\"height:300px; width:300px\" />سظطیرظیطرِؤيزرظطز</p>','images/Product/a1f008a1-da02-4f45-a56a-b571542823b5.webp',450000,1,'asus','2024-04-28 20:14:51.399522','2024-04-28 20:14:51.323579','2024-05-08 09:55:46.942615',6,''),(6,'قندان','<p>آشپز خانهآشپز خانهآشپز خانهآشپز خانهآشپز خانهآشپز خانهآشپز خانهآشپز خانهآشپز خانهآشپز خانهآشپز خانهآشپز خانهآشپز خانهآشپز خانهآشپز خانهآشپز خانهآشپز خانهآشپز خانه</p>','images/Product/ae16ccfb-7b0b-4899-b0ed-5b6561220391.webp',1850000,1,'ghandan','2024-04-29 08:05:02.544298','2024-04-29 08:05:02.526309','2024-05-05 18:51:36.917801',10,'قندانقندانقندانقندانقندانقندانقندانقندانقندانقندانقندانقندانقندانقندانقندانقندانقندانقندانقندانقندانقندانقندانقندانقندانقندانقندانقندانقندانقندانقندانقندانقندانقندانقندانقندانقندانقندانقندانقندانقندانقندانقندانقندانقندانقندانقندانقندانقندانقندانقندانقندانقندانقندان'),(7,'مزمز','<p style=\"text-align:justify\">مزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمز</p>\r\n\r\n<p style=\"text-align:justify\">مزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزم</p>\r\n\r\n<p style=\"text-align:justify\">زمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزم</p>\r\n\r\n<p style=\"text-align:justify\">زمزمزمزمزمزمزمزمزمزمزمز</p>\r\n\r\n<p style=\"text-align:justify\">مزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمز</p>\r\n\r\n<p style=\"text-align:justify\">مزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزم</p>\r\n\r\n<p style=\"text-align:justify\">زمزمزمزمزمزمزمزمزمزمزمزمزمزمزمز</p>\r\n\r\n<p style=\"text-align:justify\">مزمزمزمزمزمزمزمزمزمزمزمزمزمز</p>\r\n\r\n<p style=\"text-align:justify\">مزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزم</p>\r\n\r\n<p style=\"text-align:justify\">زمزمزمزمزمزمزمزمزمزمزمزمزمز</p>\r\n\r\n<p style=\"text-align:justify\">مزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمز</p>\r\n\r\n<p style=\"text-align:justify\">مزمزمزمزمزمزمزمز</p>\r\n\r\n<p style=\"text-align:justify\">مزمزمزمزمزمزمزمزمزمزمزمزم</p>\r\n\r\n<p style=\"text-align:justify\">زمزمزمز</p>','images/Product/98f274ff-f293-4f9e-ac54-6511ff01798b.jpg',45000,1,'maz_maz','2024-04-29 19:56:25.309640','2024-04-29 19:56:25.175795','2024-05-05 18:53:21.157839',11,'مزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمزمز'),(8,'موبایل','<p style=\"text-align:justify\">موبایل شیائومی یکی از برترین و با کیفیت ترین موبایل در نوع خود بوده و دارای رم 128 و rom4 می باشدموبایل شیائومی یکی از برترین و با کیفیت ترین موبایل در نوع خود بوده و دارای رم 128 و rom4 می باشدموبایل شیائومی یکی از برترین و با کیفیت ترین موبایل در نوع خود بوده و دارای رم 128 و rom4 می باشدموبایل شیائومی یک<span style=\"color:#c0392b\"><span style=\"font-size:18px\">ی از برترین و با کیفیت ترین موبایل در نوع خود بوده و دارای رم 128 و rom4 می باشدموبایل شیائومی یکی از برترین و با کیفیت ترین موبایل در نوع خود بوده و دارای رم 128 و rom4 می باشدموبایل شیائومی یکی از برترین و با کیفیت ترین موبایل در نوع خود بوده و دارای رم 128 و rom4 می باشدموبایل شیائومی یکی از برترین و با کیفیت ترین موبایل در نوع خود بوده و دارای رم 128 و rom4 می باشدموبایل شیائومی یکی از برترین و با کیفیت ترین موبایل در نوع خود بوده و دارای رم 128 و rom4 می باشدموبایل شیائومی یکی از برترین و با کیفیت ترین موبایل در نوع خود بوده و دارای رم 128</span></span> و rom4 می باشدموبایل شیائومی یکی از برترین و با کیفیت ترین موبایل در نوع خود بوده و دارای رم 128 و rom4 می باشدموبایل شیائومی یکی از برترین و با کیفیت ترین موبایل در نوع خود بوده و دارای رم 128 و rom4 می باشدموبایل شیائومی یکی از برترین و با کیفیت ترین موبایل در نوع خود بوده و دارای رم 128 و rom4 می باشدموبایل شیائومی یکی از برترین و با کیفیت ترین موبایل در نوع خود بوده و دارای رم 128 و rom4 می باشدموبایل شیائومی یکی از برترین و با کیفیت ترین موبایل در نوع خود بوده و دارای رم 128 و rom4 می باشدموبایل شیائومی یکی از برترین و با کیفیت ترین موبایل در نوع خود بوده و دارای رم 128 و rom4 می باشدموبایل شیائومی یکی از برترین و با کیفیت ترین موبایل در نوع خود بوده و دارای رم 128 و rom4 می باشدموبایل شیائومی یکی از برترین و با کیفیت ترین موبایل در نوع خود بوده و دارای رم 128 و rom4 می باشد</p>','images/Product/31842fe4-46a1-482d-afa6-2e1412815565.jpg',32000000,1,'mobile','2024-04-30 07:06:06.769275','2024-04-30 07:06:06.740292','2024-05-08 09:55:46.936612',7,'موبایل شیائومی یکی از برترین و با کیفیت ترین موبایل در نوع خود بوده و دارای رم 128 و rom4 می باشد'),(9,'پنیر کاله','<h2 style=\"font-style:italic\"><span style=\"font-size:26px\"><span style=\"color:#f1c40f\">پنیر کاله&nbsp;</span></span></h2>\r\n\r\n<p>پنیر کاله&nbsp;پنیر کاله&nbsp;پنیر کاله&nbsp;پنیر کاله&nbsp;پنیر کاله&nbsp;پنیر کاله&nbsp;پنیر کاله&nbsp;پنیر کاله&nbsp;پنیر کاله&nbsp;پنیر کاله&nbsp;پنیر کاله&nbsp;پنیر کاله&nbsp;پنیر کاله&nbsp;پنیر کاله&nbsp;پنیر کاله&nbsp;<img alt=\"\" src=\"/media/images/cketitor/upload_files/2024/04/30/3.jpg\" style=\"height:350px; width:350px\" /></p>','images/Product/f174478d-1511-4f57-be6c-33fb61e75572.jpg',250000,1,'kale','2024-04-30 18:57:17.354892','2024-04-30 18:57:17.326515','2024-05-12 06:58:06.957065',4,'پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله پنیر کاله'),(10,'مبل راحتی','<h2 style=\"font-style:italic; text-align:center\"><span style=\"font-size:26px\"><span style=\"font-family:Times New Roman,Times,serif\"><strong><span style=\"color:#2ecc71\"><span style=\"background-color:#ecf0f1\">مبل وفا&nbsp;&nbsp;</span></span></strong></span></span></h2>\r\n\r\n<p style=\"text-align:justify\">مبل وفا دارای 35 سال سابقه تولید انواع مبل های راحتی -کلاسیک -مدرن فعالیت داشته&nbsp;مبل وفا دارای 35 سال سابقه تولید ا<span style=\"font-family:Tahoma,Geneva,sans-serif\">ن</span>واع مبل های راحتی -کلاسیک -مدرن فعالیت داشته&nbsp;مبل وفا دارای 35 سال سابقه تولید انواع مبل های راحتی -کلاسیک -مدرن فعالیت داشته&nbsp;مبل وفا دارای 35 سال سابقه تولید انواع مبل های راحتی -کلاسیک -مدرن فعالیت داشته&nbsp;مبل وفا دارای 35 سال سابقه تولید انواع مبل های راحتی -کلاسیک -مدرن فعالیت داشته&nbsp;مبل وفا دارای 35 سال سابقه تولید انواع مبل های راحتی -کلاسیک -مدرن فعالیت داشته&nbsp;مبل وفا دارای 35 سال سابقه تولید انواع مبل های راحتی -کلاسیک -مدرن فعالیت داشته&nbsp;مبل وفا دارای 35 سال سابقه تولید انواع مبل های راحتی -کلاسیک -مدرن فعالیت داشته&nbsp;مبل وفا دارای 35 سال سابقه تولید انواع مبل های راحتی -کلاسیک -مدرن فعالیت داشته&nbsp;مبل وفا دارای 35 سال سابقه تولید انواع مبل های راحتی -کلاسیک -مدرن فعالیت داشته&nbsp;مبل وفا دارای 35 سال سابقه تولید انواع مبل های راحتی -کلاسیک -مدرن فعالیت داشته&nbsp;مبل وفا دارای 35 سال سابقه تولید انواع مبل های راحتی -کلاسیک -مدرن فعالیت داشته&nbsp;مبل وفا دارای 35 سال سابقه تولید انواع مبل های راحتی -کلاسیک -مدرن فعالیت داشته&nbsp;مبل وفا دارای 35 سال سابقه تولید انواع مبل های راحتی -کلاسیک -مدرن فعالیت داشته&nbsp;</p>','images/Product/68ec59d3-54f2-4382-b905-59a690c62587.jpg',65000000,1,'furnituer_relax','2024-05-03 08:26:57.294721','2024-05-03 08:26:57.267736','2024-05-05 18:53:56.035322',3,'مبل وفا دارای 35 سال سابقه تولید انواع مبل های راحتی -کلاسیک -مدرن فعالیت داشته'),(11,'مبل مدرن','<p>مبل مدرنمبل مدرنمبل مدرنمبل مدرنمبل مدرنمبل مدرنمبل مدرنمبل مدرنمبل مدرنمبل مدرنمبل مدرنمبل مدرنمبل مدرنمبل مدرنمبل مدرنمبل مدرنمبل مدرن<img alt=\"\" src=\"/media/images/cketitor/upload_files/2024/05/03/untitled-6-900x700w.jpg\" style=\"height:300px; width:386px\" /></p>','images/Product/36d297c1-b70c-4568-b0ca-c543fe5eb44f.jpg',25000000,1,'furnituer_modern','2024-05-03 08:41:46.067419','2024-05-03 08:41:46.042453','2024-05-05 18:54:14.894152',3,'مبل مدرن'),(12,'مبل کلاسیک','<p><img alt=\"\" src=\"/media/images/cketitor/upload_files/2024/05/03/r.jpg\" style=\"height:1080px; width:1080px\" /></p>','images/Product/8058b1fa-4e02-4f26-b4c8-62a027dbb46f.jpg',12000000,1,'furnituer_clasik','2024-05-03 09:43:08.634552','2024-05-03 09:43:08.606587','2024-05-05 18:54:30.016711',3,'.نتنذ.نت.نتذ'),(13,'تیشرت','<p>تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;تیشرت&nbsp;</p>','images/Product/6f65dafa-5e15-4688-b12e-d760b40b7fb3.jpg',120000,1,'farhad','2024-05-05 19:47:45.066573','2024-05-05 19:47:45.034592','2024-05-09 11:56:45.716118',12,''),(15,'دوربین عکاسی','<p>دوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسی</p>','images/Product/a8c8edba-f2a2-4f80-8318-52f616ebd5a7.jpg',4500000,1,'dorbin','2024-05-08 10:01:34.322004','2024-05-08 10:01:34.289025','2024-05-08 10:01:34.322004',14,'دوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسیدوربین عکاسی'),(16,'موبایل شیایومی','<p>sumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsong</p>','images/Product/233490f7-cce0-4f8d-95e3-ccab81971be6.jpg',25000000,1,'mobile_shyaomi','2024-05-09 11:16:11.307202','2024-05-09 11:16:11.230251','2024-05-09 11:16:11.307202',7,'sumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsong'),(17,'موبایل شیایومی','<p>sumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsong</p>','images/Product/25119ba5-a63f-43c8-9e4b-979fd25d55b3.jpg',25000000,1,'mobile_shyaomi','2024-05-09 11:16:11.358172','2024-05-09 11:16:11.324192','2024-05-09 11:16:11.358172',7,'sumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsongsumsong'),(18,'RAMرم','<p>رمم&nbsp;رمم&nbsp;رمم&nbsp;رمم&nbsp;رمم&nbsp;رمم&nbsp;رمم&nbsp;رمم&nbsp;رمم&nbsp;رمم&nbsp;رمم&nbsp;رمم&nbsp;رمم&nbsp;رمم&nbsp;رمم&nbsp;رمم&nbsp;رمم&nbsp;رمم&nbsp;رمم&nbsp;رمم&nbsp;رمم&nbsp;رمم&nbsp;رمم&nbsp;رمم&nbsp;رمم&nbsp;رمم&nbsp;</p>','images/Product/947af01f-2a6a-4cd2-b525-231802424d71.jpg',1600000,1,'ram','2024-05-09 12:01:54.133131','2024-05-09 12:01:54.109165','2024-05-09 12:01:54.133131',14,'رمم رمم رمم رمم رمم رمم رمم رمم رمم رمم رمم رمم رمم رمم رمم رمم رمم رمم رمم رمم رمم رمم رمم رمم'),(19,'موبایل سامسونگ','<p><span style=\"color:#3498db\"><span style=\"font-size:36px\"><span style=\"background-color:#e74c3c\">موبایل سامسونگ</span></span></span></p>\r\n\r\n<p>موبایل سامسونگموبایل سامسونگموبایل سامسونگموبایل سامسونگموبایل سامسونگموبایل سامسونگموبایل سامسونگموبایل سامسونگموبایل سامسونگموبایل سامسونگموبایل سامسونگموبایل سامسونگموبایل سامسونگموبایل سامسونگموبایل سامسونگموبایل سامسونگموبایل سامسونگموبایل سامسونگموبایل سامسونگموبایل سامسونگموبایل سامسونگموبایل سامسونگموبایل سامسونگموبایل سامسونگموبایل سامسونگموبایل سامسونگموبایل سامسونگموبایل سامسونگموبایل سامسونگموبایل سامسونگموبایل سامسونگموبایل سامسونگموبایل سامسونگ</p>','images/Product/5ef791aa-74d0-4889-80a3-286af8479b03.jpg',8500000,1,'mobile_sumsong','2024-05-12 07:04:25.143563','2024-05-12 07:04:25.108585','2024-05-12 07:04:25.143563',15,'sumsong sumsong sumsong sumsong sumsong sumsong sumsong sumsong sumsong sumsong sumsong sumsong sumsong sumsong sumsong sumsong sumsong sumsong'),(20,'مشاور','<p>&nbsp;</p>\r\n\r\n<p>مشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاور<img alt=\"\" src=\"/media/images/cketitor/upload_files/2024/05/17/sana1.png\" style=\"height:109px; width:109px\" /></p>','images/Product/6b1a4840-4e2d-4ee2-a73e-99bc196c5371.png',0,1,'moshver','2024-05-17 22:52:17.459831','2024-05-17 22:52:17.438844','2024-05-17 22:52:17.459831',16,'مشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاور');
+/*!40000 ALTER TABLE `products_product` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `products_product_product_group`
+--
+
+DROP TABLE IF EXISTS `products_product_product_group`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `products_product_product_group` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `product_id` bigint NOT NULL,
+  `productgroup_id` bigint NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `products_product_product_product_id_productgroup__23b8e4af_uniq` (`product_id`,`productgroup_id`),
+  KEY `products_product_pro_productgroup_id_553ff86f_fk_products_` (`productgroup_id`),
+  CONSTRAINT `products_product_pro_product_id_97f769f8_fk_products_` FOREIGN KEY (`product_id`) REFERENCES `products_product` (`id`),
+  CONSTRAINT `products_product_pro_productgroup_id_553ff86f_fk_products_` FOREIGN KEY (`productgroup_id`) REFERENCES `products_productgroup` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `products_product_product_group`
+--
+
+LOCK TABLES `products_product_product_group` WRITE;
+/*!40000 ALTER TABLE `products_product_product_group` DISABLE KEYS */;
+INSERT INTO `products_product_product_group` VALUES (2,2,12),(11,2,13),(10,2,25),(3,3,20),(5,5,22),(7,6,24),(8,7,7),(12,7,12),(9,8,22),(13,9,20),(14,10,26),(15,11,26),(16,12,26),(17,13,11),(18,13,27),(20,15,4),(21,15,22),(22,16,30),(23,17,30),(24,18,4),(25,18,22),(26,18,30),(27,19,30),(28,20,32);
+/*!40000 ALTER TABLE `products_product_product_group` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `products_productfeature`
+--
+
+DROP TABLE IF EXISTS `products_productfeature`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `products_productfeature` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `value` varchar(100) NOT NULL,
+  `feature_id` bigint NOT NULL,
+  `product_id` bigint NOT NULL,
+  `filter_value_id` bigint DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `products_productfeat_feature_id_19139ad6_fk_products_` (`feature_id`),
+  KEY `products_productfeat_product_id_b0721d47_fk_products_` (`product_id`),
+  KEY `products_productfeat_filter_value_id_2074e371_fk_products_` (`filter_value_id`),
+  CONSTRAINT `products_productfeat_feature_id_19139ad6_fk_products_` FOREIGN KEY (`feature_id`) REFERENCES `products_feature` (`id`),
+  CONSTRAINT `products_productfeat_filter_value_id_2074e371_fk_products_` FOREIGN KEY (`filter_value_id`) REFERENCES `products_featuervalue` (`id`),
+  CONSTRAINT `products_productfeat_product_id_b0721d47_fk_products_` FOREIGN KEY (`product_id`) REFERENCES `products_product` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `products_productfeature`
+--
+
+LOCK TABLES `products_productfeature` WRITE;
+/*!40000 ALTER TABLE `products_productfeature` DISABLE KEYS */;
+INSERT INTO `products_productfeature` VALUES (3,'مشکی',1,2,NULL),(4,'42',8,2,NULL),(5,'500گرم',2,3,NULL),(6,'گاوی',7,3,NULL),(7,'خوراکی',7,7,NULL),(8,'100گرم',2,7,NULL),(11,'لیتیوم',7,8,NULL),(12,'مشکی -آبی -سفید',1,8,NULL),(13,'485گرم',2,8,NULL),(14,'500گرم',2,9,19),(15,'خوراکی',7,9,NULL),(16,'7نفره -9نفره',9,10,NULL),(17,'مشکی -آبی -سفید-طوسی',1,10,NULL),(18,'7نفره -9نفره',9,11,NULL),(19,'مشکی -آبی -سفید-طوسی',1,11,NULL),(20,'7نفره -9نفره',9,12,NULL),(21,'مشکی -آبی -سفید-طوسی',1,12,NULL),(23,'کتان',7,13,10),(24,'مشکی - آبی -قرمز',1,13,32),(27,'16m',5,15,11),(28,'25m',5,15,12),(29,'ایکس لارج',12,13,9),(30,'16m',8,18,NULL),(31,'مشکی-سفید-طوسی',1,19,32),(32,'200g',2,19,19);
+/*!40000 ALTER TABLE `products_productfeature` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `products_productgallery`
+--
+
+DROP TABLE IF EXISTS `products_productgallery`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `products_productgallery` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `image_name` varchar(100) NOT NULL,
+  `product_id` bigint NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `products_productgall_product_id_da3ba7cd_fk_products_` (`product_id`),
+  CONSTRAINT `products_productgall_product_id_da3ba7cd_fk_products_` FOREIGN KEY (`product_id`) REFERENCES `products_product` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `products_productgallery`
+--
+
+LOCK TABLES `products_productgallery` WRITE;
+/*!40000 ALTER TABLE `products_productgallery` DISABLE KEYS */;
+INSERT INTO `products_productgallery` VALUES (5,'images/ProductGallery/1989f7b0-fb44-4c4b-a2e7-2a0777b01549.jpg',8),(6,'images/ProductGallery/1ff693d5-90af-4dc3-9825-4a8c93ceb496.jpg',8),(7,'images/ProductGallery/3d0a56f7-db00-4fe6-bab2-385572bfd8ba.jpg',8),(8,'images/ProductGallery/57f65ebf-1694-4cbb-9c11-718cc21141d1.webp',9),(9,'images/ProductGallery/944a08b8-6eda-490d-94ba-df309d202765.webp',9),(10,'images/ProductGallery/e82a7e75-abcd-4c64-9871-0084ba802897.jpg',10),(11,'images/ProductGallery/360c6e3f-965e-44fc-a595-e830cf911b10.jpg',10),(12,'images/ProductGallery/dc0b97b5-16a6-4466-9633-e88a73d1ac77.jpg',10),(13,'images/ProductGallery/c7a90697-bc9a-4cad-930d-9141b3d222ff.jpg',11),(14,'images/ProductGallery/957662c1-9dad-48c9-ac0d-731959f0f52b.jpg',11),(15,'images/ProductGallery/91ceb5e8-f652-4c4a-840b-5a73f57121f2.jpg',11),(16,'images/ProductGallery/e817495e-2303-48c8-b038-f715594f89a8.jpg',12),(17,'images/ProductGallery/998986e4-23f0-489a-b0f3-96eab835c7b0.jpg',12),(18,'images/ProductGallery/57534efc-871b-4280-86a7-da8703c55815.jpg',12),(19,'images/ProductGallery/4a501ec0-8bd8-4ba5-bcc0-0de48d234b1d.jpg',13),(20,'images/ProductGallery/5f887cb0-e50e-481d-aca3-64b10e1b1f15.jpg',13),(24,'images/ProductGallery/b4308fbb-f637-482c-9c74-c9a198dfe9c9.jpg',16),(25,'images/ProductGallery/99769eb8-523f-41d7-8a04-dee3c6300179.jpg',16),(26,'images/ProductGallery/d41e6fff-3c55-4843-8c77-c88a80058610.jpg',17),(27,'images/ProductGallery/9ffba505-2aff-48fa-9bf0-aa5a0dc8ed90.jpg',17),(28,'images/ProductGallery/be147029-ac34-4e30-b7e8-0957afd020dd.jpg',19),(29,'images/ProductGallery/1a3447c5-4dcb-455d-9f33-cec3c8e831e2.jpg',19);
+/*!40000 ALTER TABLE `products_productgallery` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `products_productgroup`
+--
+
+DROP TABLE IF EXISTS `products_productgroup`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `products_productgroup` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `group_title` varchar(500) NOT NULL,
+  `image_name` varchar(100) NOT NULL,
+  `description` longtext,
+  `is_active` tinyint(1) NOT NULL,
+  `slug` varchar(200) DEFAULT NULL,
+  `register_date` datetime(6) NOT NULL,
+  `published_date` datetime(6) NOT NULL,
+  `update_date` datetime(6) NOT NULL,
+  `group_parent_id` bigint DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `products_productgrou_group_parent_id_bb49bc40_fk_products_` (`group_parent_id`),
+  KEY `products_productgroup_slug_be40fe80` (`slug`),
+  CONSTRAINT `products_productgrou_group_parent_id_bb49bc40_fk_products_` FOREIGN KEY (`group_parent_id`) REFERENCES `products_productgroup` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `products_productgroup`
+--
+
+LOCK TABLES `products_productgroup` WRITE;
+/*!40000 ALTER TABLE `products_productgroup` DISABLE KEYS */;
+INSERT INTO `products_productgroup` VALUES (3,'لپ تاپ','images/ProductGroup/3e8e7765-f903-4618-a9fb-1146df26febb.webp','کالا دیجیتالکالا دیجیتالکالا دیجیتالکالا دیجیتالکالا دیجیتالکالا دیجیتالکالا دیجیتالکالا دیجیتالکالا دیجیتالکالا دیجیتالکالا دیجیتالکالا دیجیتالکالا دیجیتالکالا دیجیتالکالا دیجیتالکالا دیجیتال',1,'notbook','2024-04-24 06:05:04.610016','2024-04-24 06:02:58.000000','2024-05-09 12:03:44.014373',NULL),(4,'دوربین','images/ProductGroup/5fee7e6f-7329-40b6-9df7-449a39fb462b.jpg','دوربیندوربیندوربیندوربیندوربیندوربیندوربیندوربیندوربیندوربیندوربیندوربیندوربیندوربیندوربیندوربیندوربیندوربیندوربیندوربیندوربیندوربیندوربیندوربیندوربیندوربیندوربیندوربیندوربیندوربیندوربیندوربیندوربیندوربیندوربیندوربیندوربیندوربیندوربیندوربیندوربیندوربیندوربیندوربین',1,'sld','2024-04-24 06:05:04.617012','2024-04-24 06:02:58.000000','2024-05-08 09:55:05.799220',3),(5,'کالاهای سوپرمارکتی','images/ProductGroup/096b0d2c-c4c0-4664-87df-d8e481737fe2.jpg','کالاهای سوپرمارکتیکالاهای سوپرمارکتیکالاهای سوپرمارکتیکالاهای سوپرمارکتیکالاهای سوپرمارکتیکالاهای سوپرمارکتی',1,'sopar_market','2024-04-24 16:39:34.287403','2024-04-24 16:37:15.000000','2024-04-24 16:39:34.288404',NULL),(6,'شیر','images/ProductGroup/6de6b7c5-4139-4b68-b5c3-7afa3394b491.jpg','شیرشیرشیرشیرشیرشیرشیرشیرشیرشیرشیرشیرشیرشیرشیرشیرشیرشیرشیرشیرشیرشیرشیرشیرشیرشیر',1,'shir','2024-04-24 16:39:34.295514','2024-04-24 16:37:15.000000','2024-04-24 19:05:20.896210',20),(7,'تنقلات','images/ProductGroup/f70d867e-c4ca-4ee6-9cbf-b64c357b38e5.jpg','تنقلات تنقلات تنقلات تنقلات تنقلات تنقلات تنقلات تنقلات تنقلات تنقلات تنقلات تنقلات تنقلات تنقلات تنقلات تنقلات تنقلات تنقلات تنقلات تنقلات تنقلات تنقلات تنقلات تنقلات تنقلات تنقلات تنقلات تنقلات تنقلات',1,'tanglat','2024-04-24 16:45:51.150174','2024-04-24 16:43:03.000000','2024-04-24 16:45:51.150174',5),(8,'پسته خندان','images/ProductGroup/9d750eef-69d9-49ed-90ae-d2ea90a8cae1.jpg','پسته خندانپسته خندانپسته خندانپسته خندانپسته خندانپسته خندانپسته خندانپسته خندانپسته خندانپسته خندانپسته خندانپسته خندانپسته خندانپسته خندانپسته خندانپسته خندانپسته خندانپسته خندانپسته خندان',1,'pesteh','2024-04-24 16:45:51.156170','2024-04-24 16:43:03.000000','2024-04-24 16:45:51.157172',7),(9,'فندوق','images/ProductGroup/cbcbfb95-1a76-4bb1-bcf5-81e5d7577f09.jpg','',1,'fandogh','2024-04-24 16:45:51.165165','2024-04-24 16:43:03.000000','2024-04-24 16:45:51.165165',7),(10,'بادام','images/ProductGroup/5a0597ee-cc94-4c2f-8ede-48c4ae3627e2.jpg','بادام بادام بادام بادام بادام بادام بادام بادام بادام بادام بادام بادام بادام بادام بادام بادام بادام بادام بادام بادام بادام ر',1,'badam','2024-04-24 16:45:51.171163','2024-04-24 16:43:03.000000','2024-04-24 16:45:51.171163',7),(11,'مدوپوشاک','images/ProductGroup/b2725e99-1968-4e8b-acf8-7db026f1aa3f.jpg','مدوپوشاکمدوپوشاکمدوپوشاکمدوپوشاکمدوپوشاکمدوپوشاکمدوپوشاکمدوپوشاکمدوپوشاکمدوپوشاکمدوپوشاکمدوپوشاکمدوپوشاکمدوپوشاکمدوپوشاکمدوپوشاکمدوپوشاکمدوپوشاکمدوپوشاکمدوپوشاکمدوپوشاکمدوپوشاک',1,'poshk_mod','2024-04-24 18:41:19.603375','2024-04-24 18:37:08.000000','2024-04-24 18:41:19.603375',NULL),(12,'بچه گانه','images/ProductGroup/0ee6b189-3a82-4a54-afda-8dd79cddcc05.jpg','بچه گانه بچه گانه بچه گانه بچه گانه بچه گانه بچه گانه بچه گانه بچه گانه بچه گانه بچه گانه بچه گانه بچه گانه بچه گانه بچه گانه بچه گانه بچه گانه بچه گانه بچه گانه بچه گانه بچه گانه بچه گانه بچه گانه بچه گانه',1,'byby','2024-04-24 18:41:19.611373','2024-04-24 18:37:09.000000','2024-04-24 18:41:19.611373',11),(13,'زنانه','images/ProductGroup/409c2eb1-4ad7-4cda-a732-bc64d69e7427.jpg','زنانهزنانهزنانهزنانهزنانهزنانهزنانهزنانهزنانهزنانهزنانهزنانهزنانهزنانهزنانهزنانهزنانهزنانهزنانهزنانهزنانهزنانهزنانهزنانهزنانهزنانهزنانهزنانهزنانهزنانهزنانهزنانهزنانهزنانهزنانهزنانهزنانه',1,'woman','2024-04-24 18:41:19.617366','2024-04-24 18:37:09.000000','2024-04-24 18:41:19.617366',11),(15,'ورزشی و کوه نوردی','images/ProductGroup/f1506a8d-5882-48e9-95bc-ca60962d251a.jpg','ورزشی و کوه نوردی ورزشی و کوه نوردی ورزشی و کوه نوردی ورزشی و کوه نوردی ورزشی و کوه نوردی ورزشی و کوه نوردی ورزشی و کوه نوردی ورزشی و کوه نوردی ورزشی و کوه نوردی ورزشی و کوه نوردی ورزشی و کوه نوردی ورزشی و کوه نوردی ورزشی و کوه نوردی ورزشی و کوه نوردی ورزشی و کوه نوردی ورزشی و کوه نوردی',1,'varzsh_koh','2024-04-24 18:45:41.020810','2024-04-24 18:44:02.000000','2024-04-24 18:45:41.020810',NULL),(17,'پنیرخامه ی','images/ProductGroup/78108587-f624-4029-a033-36ff511d63df.jpg','پنیرخامه یپنیرخامه یپنیرخامه یپنیرخامه یپنیرخامه یپنیرخامه یپنیرخامه یپنیرخامه یپنیرخامه یپنیرخامه یپنیرخامه یپنیرخامه یپنیرخامه یپنیرخامه یپنیرخامه یپنیرخامه یپنیرخامه یپنیرخامه یپنیرخامه یپنیرخامه یپنیرخامه یپنیرخامه ی',1,'panir','2024-04-24 18:54:30.652053','2024-04-24 18:53:17.000000','2024-04-24 19:04:41.340001',20),(18,'شیر پر چرب','images/ProductGroup/d8f1544f-dbbf-44aa-8c1a-f574f61ec0bb.jpg','شیر پر چرب شیر پر چربشیر پر چرب شیر پر چربشیر پر چرب شیر پر چربشیر پر چرب شیر پر چربشیر پر چرب شیر پر چربشیر پر چرب شیر پر چربشیر پر چرب شیر پر چربشیر پر چرب شیر پر چربشیر پر چرب شیر پر چربشیر پر چرب شیر پر چربشیر پر چرب شیر پر چربشیر پر چرب شیر پر چربشیر پر چرب شیر پر چربشیر پر چرب شیر پر چربشیر پر چرب شیر پر چربشیر پر چرب شیر پر چربشیر پر چرب شیر پر چربشیر پر چرب شیر پر چربشیر پر چرب شیر پر چرب',1,'mike_porchrf','2024-04-24 18:56:26.479380','2024-04-24 18:54:55.000000','2024-04-24 18:56:26.479380',6),(19,'شیر طعم دار','images/ProductGroup/a9c4ac01-f2aa-4f45-892b-919ac1f8c1a1.jpg','شیر طعم دارشیر طعم دارشیر طعم دارشیر طعم دارشیر طعم دارشیر طعم دارشیر طعم دارشیر طعم دارشیر طعم دارشیر طعم دارشیر طعم دارشیر طعم دارشیر طعم دارشیر طعم دار',1,'mike_tamdar','2024-04-24 18:59:50.611044','2024-04-24 18:58:40.000000','2024-04-24 18:59:50.612062',6),(20,'لبنیات','images/ProductGroup/8be067d0-71fe-407c-86ee-b4c073198276.jpg','لبنیاتلبنیاتلبنیاتلبنیاتلبنیاتلبنیاتلبنیاتلبنیاتلبنیاتلبنیاتلبنیاتلبنیاتلبنیاتلبنیاتلبنیاتلبنیاتلبنیاتلبنیاتلبنیاتلبنیاتلبنیاتلبنیاتلبنیات',1,'labakdat','2024-04-24 19:04:04.952935','2024-04-24 19:00:53.000000','2024-04-24 19:04:04.952935',5),(21,'پنیر لقوان','images/ProductGroup/c92d231e-9e2f-4976-ba5d-d0ca30fad694.jpg','پنیر لقوان پنیر لقوان پنیر لقوانپنیر لقوانپنیر لقوانپنیر لقوانپنیر لقوانپنیر لقوانپنیر لقوانپنیر لقوانپنیر لقوانپنیر لقوانپنیر لقوانپنیر لقوانپنیر لقوانپنیر لقوانپنیر لقوانپنیر لقوانپنیر لقوانپنیر لقوان',1,'chiz_leghvan','2024-04-24 19:04:04.959931','2024-04-24 19:00:53.000000','2024-04-24 19:04:04.959931',20),(22,'کالا دیجیتال','images/ProductGroup/a05542a4-7d2a-4fe7-9608-213d51035f8b.webp','یبذطزذ ظطز',1,'kala','2024-04-28 20:13:58.802556','2024-04-28 20:13:24.000000','2024-05-08 09:55:05.801235',3),(24,'آشپز خانه','images/ProductGroup/485206fe-b470-4bfa-8673-fbee1844bf1a.webp','آشپز خانهآشپز خانهآشپز خانهآشپز خانهآشپز خانهآشپز خانهآشپز خانهآشپز خانهآشپز خانهآشپز خانهآشپز خانهآشپز خانهآشپز خانهآشپز خانهآشپز خانهآشپز خانهآشپز خانهآشپز خانهآشپز خانه',1,'ghandan','2024-04-29 08:03:59.143704','2024-04-29 08:02:09.000000','2024-04-29 08:03:59.143704',5),(25,'مردانه','images/ProductGroup/636a7b8d-0111-4eeb-a557-9f3344dd7adc.webp','مردانه',1,'katani','2024-04-30 07:18:25.381034','2024-04-30 07:17:19.000000','2024-04-30 07:18:25.381034',15),(26,'مبلمان','images/ProductGroup/8c6efcdc-148d-4303-88b2-cb6a2aa23f40.jpg','',1,'furnituer_vafa','2024-05-03 08:13:25.910774','2024-05-03 08:12:19.000000','2024-05-08 08:48:25.719295',26),(27,'فرهاد','images/ProductGroup/73247583-aadc-4d60-95ae-f24b5f588c02.jpg','فرهادفرهادفرهادفرهادفرهادفرهادفرهادفرهادفرهادفرهادفرهادفرهادفرهادفرهاد',1,'farhad','2024-05-05 19:43:50.892736','2024-05-05 19:42:58.000000','2024-05-05 19:43:50.892736',11),(28,'تلویزیون','images/ProductGroup/8b8ee612-5cff-4cf2-b0f6-4dc702666577.jpg','تلویزیونتلویزیونتلویزیونتلویزیونتلویزیونتلویزیونتلویزیونتلویزیونتلویزیونتلویزیونتلویزیونتلویزیونتلویزیونتلویزیونتلویزیونتلویزیونتلویزیونتلویزیونتلویزیون',1,'tv','2024-05-05 19:54:17.852961','2024-05-05 19:51:52.000000','2024-05-08 09:55:05.793660',3),(29,'سونی','images/ProductGroup/d3cd5b5f-918d-463e-8207-08f2a451160c.jpg','تلویزیونتلویزیونتلویزیونتلویزیونتلویزیونتلویزیونتلویزیونتلویزیونتلویزیونتلویزیونتلویزیونتلویزیونتلویزیونتلویزیونتلویزیونتلویزیونتلویزیونتلویزیونتلویزیون',1,'tv_sony','2024-05-05 19:54:17.858957','2024-05-05 19:51:52.000000','2024-05-05 19:54:17.858957',28),(30,'موبایل','images/ProductGroup/58de049c-c387-4902-ae70-ee8ffb987bdc.jpg','موبایلموبایلموبایلموبایل',1,'mobiile','2024-05-09 11:09:30.869882','2024-05-09 11:08:06.000000','2024-05-09 12:05:09.961804',30),(31,'کسب و کار','images/ProductGroup/09512898-3281-4e3f-bdf9-cd46cebcea71.png','کسب و کارکسب و کارکسب و کارکسب و کارکسب و کارکسب و کارکسب و کارکسب و کارکسب و کارکسب و کارکسب و کارکسب و کارکسب و کارکسب و کارکسب و کارکسب و کارکسب و کارکسب و کار',1,'kasb_car','2024-05-17 22:48:11.711129','2024-05-17 22:46:55.000000','2024-05-17 22:48:11.711129',NULL),(32,'مشاور','images/ProductGroup/b65b84ba-ff50-4bb3-adb0-07d6363ea45f.png','مشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاورمشاور',1,'moshaver','2024-05-17 22:48:51.628699','2024-05-17 22:45:00.000000','2024-05-17 22:48:51.628699',31);
+/*!40000 ALTER TABLE `products_productgroup` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2024-06-02 17:22:02

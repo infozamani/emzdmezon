@@ -1,0 +1,65 @@
+{% extends "main_template.html" %}  
+
+{% block title %}  
+{{ blog.title }}  
+{% endblock title %}  
+
+{% block content %}  
+
+<div class="site__body">  
+    <div class="page-header">  
+        <div class="page-header__container container">  
+            <div class="page-header__breadcrumb">  
+                <nav aria-label="breadcrumb">  
+                    <ol class="breadcrumb">  
+                        <li class="breadcrumb-item"><a href="{% url 'main:index' %}">خانه</a> /</li>  
+                        <li class="breadcrumb-item active" aria-current="page">{{ blog.title }}</li>  
+                    </ol>  
+                </nav>  
+            </div>  
+        </div>  
+    </div>  
+    <div class="container">  
+        <div class="row justify-content-center">  
+            <div class="col-md-12 col-lg-9 col-xl-8">  
+                <div class="block post post--layout--full">  
+                    <div class="post__header post-header post-header--layout--full">  
+                        <div class="post-card__content">    
+                            <h5><a href="#">{{ blog.title }}</a></h5>  
+                            <div class="post-header__meta">  
+                                <div class="post-header__meta-item">توسط   
+                                    <a href="#">{{ blog.author.name }} {{ blog.author.family }}</a>  
+                                </div>  
+                                <div class="post-header__meta-item">  
+                                    <a href="#">{{blog.author.register_data }}</a>  
+                                </div>  
+                                <div class="post-header__meta-item">  
+                                    <a href="#">{{blog.author.email }}</a>  
+                                </div>  
+                            </div>  
+                            <div class="post-card__image">  
+                                <img src="{{ media_url }}{{ blog.main_image }}" alt="">  
+                            </div>  
+                           
+                            <div class="post-content">  
+                                {{ blog.description|safe }}  
+                            </div> 
+                            <div class="post-author">
+                                <div class="post-author__avatar">
+                                    <a href=""><img src="{{media_url}}/images/teammates/teammate-1.jpg" alt=""></a>
+                                </div>
+                                <div class="post-author__info">
+                                    <div class="post-author__name">نویسنده : <a href="">   {{ blog.author.name }} {{ blog.author.family }}</a></div>
+                                    <div class="post-author__about"  >    {{blog.author.register_data }}</div>
+                                    <div class="post-author__about"  >    {{blog.author.email }}</div>
+                                </div>
+                            </div> 
+                        </div>  
+                    </div>  
+                </div>  
+            </div>  
+        </div>  
+    </div>  
+</div>  
+
+{% endblock content %}

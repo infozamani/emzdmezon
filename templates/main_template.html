@@ -1,0 +1,47 @@
+{% load static %}
+{% load humanize %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1">
+		<meta name="format-detection" content="telephone=no">
+		
+		<title>
+			{% block title %}
+				zamani
+			{% endblock title %}
+		</title>
+	<link rel="icon" type="image/png" href="{{media_url}}/images/favicon.png">
+	<!-- css -->
+	<link rel="stylesheet" href="{% static 'vendor/bootstrap-4.5.3/css/bootstrap.min.css' %} ">
+	<link rel="stylesheet" href="{% static 'vendor/owl-carousel-2.3.4/assets/owl.carousel.min.css' %} ">
+	<link rel="stylesheet" href="{% static 'css/style.css' %} ">
+	<link rel="stylesheet" href="{% static 'css/custom.css' %} ">
+	
+	<!-- js -->
+	<script src="{% static 'vendor/jquery-3.3.1/jquery.min.js' %} "></script>
+	<script src="{% static 'vendor/bootstrap-4.5.3/js/bootstrap.bundle.min.js' %} "></script>
+	<script src="{% static 'vendor/owl-carousel-2.3.4/owl.carousel.min.js' %} "></script>
+	<script src="{% static 'js/main.js' %}"></script>
+	<script src="{% static 'js/admin_script.js' %}"></script>
+	<script src="{% static 'js/myscript.js' %}"></script>
+	 
+	<!-- font - fontawesome -->
+	<link rel="stylesheet" href="{% static 'vendor/fontawesome-5.6.3/css/all.min.css' %} ">
+</head>
+<body style="background-image: url('{{ media_url }}/images/background/bagand.jpg'); background-size: cover; background-attachment: fixed; background-position: center; background-repeat: no-repeat;">
+    {% include "partials/products/header.html" %}
+    {% include "partials/products/messages.html" %}
+    
+    <!-- یک لایه شفاف برای خوانایی بهتر محتوا -->
+    <div style="background-color: rgba(255, 255, 255, 0.85); min-height: 100vh; padding: 20px 0;">
+        {% block content %}
+        {% endblock content %}
+    </div>
+    
+    {% include "partials/products/footer.html" %}
+</body>
+</html> 

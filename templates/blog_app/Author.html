@@ -1,0 +1,40 @@
+{% extends 'main_template.html' %}
+
+
+
+{% block content %}
+<h1 style="text-align: center;">لیست نویسندگان </h1>
+<table border="1" width ='1000' margin = 0  style="margin: 0 auto;">
+    <tr>
+        <th>عکس نویسنده</th>
+        <th>کد نویسنده </th>
+        <th>نام </th>
+        <th>فامیلی</th>
+        <th>سن </th>
+        <th> ایمیل </th>
+        <th>    </th>
+    </tr>
+{% for author in authors %}
+        <tr>
+            <td>
+                 <img src="{{media_url}}images/people/{{author.image_name}}" class = "Autor_img" alt="تصویر">
+             </td>
+             <td>{{author.id}}</td>
+             <td>{{author.name}}</td>
+             <td>{{author.family}}</td>
+             <td>{{author.age}}</td>
+             <td>{{author.email}}</td>
+             <!--create <td> and <a> -->
+             <td>
+                <a href="../blog3/{{author.id}}" style="color:blue"> جزئیات </a>
+             </td>
+             <!--END create <td> and <a> -->
+        </tr>
+
+{% endfor %} 
+
+
+</table>
+{% endblock content %}
+  
+    
