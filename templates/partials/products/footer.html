@@ -1,25 +1,327 @@
+<style>
+    /* ==========================================================
+       پالت رنگ آبی-صورتی
+    ========================================================== */
+    :root {
+        --blue-deep: #1E3A8A;
+        --blue-dark: #1E40AF;
+        --blue-primary: #3B82F6;
+        --blue-light: #60A5FA;
+        --blue-glow: #93C5FD;
+        --blue-soft: #DBEAFE;
+        --pink-accent: #EC4899;
+        --pink-light: #F472B6;
+        --purple-mix: #8B5CF6;
+        --purple-light: #A78BFA;
+        --text-dark: #0F172A;
+        --text-body: #334155;
+        --text-muted: #64748B;
+        --bg-page: #F0F5FF;
+        --glass-bg: rgba(255, 255, 255, 0.7);
+        --glass-border: rgba(255, 255, 255, 0.5);
+        --shadow-blue: rgba(59, 130, 246, 0.15);
+    }
+
+    /* ==========================================================
+       فوتر اصلی - گرادیان آبی ملایم
+    ========================================================== */
+    .site-footer-blue {
+        background: linear-gradient(135deg, #EEF2FF 0%, #E0E7FF 50%, #FDF2F8 100%);
+        padding-top: 50px;
+        padding-bottom: 15px;
+        border-top: 1px solid rgba(59, 130, 246, 0.15);
+        box-shadow: 0 -4px 40px var(--shadow-blue);
+        position: relative;
+        z-index: 8;
+        margin-top: auto;
+    }
+
+    .site-footer-blue::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--blue-primary), var(--purple-mix), var(--pink-accent));
+        opacity: 0.6;
+    }
+
+    /* ==========================================================
+       عنوان‌های ویجت
+    ========================================================== */
+    .footer-title {
+        color: var(--blue-deep);
+        font-weight: 700;
+        font-size: 19px;
+        border-bottom: 3px solid;
+        border-image: linear-gradient(90deg, var(--blue-primary), var(--pink-accent)) 1;
+        padding-bottom: 12px;
+        display: inline-block;
+        margin-bottom: 24px;
+        position: relative;
+    }
+
+    .footer-title::after {
+        content: '';
+        position: absolute;
+        bottom: -3px;
+        right: 0;
+        width: 40px;
+        height: 3px;
+        background: linear-gradient(90deg, var(--pink-accent), var(--purple-mix));
+        border-radius: 3px;
+    }
+
+    /* ==========================================================
+       لیست تماس
+    ========================================================== */
+    .footer-contacts__contacts {
+        list-style: none;
+        padding: 0;
+        color: var(--text-body);
+        font-size: 15px;
+    }
+    .footer-contacts__contacts li {
+        margin-bottom: 14px;
+        display: flex;
+        align-items: center;
+        transition: transform 0.3s ease;
+    }
+    .footer-contacts__contacts li:hover {
+        transform: translateX(-4px);
+    }
+    .footer-contacts__icon {
+        margin-left: 12px;
+        font-size: 18px;
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, var(--blue-soft), white);
+        box-shadow: 0 2px 8px var(--shadow-blue);
+        flex-shrink: 0;
+    }
+    .footer-contacts__icon.fa-globe-americas {
+        color: var(--blue-primary);
+    }
+    .footer-contacts__icon.fa-mobile-alt {
+        color: var(--pink-accent);
+    }
+    .ltr_text {
+        direction: ltr;
+        unicode-bidi: embed;
+        color: var(--text-body);
+        font-weight: 600;
+    }
+
+    /* ==========================================================
+       لینک‌های فوتر
+    ========================================================== */
+    .footer-links__list {
+        list-style: none;
+        padding: 0;
+    }
+    .footer-links__item {
+        margin-bottom: 12px;
+    }
+    .footer-links__link {
+        color: var(--text-body);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 15px;
+        padding: 4px 0;
+        position: relative;
+    }
+
+    .footer-links__link::before {
+        content: '›';
+        color: var(--blue-primary);
+        font-size: 18px;
+        transition: all 0.3s ease;
+        opacity: 0.6;
+    }
+
+    .footer-links__link:hover {
+        color: var(--blue-primary);
+        transform: translateX(-6px);
+    }
+
+    .footer-links__link:hover::before {
+        color: var(--pink-accent);
+        opacity: 1;
+        transform: translateX(-2px);
+    }
+
+    /* ==========================================================
+       شبکه‌های اجتماعی - سه‌بعدی
+    ========================================================== */
+    .footer-social-text {
+        color: var(--text-body);
+        font-size: 15px;
+        margin-bottom: 20px;
+        line-height: 1.7;
+    }
+    .footer-social-links {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+    .footer-social-link {
+        display: inline-block;
+    }
+    .footer-social-link a {
+        background: linear-gradient(135deg, var(--blue-primary), var(--purple-mix));
+        color: white;
+        width: 46px;
+        height: 46px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: 
+            0 4px 15px rgba(59, 130, 246, 0.25),
+            0 0 0 1px rgba(255,255,255,0.2) inset;
+        font-size: 18px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .footer-social-link a::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .footer-social-link a:hover::before {
+        opacity: 1;
+    }
+
+    .footer-social-link a:hover {
+        transform: translateY(-6px) scale(1.1) rotate(-4deg);
+        box-shadow: 
+            0 12px 35px rgba(139, 92, 246, 0.35),
+            0 0 0 1px rgba(255,255,255,0.3) inset;
+        background: linear-gradient(135deg, var(--purple-mix), var(--pink-accent));
+    }
+
+    /* ==========================================================
+       کپی‌رایت
+    ========================================================== */
+    .footer-bottom {
+        margin-top: 45px;
+        padding-top: 22px;
+        padding-bottom: 10px;
+        text-align: center;
+        position: relative;
+    }
+
+    .footer-bottom::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 10%;
+        right: 10%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, var(--blue-primary), var(--pink-accent), transparent);
+        opacity: 0.3;
+    }
+
+    .footer-copyright {
+        color: var(--text-muted);
+        font-size: 14px;
+        font-weight: 500;
+    }
+    .footer-copyright a {
+        background: linear-gradient(135deg, var(--blue-primary), var(--pink-accent));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-decoration: none;
+        font-weight: 700;
+        transition: all 0.3s ease;
+    }
+    .footer-copyright a:hover {
+        filter: brightness(1.2);
+    }
+
+    /* ==========================================================
+       ریسپانسیو
+    ========================================================== */
+    @media (max-width: 768px) {
+        .footer-title {
+            font-size: 17px;
+            margin-bottom: 18px;
+        }
+        .footer-social-link a {
+            width: 42px;
+            height: 42px;
+            font-size: 16px;
+            border-radius: 12px;
+        }
+        .site-footer-blue {
+            padding-top: 35px;
+        }
+        .footer-bottom {
+            margin-top: 30px;
+        }
+        .footer-contacts__contacts li {
+            font-size: 14px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .footer-links__link {
+            font-size: 14px;
+        }
+        .footer-copyright {
+            font-size: 13px;
+        }
+        .footer-social-text {
+            font-size: 14px;
+        }
+    }
+</style>
+
 <footer class="site__footer">
-    <div class="site-footer">
+    <div class="site-footer-blue">
         <div class="container">
             <div class="site-footer__widgets">
                 <div class="row">
+                    <!-- بخش تماس با ما -->
                     <div class="col-12 col-md-6 col-lg-4">
                         <div class="site-footer__widget footer-contacts">
-                            <h5 class="footer-contacts__title">تماس با ما</h5>
-
+                            <h5 class="footer-title">تماس با ما</h5>
                             <ul class="footer-contacts__contacts">
-                                <li><i class="footer-contacts__icon fas fa-globe-americas"></i>
-                                    ملایر، خیابان شهدا</li>
-                                <li><i class="footer-contacts__icon fas fa-mobile-alt"></i>
+                                <li>
+                                    <i class="footer-contacts__icon fas fa-globe-americas"></i>
+                                    <span>تهران,   </span>
+                                </li>
+                                <li>
+                                    <i class="footer-contacts__icon fas fa-mobile-alt"></i>
                                     <span class="ltr_text">081-45231</span>
                                 </li>
-
                             </ul>
                         </div>
                     </div>
+
+                    <!-- بخش اطلاعات -->
                     <div class="col-6 col-md-3 col-lg-2">
                         <div class="site-footer__widget footer-links">
-                            <h5 class="footer-links__title">اطلاعات</h5>
+                            <h5 class="footer-title">اطلاعات</h5>
                             <ul class="footer-links__list">
                                 <li class="footer-links__item">
                                     <a href="" class="footer-links__link">درباره ما</a>
@@ -33,46 +335,43 @@
                             </ul>
                         </div>
                     </div>
+
+                    <!-- بخش حساب کاربری -->
                     <div class="col-6 col-md-3 col-lg-2">
                         <div class="site-footer__widget footer-links">
-                            <h5 class="footer-links__title">حساب کاربری</h5>
+                            <h5 class="footer-title">حساب کاربری</h5>
                             <ul class="footer-links__list">
                                 <li class="footer-links__item">
-                                    <a href="login.html" class="footer-links__link">
-                                        ورود
-                                    </a>
+                                    <a href="login.html" class="footer-links__link">ورود</a>
                                 </li>
                                 <li class="footer-links__item">
-                                    <a href="register.html" class="footer-links__link">
-                                        ثبت نام
-                                    </a>
+                                    <a href="register.html" class="footer-links__link">ثبت نام</a>
                                 </li>
                             </ul>
                         </div>
                     </div>
+
+                    <!-- بخش شبکه‌های اجتماعی -->
                     <div class="col-12 col-md-12 col-lg-4">
                         <div class="site-footer__widget footer-newsletter">
-                            <h5 class="footer-contacts__title">شبکه های</h5>
-                            <div class="footer-newsletter__text footer-newsletter__text--social">ما را در شبکه
-                                های اجتماعی دنبال کنید</div>
-                            <ul class="footer-newsletter__social-links">
-                                <li
-                                    class="footer-newsletter__social-link footer-newsletter__social-link--facebook">
+                            <h5 class="footer-title">شبکه‌های اجتماعی</h5>
+                            <div class="footer-social-text">
+                                ما را در شبکه‌های اجتماعی دنبال کنید تا از جدیدترین مدل‌ها و تخفیف‌ها مطلع شوید
+                            </div>
+                            <ul class="footer-social-links">
+                                <li class="footer-social-link footer-social-link--facebook">
                                     <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
                                 </li>
-                                <li
-                                    class="footer-newsletter__social-link footer-newsletter__social-link--twitter">
+                                <li class="footer-social-link footer-social-link--twitter">
                                     <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
                                 </li>
-                                <li
-                                    class="footer-newsletter__social-link footer-newsletter__social-link--youtube">
+                                <li class="footer-social-link footer-social-link--youtube">
                                     <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
                                 </li>
-                                <li
-                                    class="footer-newsletter__social-link footer-newsletter__social-link--instagram">
+                                <li class="footer-social-link footer-social-link--instagram">
                                     <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
                                 </li>
-                                <li class="footer-newsletter__social-link footer-newsletter__social-link--rss">
+                                <li class="footer-social-link footer-social-link--rss">
                                     <a href="#" target="_blank"><i class="fas fa-rss"></i></a>
                                 </li>
                             </ul>
@@ -80,13 +379,13 @@
                     </div>
                 </div>
             </div>
-            <div class="site-footer__bottom">
 
-                <div class="site-footer__copyright">
+            <!-- کپی‌رایت -->
+            <div class="footer-bottom">
+                <div class="footer-copyright">
                     کلیه حقوق و امتیازات این وبسایت متعلق است به آکادمی
                     <a href="https://darsman.com" target="_blank">درسمن</a>
                 </div>
-
             </div>
         </div>
     </div>

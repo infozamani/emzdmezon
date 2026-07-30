@@ -1,147 +1,180 @@
-from django.shortcuts import render,get_object_or_404,redirect
-from .models import Product, Brand, ProductGroup,FeatureValue
-from django.db.models import Q,Count,Min,Max
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Product, Brand, ProductGroup, FeatureValue
+from django.db.models import Q, Count, Min, Max
 from django.views import View
 from .filters import ProductFilter
 from django.core.paginator import Paginator
 from .compare import CompareProduct
-from django.http import JsonResponse  
-from django.http import HttpResponse
+from django.http import JsonResponse, HttpResponse
 from apps.comment_scoring_favorites.models import Favorite
+from apps.accounts.models import Customer
+from django.contrib import messages
+
 
 def get_root_group():
-    return ProductGroup.objects.filter(Q(is_active = True)& Q(group_parent = None))
+    return ProductGroup.objects.filter(Q(is_active=True) & Q(group_parent=None))
 
-## ارزانترین محصولات
-def get_cheapest_product(request,*args, **kwargs):
-    products = Product.objects.filter(is_active = True).order_by('price')[:8]
+
+# ============================================================
+# ارزانترین محصولات
+# ============================================================
+def get_cheapest_product(request, *args, **kwargs):
+    products = Product.objects.filter(is_active=True).order_by('price')[:8]
     product_groups = get_root_group()
     context = {
-        "products":products,
-        "product_groups" :product_groups
+        "products": products,
+        "product_groups": product_groups
     }
-    return render (request,"product_app/partials/cheapest_product.html",context)
-#--------------------------------------------------------------------
-## جدیدترین محصولات(annotate)برای اضافه کردن فیلد یا ستون که برای شمارش وجمع و میانگین
-def get_last_product(request,*args, **kwargs):
-    products = Product.objects.filter(is_active = True).order_by('-published_date')[:6]
+    return render(request, "product_app/partials/cheapest_product.html", context)
+
+
+# ============================================================
+# جدیدترین محصولات
+# ============================================================
+def get_last_product(request, *args, **kwargs):
+    products = Product.objects.filter(is_active=True).order_by('-published_date')[:6]
     product_groups = get_root_group()
     context = {
-        "products":products,
-        "product_groups" :product_groups
+        "products": products,
+        "product_groups": product_groups
     }
-    return render (request,"product_app/partials/last_product.html",context)
-#--------------------------------------------------------------------
-## گروه محصولات محبوب
-def get_popular_product_groups(request,*args, **kwargs):
-    product_groups = ProductGroup.objects.filter(Q(is_active = True))\
-                     .annotate(count = Count('products_of_groups'))\
+    return render(request, "product_app/partials/last_product.html", context)
+
+
+# ============================================================
+# گروه محصولات محبوب
+# ============================================================
+def get_popular_product_groups(request, *args, **kwargs):
+    product_groups = ProductGroup.objects.filter(Q(is_active=True))\
+                     .annotate(count=Count('products_of_groups'))\
                      .order_by('-count')[:6]
     context = {
-        "product_groups" :product_groups
+        "product_groups": product_groups
     }
-    return render (request,"product_app/partials/popular_product_groups.html",context)
-#--------------------------------------------------------------------
-## جزئیات محصول 
+    return render(request, "product_app/partials/popular_product_groups.html", context)
+
+
+# ============================================================
+# جزئیات محصول
+# ============================================================
 class productDetaileView(View):
-    def get(self,request,slug):
-        product = get_object_or_404(Product,slug = slug)
+    def get(self, request, slug):
+        product = get_object_or_404(Product, slug=slug)
         if product.is_active:
-            return render (request,"product_app/product_details.html",{'product':product})
-#--------------------------------------------------------------------
-## create related product 
-def get_related_products(request,*args, **kwargs):
-    current_prodouct = get_object_or_404(Product,slug=kwargs['slug'])
+            return render(request, "product_app/product_details.html", {'product': product})
+        return redirect('main:index')
+
+
+# ============================================================
+# محصولات مرتبط
+# ============================================================
+def get_related_products(request, *args, **kwargs):
+    current_product = get_object_or_404(Product, slug=kwargs['slug'])
     related_product = []
-    for group in current_prodouct.product_group.all():
-        related_product.extend(Product.objects.filter(Q(is_active=True) & Q(product_group=group)& ~Q(id=current_prodouct.id)))
-    return render (request,"product_app/partials/related_products.html" ,{'related_product':related_product})          
-#--------------------------------------------------------------------
-## create class list page  is all  products 
+    for group in current_product.product_group.all():
+        related_product.extend(Product.objects.filter(
+            Q(is_active=True) & Q(product_group=group) & ~Q(id=current_product.id)
+        ))
+    return render(request, "product_app/partials/related_products.html", {'related_product': related_product})
+
+
+# ============================================================
+# لیست همه گروه‌های محصولات
+# ============================================================
 class ProductGroupView(View):
     def get(self, request):
-        product_groups = ProductGroup.objects.filter(Q(is_active = True))\
-                     .annotate(count = Count('products_of_groups'))\
+        product_groups = ProductGroup.objects.filter(Q(is_active=True))\
+                     .annotate(count=Count('products_of_groups'))\
                      .order_by('-count')
-        return render(request,"product_app/product_groups.html",{'product_groups':product_groups})
-#------------------------------ filters --------------------------------------
-## create class list group products for filter
+        return render(request, "product_app/product_groups.html", {'product_groups': product_groups})
+
+
+# ============================================================
+# گروه‌های محصولات برای فیلتر
+# ============================================================
 def get_product_groups(request):
-    product_groups =ProductGroup.objects.annotate(count=Count('products_of_groups'))\
-                                        .filter(Q(is_active = True) & ~Q(count = 0))\
+    product_groups = ProductGroup.objects.annotate(count=Count('products_of_groups'))\
+                                        .filter(Q(is_active=True) & ~Q(count=0))\
                                         .order_by('-count')
-    
-    return render(request,'product_app/partials/product_groups.html',{'product_groups':product_groups})
-#--------------------------------------------------------------------
-## create class list brands  products for filter 
-def get_brands(request,*args, **kwargs):
-    prodouct_group = get_object_or_404(ProductGroup,slug=kwargs['slug'])
-    brand_list_id = prodouct_group.products_of_groups.filter(is_active = True).values('brand_id')
+    return render(request, 'product_app/partials/product_groups.html', {'product_groups': product_groups})
+
+
+# ============================================================
+# برندها برای فیلتر
+# ============================================================
+def get_brands(request, *args, **kwargs):
+    product_group = get_object_or_404(ProductGroup, slug=kwargs['slug'])
+    brand_list_id = product_group.products_of_groups.filter(is_active=True).values('brand_id')
     brands = Brand.objects.filter(pk__in=brand_list_id)\
-                            .annotate(count = Count('brands'))\
+                            .annotate(count=Count('brands'))\
                             .filter(~Q(count=0))\
                             .order_by('-count')
-    return render(request,'product_app/partials/brands_filter.html',{'brands':brands})
-#--------------------------------------------------------------------
-## create class lists orther filters bar hasb feature products in the group
-def get_feature_for_filter(request,*args, **kwargs):
-    prodouct_group = get_object_or_404(ProductGroup,slug=kwargs['slug'])
-    feature_list =prodouct_group.Features_of_groups.all()
+    return render(request, 'product_app/partials/brands_filter.html', {'brands': brands})
+
+
+# ============================================================
+# ویژگی‌ها برای فیلتر
+# ============================================================
+def get_feature_for_filter(request, *args, **kwargs):
+    product_group = get_object_or_404(ProductGroup, slug=kwargs['slug'])
+    feature_list = product_group.Features_of_groups.all()
     feature_dict = dict()
     for feature in feature_list:
         feature_dict[feature] = feature.feature_value.all()
-    return render(request,'product_app/partials/features_filter.html',{'feature_dict ':feature_dict })
-    
-    #-----------------------------------------------------------------------------------------------
-## create def list page  is one of  products 
+    return render(request, 'product_app/partials/features_filter.html', {'feature_dict': feature_dict})
+
+
+# ============================================================
+# لیست محصولات یک گروه با فیلتر
+# ============================================================
 class ProductsBygroupView(View):
-    def get(self,request,*args, **kwargs):
+    def get(self, request, *args, **kwargs):
         slug = kwargs['slug']
-        current_group = get_object_or_404(ProductGroup,slug=slug)
-        products = Product.objects.filter(Q(is_active = True) & Q(product_group = current_group))
+        current_group = get_object_or_404(ProductGroup, slug=slug)
+        products = Product.objects.filter(Q(is_active=True) & Q(product_group=current_group))
         
-        #--------------------------------------------
-        ## price filter
-        res_aggre = products.aggregate(min=Min('price'),max = Max('price'))
-        filter = ProductFilter(request.GET,queryset = products)
+        # قیمت فیلتر
+        res_aggre = products.aggregate(min=Min('price'), max=Max('price'))
+        filter = ProductFilter(request.GET, queryset=products)
         products = filter.qs
         
-        #--------------------------------------------
-        ## brand filter
+        # برند فیلتر
         brands_filter = request.GET.getlist('brand')
-        if brands_filter :
-            products = products.filter(brand__id__in = brands_filter)
-            
-        #--------------------------------------------     
-        ## features filter
+        if brands_filter:
+            products = products.filter(brand__id__in=brands_filter)
+        
+        # ویژگی فیلتر
         features_filter = request.GET.getlist('feature')
-        if features_filter :
-            products = products.filter(product_features__filter_value__id__in = features_filter).distinct()
-             
-        #--------------------------------------------  
-        ## sort type
+        if features_filter:
+            products = products.filter(product_features__filter_value__id__in=features_filter).distinct()
+        
+        # مرتب‌سازی
         sort_type = request.GET.get('sort_type')
-        if not sort_type :
+        if not sort_type:
             sort_type = "0"
         elif sort_type == "1":
             products = products.order_by('price')
         elif sort_type == "2":
             products = products.order_by('-price')
-            
-        group_slug = slug
-        product_per_page = 10                #تعداد کالاها در هر صفحه
-        paginator = Paginator(products, product_per_page) 
-        page_number = request.GET.get('page')       #بدست آوردن شماره صفحه جاری
-        page_obj = paginator.get_page(page_number)  #صفحه بندی برای نمایش صفحه جاری
-        product_count = products.count(); #تعداد کل مالاهای موجود در این گروه
         
-        ##list numbers for make type open for number kala in page user
+        group_slug = slug
+        product_per_page = 10
+        paginator = Paginator(products, product_per_page)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        product_count = products.count()
+        
+        # لیست تعداد نمایش
         show_count_product = []
         i = product_per_page
-        while i < product_count :
+        while i < product_count:
             show_count_product.append(i)
             i *= 2
         show_count_product.append(i)
+        
+        # دریافت محصولات جدید برای سایدبار
+        new_products = Product.objects.filter(is_active=True).order_by('-id')[:5]
+        
         context = {
             'products': products,
             'current_group': current_group,
@@ -149,85 +182,176 @@ class ProductsBygroupView(View):
             'group_slug': group_slug,
             'page_obj': page_obj,
             'product_count': product_count,
-            'show_count_product':show_count_product,
+            'show_count_product': show_count_product,
             'filter': filter,
             'sort_type': sort_type,
+            'new_products': new_products,  # اضافه شد
         }
+        return render(request, "product_app/products.html", context)
 
-        return render(request,"product_app/products.html",context)
 
-#----------------------------------------------------------------
-## tow dropdown in admin panel
+# ============================================================
+# دراپ‌داون ادمین
+# ============================================================
 def get_filter_value_for_feature(request):
     if request.method == 'GET':
         feature_id = request.GET['feature_id']
         feature_values = FeatureValue.objects.filter(feature_id=feature_id)
-        res = {fv.value_title:fv.id for fv in feature_values}
-        return JsonResponse(data=res, safe=False) 
-#----------------------------------------------------------------
-## صفحه اصلی مقایسه کالا ها:نمایش کالا های اضافه شده به لیست
+        res = {fv.value_title: fv.id for fv in feature_values}
+        return JsonResponse(data=res, safe=False)
+
+
+# ============================================================
+# لیست مقایسه
+# ============================================================
+
 class ShowCompareListView(View):
     def get(self, request, *args, **kwargs):
         compare_list = CompareProduct(request)
         context = {
             'compare_list': compare_list,
         }
-        return render(request,'product_app/compare_list.html', context)
-#----------------------------------------------------------------
-## صفحه اصلی مقایسه کالا ها:نمایش کالا های اضافه شده به لیست
-class ShowCompareListView(View):
-    def get(self, request, *args, **kwargs):
-        compare_list = CompareProduct(request)
-        context = {
-            'compare_list': compare_list,
-        }
-        return render(request,'product_app/compare_list.html', context)
-#----------------------------------------------------------------
-## نمایش جدول کالا های لیست مقایسه
+        return render(request, 'product_app/compare_list.html', context)
+
+
 def compare_table(request):
+    """نمایش جدول مقایسه محصولات"""
     compareList = CompareProduct(request)
     
     products = []
     for productId in compareList.compare_product:
-        product = Product.objects.get(id=productId)
-        products.append(product)
-         
+        try:
+            product = Product.objects.get(id=productId, is_active=True)
+            products.append(product)
+        except Product.DoesNotExist:
+            compareList.delete_form_compare_product(productId)
+    
     features = []
-    for product in products: 
+    for product in products:
         for item in product.product_features.all():
             if item.feature not in features:
                 features.append(item.feature)
-        
-        context ={
-            'products' : products,
-            'features' : features,
-        }
-        return render(request,'product_app/partials/compare_table.html',context)
-#----------------------------------------------------------------
-## Calculate the number of mod items in the comparison list محاسبه تعدا کالاهای موجود در لیست مقایسه
+    
+    context = {
+        'products': products,
+        'features': features,
+        'compare_count': len(products),
+    }
+    return render(request, 'product_app/partials/compare_table.html', context)
+
+
 def status_of_compare_list(request):
+    """دریافت تعداد محصولات در لیست مقایسه"""
     compareList = CompareProduct(request)
     return HttpResponse(compareList.count)
 
-#----------------------------------------------------------------
-##اضافه کردن کالا به لیست مقایسه=Add Items to Comparison List
-def add_to_compare_list(request):
-    productId = request.GET.get('productId')
-    # ProductGroupId = request.GET.get('ProductGroupId')
-    compareList = CompareProduct(request)
-    compareList.add_to_compare_product(productId)
-    # compareList.add_to_compare_product(ProductGroupId)
-    return HttpResponse('کالا به لیست مقایسه اضافه شد')
 
-#----------------------------------------------------------------
-## حذف کالا از لیست مقایسه =  Remove the item from the comparison list 
-def delete_from_compare_list(request):
-    productId = request.GET.get('productId')
+def add_to_compare_list(request):
+    """افزودن محصول به لیست مقایسه (AJAX)"""
+    product_id = request.GET.get('productId')
+    
+    if not product_id:
+        return JsonResponse({'status': 'error', 'message': 'شناسه محصول ارسال نشده است'})
+    
     compareList = CompareProduct(request)
-    compareList.delete_form_compare_product(productId)
-    return redirect("products:compare_table")
-#----------------------------------------------------------------
-## Calculate the number of mod items in the comparison list محاسبه تعدا کالاهای موجود در لیست مقایسه
+    result = compareList.add_to_compare_product(product_id)
+    
+    if result:
+        return JsonResponse({
+            'status': 'success',
+            'message': 'محصول به لیست مقایسه اضافه شد',
+            'compare_count': compareList.count
+        })
+    else:
+        return JsonResponse({
+            'status': 'error',
+            'message': 'این محصول قبلاً در لیست مقایسه وجود دارد یا تعداد از ۴ بیشتر شده است',
+            'compare_count': compareList.count
+        })
+
+
+def delete_from_compare_list(request):
+    """حذف محصول از لیست مقایسه"""
+    product_id = request.GET.get('productId')
+    
+    if not product_id:
+        return JsonResponse({'status': 'error', 'message': 'شناسه محصول ارسال نشده است'})
+    
+    compareList = CompareProduct(request)
+    compareList.delete_form_compare_product(product_id)
+    
+    return JsonResponse({
+        'status': 'success',
+        'message': 'محصول از لیست مقایسه حذف شد',
+        'compare_count': compareList.count
+    })
+
+
+def clear_compare_list(request):
+    """خالی کردن لیست مقایسه"""
+    compareList = CompareProduct(request)
+    compareList.clear_compare_product()
+    
+    return JsonResponse({
+        'status': 'success',
+        'message': 'لیست مقایسه خالی شد',
+        'compare_count': 0
+    })
+
+
+# ============================================================
+# علاقه‌مندی‌ها
+# ============================================================
+
 def status_of_favorite_list(request):
-    favoritelist = Favorite(request)
-    return HttpResponse(favoritelist.count)
+    """دریافت تعداد علاقه‌مندی‌های کاربر"""
+    count = 0
+    if request.user.is_authenticated:
+        try:
+            customer = Customer.objects.get(user=request.user)
+            count = Favorite.objects.filter(favorite_user=customer).count()
+        except Customer.DoesNotExist:
+            count = 0
+        except Exception as e:
+            count = 0
+    return HttpResponse(count)
+
+
+def toggle_favorite(request):
+    """افزودن/حذف علاقه‌مندی (AJAX)"""
+    if not request.user.is_authenticated:
+        return JsonResponse({'status': 'error', 'message': 'لطفاً ابتدا وارد شوید'})
+    
+    product_id = request.GET.get('productId')
+    if not product_id:
+        return JsonResponse({'status': 'error', 'message': 'شناسه محصول ارسال نشده است'})
+    
+    try:
+        product = Product.objects.get(id=product_id)
+        customer = Customer.objects.get(user=request.user)
+        
+        favorite, created = Favorite.objects.get_or_create(
+            favorite_user=customer,
+            product=product
+        )
+        
+        if not created:
+            favorite.delete()
+            is_favorite = False
+            message = 'محصول از علاقه‌مندی‌ها حذف شد'
+        else:
+            is_favorite = True
+            message = 'محصول به علاقه‌مندی‌ها اضافه شد'
+        
+        count = Favorite.objects.filter(favorite_user=customer).count()
+        
+        return JsonResponse({
+            'status': 'success',
+            'message': message,
+            'is_favorite': is_favorite,
+            'favorite_count': count
+        })
+    except Product.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'محصول یافت نشد'})
+    except Customer.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'کاربر یافت نشد'})

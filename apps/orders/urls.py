@@ -13,7 +13,7 @@ urlpatterns = [
     path ('checkout_order/<int:order_id>/',CheckoutOrderView.as_view(), name='checkout_order'),
     path ('applay_coupon/<int:order_id>/',ApplayCoupon.as_view(), name='applay_coupon'),
     path('status-of-shop-cart/', status_of_shop_cart, name='status_of_shop_cart'),
-    # path('status-of-favorites/', status_of_favorites, name='status_of_favorites'),
+    path('status-of-favorites/', status_of_favorites, name='status_of_favorites'),
     path('status-of-compare/', status_of_compare, name='status_of_compare'),
   
 

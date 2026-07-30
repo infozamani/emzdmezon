@@ -1,717 +1,1008 @@
-{% extends "main_template.html" %}
-  {% load render_partial %}  
+ {% extends "main_template.html" %}
+{% load render_partial %}
 
-{% block title %}
-    فروشگاه
-{% endblock title %}
+{% block title %}فروشگاه{% endblock title %}
 
 {% block content %}
 
+<style>
+/* ==========================================================
+   پالت رنگ آبی-صورتی حرفه‌ای
+========================================================== */
+:root {
+    --blue-deep: #1E3A8A;
+    --blue-dark: #1E40AF;
+    --blue-primary: #3B82F6;
+    --blue-light: #60A5FA;
+    --blue-glow: #93C5FD;
+    --blue-soft: #DBEAFE;
+    --pink-accent: #EC4899;
+    --pink-light: #F472B6;
+    --purple-mix: #8B5CF6;
+    --purple-light: #A78BFA;
+    --text-dark: #0F172A;
+    --text-body: #334155;
+    --text-muted: #64748B;
+    --bg-page: #F0F5FF;
+    --glass-bg: rgba(255, 255, 255, 0.75);
+    --glass-border: rgba(255, 255, 255, 0.6);
+    --shadow-blue: rgba(59, 130, 246, 0.15);
+    --shadow-pink: rgba(236, 72, 153, 0.1);
+}
 
+/* ==========================================================
+   اسلایدشو - گرادیان سه‌بعدی
+========================================================== */
+.block-slideshow {
+    margin-bottom: 35px;
+    margin-top: 10px;
+    z-index: 0;
+}
+.block-slideshow__body {
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 
+        0 8px 40px rgba(30, 58, 138, 0.15),
+        0 0 0 1px rgba(255,255,255,0.5) inset;
+    position: relative;
+}
+.block-slideshow__slide {
+    position: relative;
+    display: block;
+    height: 440px;
+    overflow: hidden;
+}
+.block-slideshow__slide-image {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    transition: transform 8s ease;
+}
+.block-slideshow__slide:hover .block-slideshow__slide-image {
+    transform: scale(1.08);
+}
+.block-slideshow__slide-image--desktop { display: block; }
+.block-slideshow__slide-image--mobile { display: none; }
 
-		<!-- site__body -->
-	 	<div class="site__body">
-			<!-- .block-slideshow -->
-			   <div class="block-slideshow block-slideshow--layout--full block">
-				<div class="container">
-					<div class="row">
-						<div class="col-12">
-							<div class="block-slideshow__body">
-								<div class="owl-carousel">
-									<a class="block-slideshow__slide" href="">
-										<div class="block-slideshow__slide-image block-slideshow__slide-image--desktop"
-											style="background-image: url('{{media_url}}/images/product/6d01f60a-466e-4b9e-b26d-f7fc17b662f9.jpg')"></div>
-										<div class="block-slideshow__slide-image block-slideshow__slide-image--mobile"
-											style="background-image: url('{{media_url}}/images/slides/c267d0ac-dcf7-40f0-afae-00f73a428ba8')"></div>
-										<div class="block-slideshow__slide-content">
-											<div class="block-slideshow__slide-title"> 
-											پیراهن مجلسی 
-											</div>
-											<div class="block-slideshow__slide-text"> مزون مبینا  												
-												<br> پیراهن ماکسی  
-											</div> 
-										</div>
-									</a>
-									<a class="block-slideshow__slide" href="">
-										<div class="block-slideshow__slide-image block-slideshow__slide-image--desktop"
-											style="background-image: url('{{media_url}}/images/slides/2c8fcd32-7128-421e-9cfe-c292e02a4b7b.jpg')"></div>
-										<div class="block-slideshow__slide-image block-slideshow__slide-image--mobile"
-											style="background-image: url('{{media_url}}/images/slides/2c8fcd32-7128-421e-9cfe-c292e02a4b7b.jpg')"></div>
-										<div class="block-slideshow__slide-content">
-											<div class="block-slideshow__slide-title">عنوان
-												شماره2
-											</div>
-											<div class="block-slideshow__slide-text">لورم ایپسوم متن ساختگی با تولید
-												سادگی نامفهوم از صنعت چاپ
-												<br>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم
-											</div>
-										</div>
-									</a>
-									<a class="block-slideshow__slide" href="">
-										<div class="block-slideshow__slide-image block-slideshow__slide-image--desktop"
-											style="background-image: url('{{media_url}}/images/slides/c267d0ac-dcf7-40f0-afae-00f73a428ba8.jpg')"></div>
-										<div class="block-slideshow__slide-image block-slideshow__slide-image--mobile"
-											style="background-image: url('{{media_url}}/images/slides/c267d0ac-dcf7-40f0-afae-00f73a428ba8.jpg')"></div>
-										<div class="block-slideshow__slide-content">
-											<div class="block-slideshow__slide-title">عنوان
-												شماره 3
-											</div>
-											<div class="block-slideshow__slide-text">لورم ایپسوم متن ساختگی با تولید
-												سادگی نامفهوم از صنعت چاپ
-												<br>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم
-											</div>
-										</div>
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>   
+.block-slideshow__slide-content {
+    position: absolute;
+    bottom: 45px;
+    right: 45px;
+    background: linear-gradient(135deg, rgba(30,58,138,0.88), rgba(139,92,246,0.85));
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    padding: 32px 42px;
+    border-radius: 20px 0 20px 20px;
+    border: 1px solid rgba(255,255,255,0.15);
+    max-width: 440px;
+    box-shadow: 
+        0 12px 40px rgba(0,0,0,0.2),
+        0 0 0 1px rgba(255,255,255,0.1) inset;
+    transition: all 0.4s ease;
+}
+.block-slideshow__slide:hover .block-slideshow__slide-content {
+    transform: translateY(-6px);
+    box-shadow: 
+        0 20px 50px rgba(0,0,0,0.25),
+        0 0 0 1px rgba(255,255,255,0.15) inset;
+}
+.block-slideshow__slide-title {
+    color: #ffffff;
+    font-size: 34px;
+    font-weight: 800;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.2);
+    margin-bottom: 10px;
+    letter-spacing: -0.5px;
+}
+.block-slideshow__slide-text {
+    color: rgba(255,255,255,0.95);
+    font-size: 17px;
+    line-height: 1.8;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.1);
+}
 
+/* نقطه‌های اسلایدشو */
+.owl-carousel .owl-dots {
+    position: absolute;
+    bottom: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 5;
+}
+.owl-carousel .owl-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    border: 2px solid rgba(255,255,255,0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    padding: 0;
+}
+.owl-carousel .owl-dot.active {
+    background: linear-gradient(135deg, var(--blue-light), var(--pink-light));
+    border-color: white;
+    transform: scale(1.3);
+    box-shadow: 0 0 15px rgba(236, 72, 153, 0.5);
+}
+.owl-carousel .owl-dot:hover {
+    background: var(--blue-light);
+}
+
+@media (max-width: 768px) {
+    .block-slideshow__slide { height: 300px; }
+    .block-slideshow__slide-image--desktop { display: none; }
+    .block-slideshow__slide-image--mobile { display: block; }
+    .block-slideshow__slide-content {
+        right: 16px; bottom: 16px;
+        padding: 18px 22px;
+        border-radius: 16px 0 16px 16px;
+        max-width: 85%;
+    }
+    .block-slideshow__slide-title { font-size: 22px; }
+    .block-slideshow__slide-text { font-size: 14px; }
+}
+
+/* ==========================================================
+   ویژگی‌ها (Features) - کارت‌های شیشه‌ای
+========================================================== */
+.block-features--layout--boxed {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 40px 24px;
+    margin: 35px 0;
+    box-shadow: 
+        0 8px 40px var(--shadow-blue),
+        0 0 0 1px rgba(255,255,255,0.6) inset;
+}
+.block-features__list {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.block-features__item {
+    text-align: center;
+    padding: 0 20px;
+    flex: 1 1 180px;
+    min-width: 150px;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.block-features__item:hover {
+    transform: translateY(-8px);
+}
+.block-features__icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 18px;
+    background: linear-gradient(135deg, var(--blue-primary), var(--purple-mix), var(--pink-accent));
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 26px;
+    box-shadow: 
+        0 8px 25px rgba(59, 130, 246, 0.3),
+        0 0 0 1px rgba(255,255,255,0.2) inset;
+    transition: all 0.4s ease;
+    transform: perspective(500px) rotateX(0deg);
+}
+.block-features__item:hover .block-features__icon {
+    transform: perspective(500px) rotateX(8deg) scale(1.08);
+    box-shadow: 
+        0 12px 35px rgba(139, 92, 246, 0.35),
+        0 0 0 1px rgba(255,255,255,0.3) inset;
+}
+.block-features__title {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 6px;
+}
+.block-features__subtitle {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+.block-features__divider {
+    width: 1px;
+    background: linear-gradient(180deg, transparent, var(--blue-primary), transparent);
+    opacity: 0.2;
+    flex-shrink: 0;
+}
+@media (max-width: 768px) {
+    .block-features--layout--boxed { padding: 28px 16px; border-radius: 20px; }
+    .block-features__item { flex: 1 1 45%; padding: 0 10px; }
+    .block-features__divider { display: none; }
+    .block-features__icon { width: 52px; height: 52px; font-size: 20px; border-radius: 16px; }
+    .block-features__title { font-size: 15px; }
+}
+
+/* ==========================================================
+   هدر بخش‌ها
+========================================================== */
+.block-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 28px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid rgba(59, 130, 246, 0.1);
+}
+.block-header__title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-dark);
+    white-space: nowrap;
+    margin: 0;
+}
+.block-header__divider {
+    flex: 1;
+    height: 2px;
+    background: linear-gradient(90deg, var(--blue-primary), var(--purple-mix), var(--pink-accent));
+    border-radius: 2px;
+    opacity: 0.4;
+}
+.block-header__arrows-list {
+    display: flex;
+    gap: 8px;
+}
+.block-header__arrow {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    border: 2px solid var(--blue-soft);
+    background: white;
+    color: var(--blue-primary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    box-shadow: 0 2px 8px rgba(59,130,246,0.08);
+}
+.block-header__arrow:hover {
+    background: linear-gradient(135deg, var(--blue-primary), var(--purple-mix));
+    color: white;
+    border-color: transparent;
+    transform: scale(1.1) translateY(-2px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.25);
+}
+@media (max-width: 768px) {
+    .block-header__title { font-size: 18px; }
+    .block-header__arrow { width: 32px; height: 32px; font-size: 13px; }
+}
+
+/* ==========================================================
+   مقالات - کارت‌های شیشه‌ای سه‌بعدی
+========================================================== */
+.block-posts {
+    padding: 40px 0;
+    margin: 35px 0;
+}
+.block-posts .container {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 24px;
+    padding: 35px 28px;
+    border: 1px solid var(--glass-border);
+    box-shadow: 
+        0 8px 40px var(--shadow-blue),
+        0 0 0 1px rgba(255,255,255,0.6) inset;
+}
+.post-card {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(59, 130, 246, 0.08);
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+}
+.post-card:hover {
+    transform: translateY(-8px) perspective(600px) rotateX(2deg);
+    box-shadow: 
+        0 20px 50px rgba(59, 130, 246, 0.12),
+        0 0 0 1px rgba(59, 130, 246, 0.1) inset;
+    border-color: rgba(59, 130, 246, 0.15);
+}
+.post-card__image {
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    position: relative;
+}
+.post-card__image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 60%, rgba(30,58,138,0.08));
+    pointer-events: none;
+}
+.post-card__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+.post-card:hover .post-card__image img {
+    transform: scale(1.08);
+}
+.post-card__info {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 8px;
+}
+.post-card__category a {
+    color: var(--pink-accent);
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    letter-spacing: 0.3px;
+}
+.post-card__category a:hover {
+    color: var(--purple-mix);
+}
+.post-card__name a {
+    color: var(--text-dark);
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.5;
+    text-decoration: none;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    transition: color 0.3s ease;
+}
+.post-card__name a:hover {
+    color: var(--blue-primary);
+}
+.post-card__date {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+}
+.post-card__content {
+    font-size: 13px;
+    color: var(--text-body);
+    line-height: 1.7;
+    opacity: 0.8;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-top: 2px;
+}
+.post-card__read-more {
+    margin-top: auto;
+    padding-top: 12px;
+}
+.post-card__read-more .btn-secondary {
+    background: linear-gradient(135deg, var(--blue-primary), var(--purple-mix));
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 10px 22px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
+}
+.post-card__read-more .btn-secondary:hover {
+    background: linear-gradient(135deg, var(--purple-mix), var(--pink-accent));
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
+}
+
+/* ==========================================================
+   برندها
+========================================================== */
+.block-brands {
+    padding: 30px 0;
+    margin-top: 20px;
+}
+.block-brands .container {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 24px;
+    padding: 35px 28px;
+    border: 1px solid var(--glass-border);
+    box-shadow: 
+        0 8px 40px var(--shadow-blue),
+        0 0 0 1px rgba(255,255,255,0.6) inset;
+}
+.block-brands__item {
+    border-radius: 16px;
+    overflow: hidden;
+    border: 2px solid rgba(59, 130, 246, 0.08);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    opacity: 0.7;
+    background: rgba(255, 255, 255, 0.6);
+    padding: 8px;
+}
+.block-brands__item:hover {
+    border-color: var(--blue-primary);
+    opacity: 1;
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 12px 30px rgba(59, 130, 246, 0.12);
+    background: white;
+}
+.block-brands__item img {
+    width: 100%;
+    display: block;
+    border-radius: 10px;
+    transition: filter 0.3s ease;
+}
+.block-brands__item:hover img {
+    filter: brightness(1.05);
+}
+
+/* ==========================================================
+   استایل کاروسل‌های Owl
+========================================================== */
+.owl-carousel .owl-nav {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
+    padding: 0 12px;
+}
+.owl-carousel .owl-nav button {
+    pointer-events: auto;
+    background: white !important;
+    border: 2px solid var(--blue-soft) !important;
+    border-radius: 14px !important;
+    width: 44px;
+    height: 44px;
+    color: var(--blue-primary) !important;
+    font-size: 20px !important;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(59,130,246,0.1);
+}
+.owl-carousel .owl-nav button:hover {
+    background: linear-gradient(135deg, var(--blue-primary), var(--purple-mix)) !important;
+    color: white !important;
+    border-color: transparent !important;
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.25);
+}
+@media (max-width: 768px) {
+    .owl-carousel .owl-nav { display: none; }
+}
+
+/* ==========================================================
+   استایل ویجت‌های محصولات (render_partial)
+========================================================== */
+.block-products-carousel .container,
+.block-categories .container {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 24px;
+    padding: 35px 28px;
+    border: 1px solid var(--glass-border);
+    box-shadow: 
+        0 8px 40px var(--shadow-blue),
+        0 0 0 1px rgba(255,255,255,0.6) inset;
+    margin-bottom: 35px;
+}
+
+/* کارت‌های محصولات داخل ویجت‌ها */
+.product-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    border: 1px solid rgba(59, 130, 246, 0.08);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+}
+.product-card:hover {
+    transform: translateY(-6px) perspective(500px) rotateX(1deg);
+    border-color: rgba(59, 130, 246, 0.2);
+    box-shadow: 
+        0 16px 40px rgba(59, 130, 246, 0.1),
+        0 0 0 1px rgba(59, 130, 246, 0.08) inset;
+}
+.product-card .btn-primary {
+    background: linear-gradient(135deg, var(--blue-primary), var(--purple-mix));
+    border: none;
+    border-radius: 12px;
+    padding: 10px 20px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    color: white;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
+}
+.product-card .btn-primary:hover {
+    background: linear-gradient(135deg, var(--purple-mix), var(--pink-accent));
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
+}
+.product-card .btn-light {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1.5px solid var(--blue-soft);
+    color: var(--text-muted);
+    border-radius: 12px;
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+.product-card .btn-light:hover {
+    background: linear-gradient(135deg, var(--blue-soft), white);
+    border-color: var(--blue-primary);
+    color: var(--blue-primary);
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+}
+.product-card__new-price {
+    color: var(--pink-accent);
+    font-weight: 700;
+    font-size: 16px;
+}
+.product-card__old-price {
+    color: var(--text-muted);
+    text-decoration: line-through;
+    font-size: 14px;
+    margin-right: 8px;
+}
+.product-card__name a {
+    color: var(--text-dark);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+.product-card__name a:hover {
+    color: var(--blue-primary);
+}
+.product-card__badge {
+    background: linear-gradient(135deg, var(--blue-primary), var(--pink-accent));
+    color: white;
+    padding: 5px 14px;
+    border-radius: 30px;
+    font-size: 11px;
+    font-weight: 700;
+    display: inline-block;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+}
+
+/* ==========================================================
+   ریسپانسیو کلی
+========================================================== */
+@media (max-width: 576px) {
+    .block-posts .container,
+    .block-products-carousel .container,
+    .block-categories .container,
+    .block-brands .container {
+        padding: 20px 14px;
+        border-radius: 20px;
+    }
+    .block-features--layout--boxed {
+        padding: 20px 12px;
+        border-radius: 20px;
+    }
+    .block-header {
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+    .block-header__divider {
+        display: none;
+    }
+    .block-header__arrows-list {
+        margin-right: auto;
+    }
+    .post-card { border-radius: 16px; }
+    .post-card__info { padding: 16px; }
+}
+</style>
+
+<!-- ============================================================
+     شروع محتوای اصلی
+============================================================ -->
+<div class="site__body">
+
+    <!-- ============================================================
+         اسلایدشو
+    ============================================================ -->
+    <div class="block-slideshow block-slideshow--layout--full block">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="block-slideshow__body">
+                        <div class="owl-carousel owl-carousel--slideshow">
+                            <!-- اسلاید ۱ -->
+                            <a class="block-slideshow__slide" href="#">
+                                <div class="block-slideshow__slide-image block-slideshow__slide-image--desktop"
+                                     style="background-image: url('{{ media_url }}/images/product/5f9ded9a-6ec6-4161-9112-35a14a732200.jpg')">
+                                </div>
+                                <div class="block-slideshow__slide-image block-slideshow__slide-image--mobile"
+                                     style="background-image: url('{{ media_url }}/images/slides/c267d0ac-dcf7-40f0-afae-00f73a428ba8')">
+                                </div>
+                                <div class="block-slideshow__slide-content">
+                                    <div class="block-slideshow__slide-title">🌟 کالکشن بهاره</div>
+                                    <div class="block-slideshow__slide-text">
+                                        جدیدترین مدل‌های پوشاک زنانه<br>
+                                        با تخفیف‌های ویژه تا ۴۰٪
+                                    </div>
+                                </div>
+                            </a>
+
+                            <!-- اسلاید ۲ -->
+                            <a class="block-slideshow__slide" href="#">
+                                <div class="block-slideshow__slide-image block-slideshow__slide-image--desktop"
+                                     style="background-image: url('{{ media_url }}/images/slides/2c8fcd32-7128-421e-9cfe-c292e02a4b7b.jpg')">
+                                </div>
+                                <div class="block-slideshow__slide-image block-slideshow__slide-image--mobile"
+                                     style="background-image: url('{{ media_url }}/images/slides/2c8fcd32-7128-421e-9cfe-c292e02a4b7b.jpg')">
+                                </div>
+                                <div class="block-slideshow__slide-content">
+                                    <div class="block-slideshow__slide-title">👗 مانتوهای اسپرت</div>
+                                    <div class="block-slideshow__slide-text">
+                                        استایل راحت و شیک برای روزهای بهاری<br>
+                                        ارسال رایگان برای اولین خرید
+                                    </div>
+                                </div>
+                            </a>
+
+                            <!-- اسلاید ۳ -->
+                            <a class="block-slideshow__slide" href="#">
+                                <div class="block-slideshow__slide-image block-slideshow__slide-image--desktop"
+                                     style="background-image: url('{{ media_url }}/images/slides/c267d0ac-dcf7-40f0-afae-00f73a428ba8.jpg')">
+                                </div>
+                                <div class="block-slideshow__slide-image block-slideshow__slide-image--mobile"
+                                     style="background-image: url('{{ media_url }}/images/slides/c267d0ac-dcf7-40f0-afae-00f73a428ba8.jpg')">
+                                </div>
+                                <div class="block-slideshow__slide-content">
+                                    <div class="block-slideshow__slide-title">👜 اکسسوری‌های شیک</div>
+                                    <div class="block-slideshow__slide-text">
+                                        کیف، کفش و کمربندهای جدید<br>
+                                        برندهای معروف با قیمت مناسب
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- .block-slideshow / end -->
+
+    <!-- ============================================================
+         ویژگی‌ها
+    ============================================================ -->
+    <div class="block block-features block-features--layout--boxed">
+        <div class="container">
+            <div class="block-features__list">
+                <div class="block-features__item">
+                    <div class="block-features__icon">
+                        <i class="fas fa-shipping-fast"></i>
+                    </div>
+                    <div class="block-features__content">
+                        <div class="block-features__title">ارسال رایگان</div>
+                        <div class="block-features__subtitle">برای خریدهای بالای ۵۰۰ هزار تومان</div>
+                    </div>
+                </div>
+                <div class="block-features__divider"></div>
+                <div class="block-features__item">
+                    <div class="block-features__icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <div class="block-features__content">
+                        <div class="block-features__title">پشتیبانی ۲۴ ساعته</div>
+                        <div class="block-features__subtitle">هر زمان تماس بگیرید</div>
+                    </div>
+                </div>
+                <div class="block-features__divider"></div>
+                <div class="block-features__item">
+                    <div class="block-features__icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="block-features__content">
+                        <div class="block-features__title">۱۰۰٪ امن</div>
+                        <div class="block-features__subtitle">پرداخت‌های امن و مطمئن</div>
+                    </div>
+                </div>
+                <div class="block-features__divider"></div>
+                <div class="block-features__item">
+                    <div class="block-features__icon">
+                        <i class="fas fa-percent"></i>
+                    </div>
+                    <div class="block-features__content">
+                        <div class="block-features__title">پیشنهادات ویژه</div>
+                        <div class="block-features__subtitle">تخفیف‌های هفتگی شگفت‌انگیز</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- .block-features / end -->
+
+    <!-- ============================================================
+         ارزان‌ترین محصولات
+    ============================================================ -->
+    {% render_partial "products:cheapest_product" %}
+
+    <!-- ============================================================
+         دسته‌بندی‌های محبوب
+    ============================================================ -->
+    {% render_partial 'products:popular_product_groups' %}
+
+    <!-- ============================================================
+         آخرین محصولات
+    ============================================================ -->
+    {% render_partial "products:last_product" %}
+
+    <!-- ============================================================
+         آخرین مقالات
+    ============================================================ -->
+    {% comment %} <div class="block block-posts block-posts--layout--grid-nl" data-layout="grid-nl">
+        <div class="container">
+            <div class="block-header">
+                <h3 class="block-header__title">📝 آخرین مقالات</h3>
+                <div class="block-header__divider"></div>
+                <div class="block-header__arrows-list">
+                    <button class="block-header__arrow block-header__arrow--left" type="button">
+                        <i class="fas fa-angle-right"></i>
+                    </button>
+                    <button class="block-header__arrow block-header__arrow--right" type="button">
+                        <i class="fas fa-angle-left"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="block-posts__slider">
+                <div class="owl-carousel owl-carousel--posts">
+                    <div class="post-card">
+                        <div class="post-card__image">
+                            <a href="#"><img src="{{ media_url }}/images/product/c04799b3-8c11-4bff-94bd-5cdf62dec0ce.jpg" alt="مقاله مد"></a>
+                        </div>
+                        <div class="post-card__info">
+                            <div class="post-card__category"><a href="#">پیشنهادهای ویژه</a></div>
+                            <div class="post-card__name"><a href="#">راهنمای انتخاب لباس مجلسی مناسب برای مهمانی‌ها</a></div>
+                            <div class="post-card__date">۱۹ فروردین ۱۴۰۵</div>
+                            <div class="post-card__content">نکات کلیدی برای انتخاب لباس مجلسی که هم شیک باشد و هم با استایل شما هماهنگ باشد...</div>
+                            <div class="post-card__read-more">
+                                <a href="#" class="btn btn-secondary btn-sm">بیشتر بخوانید</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post-card">
+                        <div class="post-card__image">
+                            <a href="#"><img src="{{ media_url }}/images/product/5f9ded9a-6ec6-4161-9112-35a14a732200.jpg" alt="مقاله مد"></a>
+                        </div>
+                        <div class="post-card__info">
+                            <div class="post-card__category"><a href="#">آخرین اخبار</a></div>
+                            <div class="post-card__name"><a href="#">ترندهای پوشاک زنانه در تابستان ۱۴۰۵</a></div>
+                            <div class="post-card__date">۵ فروردین ۱۴۰۵</div>
+                            <div class="post-card__content">با جدیدترین ترندهای دنیای مد آشنا شوید. رنگ‌های شاد، پارچه‌های نخی و استایل‌های راحت...</div>
+                            <div class="post-card__read-more">
+                                <a href="#" class="btn btn-secondary btn-sm">بیشتر بخوانید</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post-card">
+                        <div class="post-card__image">
+                            <a href="#"><img src="{{ media_url }}/images/product/1f96e0b8-4cf1-4131-a0f0-9fbb5991f4d8.jpg" alt="مقاله مد"></a>
+                        </div>
+                        <div class="post-card__info">
+                            <div class="post-card__category"><a href="#">محصولات جدید</a></div>
+                            <div class="post-card__name"><a href="#">معرفی کالکشن جدید مانتوهای اسپرت</a></div>
+                            <div class="post-card__date">۱۲ اسفند ۱۴۰۴</div>
+                            <div class="post-card__content">مانتوهای اسپرت با طراحی مدرن و پارچه‌های باکیفیت برای خانم‌های شیک‌پوش...</div>
+                            <div class="post-card__read-more">
+                                <a href="#" class="btn btn-secondary btn-sm">بیشتر بخوانید</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post-card">
+                        <div class="post-card__image">
+                            <a href="#"><img src="{{ media_url }}/images/product/c04799b3-8c11-4bff-94bd-5cdf62dec0ce.jpg" alt="مقاله مد"></a>
+                        </div>
+                        <div class="post-card__info">
+                            <div class="post-card__category"><a href="#">پیشنهادهای ویژه</a></div>
+                            <div class="post-card__name"><a href="#">نحوه ست کردن کیف و کفش با مانتو</a></div>
+                            <div class="post-card__date">۳۰ بهمن ۱۴۰۴</div>
+                            <div class="post-card__content">راهنمای جامع ست کردن اکسسوری‌ها با مانتو برای داشتن استایلی منحصربه‌فرد...</div>
+                            <div class="post-card__read-more">
+                                <a href="#" class="btn btn-secondary btn-sm">بیشتر بخوانید</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post-card">
+                        <div class="post-card__image">
+                            <a href="#"><img src="{{ media_url }}/images/product/5f9ded9a-6ec6-4161-9112-35a14a732200.jpg" alt="مقاله مد"></a>
+                        </div>
+                        <div class="post-card__info">
+                            <div class="post-card__category"><a href="#">محصولات جدید</a></div>
+                            <div class="post-card__name"><a href="#">راهنمای خرید شال و روسری مناسب فصل</a></div>
+                            <div class="post-card__date">۱۲ دی ۱۴۰۴</div>
+                            <div class="post-card__content">انتخاب شال و روسری مناسب با رنگ پوست و استایل شما می‌تواند تفاوت زیادی ایجاد کند...</div>
+                            <div class="post-card__read-more">
+                                <a href="#" class="btn btn-secondary btn-sm">بیشتر بخوانید</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post-card">
+                        <div class="post-card__image">
+                            <a href="#"><img src="{{ media_url }}/images/product/1f96e0b8-4cf1-4131-a0f0-9fbb5991f4d8.jpg" alt="مقاله مد"></a>
+                        </div>
+                        <div class="post-card__info">
+                            <div class="post-card__category"><a href="#">پیشنهادهای ویژه</a></div>
+                            <div class="post-card__name"><a href="#">چگونه لباس‌هایمان را مرتب و ماندگار نگه داریم</a></div>
+                            <div class="post-card__date">۲۱ آذر ۱۴۰۴</div>
+                            <div class="post-card__content">نکات طلایی برای نگهداری از لباس‌های نخی، ساتن و مجلسی تا سال‌ها نو بمانند...</div>
+                            <div class="post-card__read-more">
+                                <a href="#" class="btn btn-secondary btn-sm">بیشتر بخوانید</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> {% endcomment %}
+    
+    <!-- .block-posts / end -->
+
+    <!-- ============================================================
+         برندها
+    ============================================================ -->
+    {% comment %} <div class="block block-brands">
+        <div class="container">
+            <div class="block-brands__slider">
+                <div class="owl-carousel owl-carousel--brands">
+                    <div class="block-brands__item">
+                        <a href="#"><img src="https://via.placeholder.com/380x80/3B82F6/FFFFFF?text=برند+۱" alt="برند"></a>
+                    </div>
+                    <div class="block-brands__item">
+                        <a href="#"><img src="https://via.placeholder.com/380x80/EC4899/FFFFFF?text=برند+۲" alt="برند"></a>
+                    </div>
+                    <div class="block-brands__item">
+                        <a href="#"><img src="https://via.placeholder.com/380x80/8B5CF6/FFFFFF?text=برند+۳" alt="برند"></a>
+                    </div>
+                    <div class="block-brands__item">
+                        <a href="#"><img src="https://via.placeholder.com/380x80/1E40AF/FFFFFF?text=برند+۴" alt="برند"></a>
+                    </div>
+                    <div class="block-brands__item">
+                        <a href="#"><img src="https://via.placeholder.com/380x80/60A5FA/FFFFFF?text=برند+۵" alt="برند"></a>
+                    </div>
+                    <div class="block-brands__item">
+                        <a href="#"><img src="https://via.placeholder.com/380x80/F472B6/FFFFFF?text=برند+۶" alt="برند"></a>
+                    </div>
+                    <div class="block-brands__item">
+                        <a href="#"><img src="https://via.placeholder.com/380x80/DBEAFE/1E40AF?text=برند+۷" alt="برند"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- .block-brands / end --> {% endcomment %}
+
+</div>
+<!-- .site__body / end -->
+
+<!-- ============================================================
+     اسکریپت‌های کاروسل
+============================================================ -->
+<script>
+    (function() {
+        'use strict';
+
+        document.addEventListener('DOMContentLoaded', function() {
+
+            if (typeof $ === 'undefined' || !$.fn.owlCarousel) {
+                console.warn('jQuery یا OwlCarousel بارگذاری نشده است.');
+                return;
+            }
+
+            // ====== اسلایدشو اصلی - ۳ ثانیه ======
+            var $slideshow = $('.owl-carousel--slideshow');
+            if ($slideshow.length) {
+                $slideshow.owlCarousel({
+                    rtl: true,
+                    loop: true,
+                    margin: 0,
+                    nav: true,
+                    navText: ['<i class="fas fa-chevron-right"></i>', '<i class="fas fa-chevron-left"></i>'],
+                    dots: true,
+                    autoplay: true,
+                    autoplayTimeout: 3000,
+                    autoplayHoverPause: true,
+                    items: 1,
+                    animateOut: 'fadeOut',
+                    animateIn: 'fadeIn',
+                    smartSpeed: 700
+                });
+            }
+
+            // ====== کاروسل مقالات ======
+            var $posts = $('.owl-carousel--posts');
+            if ($posts.length) {
+                $posts.owlCarousel({
+                    rtl: true,
+                    loop: true,
+                    margin: 20,
+                    nav: true,
+                    navText: ['<i class="fas fa-chevron-right"></i>', '<i class="fas fa-chevron-left"></i>'],
+                    dots: false,
+                    autoplay: true,
+                    autoplayTimeout: 4000,
+                    autoplayHoverPause: true,
+                    responsive: {
+                        0: { items: 1 },
+                        576: { items: 2 },
+                        992: { items: 3 },
+                        1200: { items: 4 }
+                    }
+                });
+            }
+
+            // ====== کاروسل برندها ======
+            var $brands = $('.owl-carousel--brands');
+            if ($brands.length) {
+                $brands.owlCarousel({
+                    rtl: true,
+                    loop: true,
+                    margin: 20,
+                    nav: false,
+                    dots: false,
+                    autoplay: true,
+                    autoplayTimeout: 3000,
+                    autoplayHoverPause: true,
+                    responsive: {
+                        0: { items: 2 },
+                        576: { items: 3 },
+                        768: { items: 4 },
+                        992: { items: 5 },
+                        1200: { items: 6 }
+                    }
+                });
+            }
+
+            // ====== دکمه‌های فلش هدر برای مقالات ======
+            var $leftArrow = $('.block-header__arrow--left');
+            var $rightArrow = $('.block-header__arrow--right');
+
+            if ($leftArrow.length && $rightArrow.length && $posts.length) {
+                $leftArrow.on('click', function() {
+                    $posts.trigger('prev.owl.carousel');
+                });
+                $rightArrow.on('click', function() {
+                    $posts.trigger('next.owl.carousel');
+                });
+            }
+
+        });
+
+    })();
+</script>
  
- 
-  
 
- 
-			{% comment %} {% render_partial 'main:sliders'%} {% endcomment %}
-			<!-- .block-slideshow / end -->
-			<!-- .block-features -->
-			<div class="block block-features block-features--layout--boxed">
-				<div class="container">
-					<div class="block-features__list">
-						<div class="block-features__item">
-							<div class="block-features__icon">
-								<i class="fa fa-list"></i>
-							</div>
-							<div class="block-features__content">
-								<div class="block-features__title">ارسال رایگان</div>
-								<div class="block-features__subtitle">لورم ایپسوم متن ساختگی</div>
-							</div>
-						</div>
-						<div class="block-features__divider"></div>
-						<div class="block-features__item">
-							<div class="block-features__icon">
-								<i class="fa fa-list"></i>
-							</div>
-							<div class="block-features__content">
-								<div class="block-features__title">پشتیبانی 24 ساعته</div>
-								<div class="block-features__subtitle">هر زمان تماس بگیرید</div>
-							</div>
-						</div>
-						<div class="block-features__divider"></div>
-						<div class="block-features__item">
-							<div class="block-features__icon">
-								<i class="fa fa-list"></i>
-							</div>
-							<div class="block-features__content">
-								<div class="block-features__title">100% امن</div>
-								<div class="block-features__subtitle">پرداخت های امن</div>
-							</div>
-						</div>
-						<div class="block-features__divider"></div>
-						<div class="block-features__item">
-							<div class="block-features__icon">
-								<i class="fa fa-list"></i>
-							</div>
-							<div class="block-features__content">
-								<div class="block-features__title">پیشنهادات جدید</div>
-								<div class="block-features__subtitle">تخفیف تا 90%</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- .block-features / end -->
-			<!-- .block-products-carousel -->
-			{% render_partial "products:cheapest_product"  %}
-			<!-- .block-products-carousel / end -->
-			<!-- .block-banner -->
-			{% comment %} <div class="block block-banner">
-				<div class="container">
-					<a href="" class="block-banner__body">
-						<div class="block-banner__image block-banner__image--desktop"
-							style="background-image: url('https://picsum.photos/1110/170')"></div>
-						<div class="block-banner__image block-banner__image--mobile"
-							style="background-image: url('https://picsum.photos/510/390')"></div>
-						<div class="block-banner__title">
-							کالای تبلیغاتی
-							<br class="block-banner__mobile-br">
-						</div>
-						<div class="block-banner__text">بهترین کالا برای خرید شما</div>
-						<div class="block-banner__button"><span class="btn btn-sm btn-primary">هم اکنون بخرید</span>
-						</div>
-					</a>
-				</div>
-			</div> {% endcomment %}
-			<!-- .block-banner / end -->
-			<!-- .block-products -->
-			{% comment %} <div class="block block-products block-products--layout--large-last">
-				<div class="container">
-					<div class="block-header">
-						<h3 class="block-header__title">پرفروش ترین ها</h3>
-						<div class="block-header__divider"></div>
-					</div>
-					<div class="block-products__body">
-						<div class="block-products__list">
-							<div class="block-products__list-item">
-								<div class="product-card">
-									<div class="product-card__badges-list">
-										<div class="product-card__badge product-card__badge--sale">جدید</div>
-									</div>
-									<div class="product-card__image">
-										<a href="product.html">
-											<img src="{{media_url}}/images/products/p2.jpg" alt="">
-										</a>
-									</div>
-									<div class="product-card__info">
-										<div class="product-card__name">
-											<a href="product.html">
-												کالای شماره 2
-											</a>
-										</div>
-									</div>
-									<div class="product-card__actions">
-										<div class="product-card__availability">موجودی: <span class="text-success">موجود
-												در انبار</span></div>
-										<div class="product-card__prices"><span class="product-card__new-price">184,000
-												تومان</span> <span class="product-card__old-price">200,000
-												تومان</span></div>
-										<div class="product-card__buttons">
-											<button class="btn btn-primary product-card__addtocart" type="button">
-												افزودن به سبد
-											</button>
-											<button
-												class="btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__wishlist"
-												type="button">
-												<i class="fa fa-heart"></i>
-												<span class="fake-svg-icon fake-svg-icon--wishlist-16"></span>
-											</button>
-											<button
-												class="btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__wishlist"
-												type="button">
-												<i class="fa fa-shopping-cart"></i>
-												<span class="fake-svg-icon fake-svg-icon--wishlist-16"></span>
-											</button>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="block-products__list-item">
-								<div class="product-card">
-									<div class="product-card__badges-list">
-										<div class="product-card__badge product-card__badge--sale">جدید</div>
-									</div>
-									<div class="product-card__image">
-										<a href="product.html">
-											<img src="{{media_url}}/images/products/p1.jpg" alt="">
-										</a>
-									</div>
-									<div class="product-card__info">
-										<div class="product-card__name">
-											<a href="product.html">
-												کالای شماره 2
-											</a>
-										</div>
-
-									</div>
-									<div class="product-card__actions">
-										<div class="product-card__availability">موجودی: <span class="text-success">موجود
-												در انبار</span></div>
-										<div class="product-card__prices"><span class="product-card__new-price">184,000
-												تومان</span> <span class="product-card__old-price">200,000
-												تومان</span></div>
-										<div class="product-card__buttons">
-											<button class="btn btn-primary product-card__addtocart" type="button">
-												افزودن به سبد
-											</button>
-											<button
-												class="btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__wishlist"
-												type="button">
-												<i class="fa fa-heart"></i>
-												<span class="fake-svg-icon fake-svg-icon--wishlist-16"></span>
-											</button>
-											<button
-												class="btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__wishlist"
-												type="button">
-												<i class="fa fa-shopping-cart"></i>
-												<span class="fake-svg-icon fake-svg-icon--wishlist-16"></span>
-											</button>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="block-products__list-item">
-								<div class="product-card">
-									<div class="product-card__badges-list">
-										<div class="product-card__badge product-card__badge--sale">جدید</div>
-									</div>
-									<div class="product-card__image">
-										<a href="product.html">
-											<img src="{{media_url}}/images/products/p1.jpg" alt="">
-										</a>
-									</div>
-									<div class="product-card__info">
-										<div class="product-card__name">
-											<a href="product.html">
-												کالای شماره 2
-											</a>
-										</div>
-
-									</div>
-									<div class="product-card__actions">
-										<div class="product-card__availability">موجودی: <span class="text-success">موجود
-												در انبار</span></div>
-										<div class="product-card__prices"><span class="product-card__new-price">184,000
-												تومان</span> <span class="product-card__old-price">200,000
-												تومان</span></div>
-										<div class="product-card__buttons">
-											<button class="btn btn-primary product-card__addtocart" type="button">
-												افزودن به سبد
-											</button>
-											<button
-												class="btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__wishlist"
-												type="button">
-												<i class="fa fa-heart"></i>
-												<span class="fake-svg-icon fake-svg-icon--wishlist-16"></span>
-											</button>
-											<button
-												class="btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__wishlist"
-												type="button">
-												<i class="fa fa-shopping-cart"></i>
-												<span class="fake-svg-icon fake-svg-icon--wishlist-16"></span>
-											</button>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="block-products__list-item">
-								<div class="product-card">
-									<div class="product-card__badges-list">
-										<div class="product-card__badge product-card__badge--sale">جدید</div>
-									</div>
-									<div class="product-card__image">
-										<a href="product.html">
-											<img src="{{media_url}}/images/products/p1.jpg" alt="">
-										</a>
-									</div>
-									<div class="product-card__info">
-										<div class="product-card__name">
-											<a href="product.html">
-												کالای شماره 2
-											</a>
-										</div>
-
-									</div>
-									<div class="product-card__actions">
-										<div class="product-card__availability">موجودی: <span class="text-success">موجود
-												در انبار</span></div>
-										<div class="product-card__prices"><span class="product-card__new-price">184,000
-												تومان</span> <span class="product-card__old-price">200,000
-												تومان</span></div>
-										<div class="product-card__buttons">
-											<button class="btn btn-primary product-card__addtocart" type="button">
-												افزودن به سبد
-											</button>
-											<button
-												class="btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__wishlist"
-												type="button">
-												<i class="fa fa-heart"></i>
-												<span class="fake-svg-icon fake-svg-icon--wishlist-16"></span>
-											</button>
-											<button
-												class="btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__wishlist"
-												type="button">
-												<i class="fa fa-shopping-cart"></i>
-												<span class="fake-svg-icon fake-svg-icon--wishlist-16"></span>
-											</button>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="block-products__list-item">
-								<div class="product-card">
-									<div class="product-card__badges-list">
-										<div class="product-card__badge product-card__badge--sale">جدید</div>
-									</div>
-									<div class="product-card__image">
-										<a href="product.html">
-											<img src="{{media_url}}/images/products/p1.jpg" alt="">
-										</a>
-									</div>
-									<div class="product-card__info">
-										<div class="product-card__name">
-											<a href="product.html">
-												کالای شماره 2
-											</a>
-										</div>
-
-									</div>
-									<div class="product-card__actions">
-										<div class="product-card__availability">موجودی: <span class="text-success">موجود
-												در انبار</span></div>
-										<div class="product-card__prices"><span class="product-card__new-price">184,000
-												تومان</span> <span class="product-card__old-price">200,000
-												تومان</span></div>
-										<div class="product-card__buttons">
-											<button class="btn btn-primary product-card__addtocart" type="button">
-												افزودن به سبد
-											</button>
-											<button
-												class="btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__wishlist"
-												type="button">
-												<i class="fa fa-heart"></i>
-												<span class="fake-svg-icon fake-svg-icon--wishlist-16"></span>
-											</button>
-											<button
-												class="btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__wishlist"
-												type="button">
-												<i class="fa fa-shopping-cart"></i>
-												<span class="fake-svg-icon fake-svg-icon--wishlist-16"></span>
-											</button>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="block-products__list-item">
-								<div class="product-card">
-									<div class="product-card__badges-list">
-										<div class="product-card__badge product-card__badge--sale">جدید</div>
-									</div>
-									<div class="product-card__image">
-										<a href="product.html">
-											<img src="{{media_url}}/images/products/p1.jpg" alt="">
-										</a>
-									</div>
-									<div class="product-card__info">
-										<div class="product-card__name">
-											<a href="product.html">
-												کالای شماره 2
-											</a>
-										</div>
-
-									</div>
-									<div class="product-card__actions">
-										<div class="product-card__availability">موجودی: <span class="text-success">موجود
-												در انبار</span></div>
-										<div class="product-card__prices"><span class="product-card__new-price">184,000
-												تومان</span> <span class="product-card__old-price">200,000
-												تومان</span></div>
-										<div class="product-card__buttons">
-											<button class="btn btn-primary product-card__addtocart" type="button">
-												افزودن به سبد
-											</button>
-											<button
-												class="btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__wishlist"
-												type="button">
-												<i class="fa fa-heart"></i>
-												<span class="fake-svg-icon fake-svg-icon--wishlist-16"></span>
-											</button>
-											<button
-												class="btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__wishlist"
-												type="button">
-												<i class="fa fa-shopping-cart"></i>
-												<span class="fake-svg-icon fake-svg-icon--wishlist-16"></span>
-											</button>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="block-products__featured">
-							<div class="block-products__featured-item">
-								<div class="product-card">
-
-									<div class="product-card__badges-list">
-										<div class="product-card__badge product-card__badge--new">جدید</div>
-									</div>
-									<div class="product-card__image">
-										<a href="product.html">
-											<img src="{{media_url}}/images/products/p1.jpg" alt="">
-										</a>
-									</div>
-									<div class="product-card__info">
-										<div class="product-card__name">
-											<a href="product.html">
-												کالای شماره 2
-											</a>
-										</div>
-
-									</div>
-									<div class="product-card__actions">
-										<div class="product-card__availability">موجودی: <span class="text-success">موجود
-												در انبار</span></div>
-										<div class="product-card__prices">200,000 تومان</div>
-										<div class="product-card__buttons">
-											<button class="btn btn-primary product-card__addtocart" type="button">
-												افزودن به سبد
-											</button>
-											<button
-												class="btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__wishlist"
-												type="button">
-												<i class="fa fa-heart"></i>
-												<span class="fake-svg-icon fake-svg-icon--wishlist-16"></span>
-											</button>
-											<button
-												class="btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__wishlist"
-												type="button">
-												<i class="fa fa-shopping-cart"></i>
-												<span class="fake-svg-icon fake-svg-icon--wishlist-16"></span>
-											</button>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div> {% endcomment %}
-			<!-- .block-products / end -->
-			<!-- .block-categories -->
-			{%render_partial 'products:popular_product_groups' %}
-			<!-- .block-categories / end -->
-			<!-- .block-products-carousel -->
-			{% render_partial "products:last_product"  %}
-			<!-- .block-products-carousel / end -->
-			<!-- .block-posts -->
-			<div class="block block-posts block-posts--layout--grid-nl" data-layout="grid-nl">
-				<div class="container">
-					<div class="block-header">
-						<h3 class="block-header__title">آخرین مقالات</h3>
-						<div class="block-header__divider"></div>
-						<div class="block-header__arrows-list">
-
-							<button class="block-header__arrow block-header__arrow--left" type="button">
-								<i class="fas fa-angle-right"></i>
-							</button>
-							<button class="block-header__arrow block-header__arrow--right" type="button">
-								<i class="fas fa-angle-left"></i>
-							</button>
-						</div>
-					</div>
-					<div class="block-posts__slider">
-						<div class="owl-carousel">
-							<div class="post-card">
-								<div class="post-card__image">
-									<a href="">
-										<img src="{{media_url}}/images/products/p3.jpg" alt="">
-									</a>
-								</div>
-								<div class="post-card__info">
-									<div class="post-card__category"><a href="">پیشنهادهای ویژه</a></div>
-									<div class="post-card__name"><a href="">لورم ایپسوم متن ساختگی با تولید سادگی
-											نامفهوم از صنعت</a></div>
-									<div class="post-card__date">19 فروردین 1401</div>
-									<div class="post-card__content">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از
-										صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله
-										در ستون و سطرآنچنان</div>
-									<div class="post-card__read-more"><a href="" class="btn btn-secondary btn-sm">بیشتر
-											بخوانید</a></div>
-								</div>
-							</div>
-							<div class="post-card">
-								<div class="post-card__image">
-									<a href="">
-										<img src="{{media_url}}/images/products/p3.jpg" alt="">
-									</a>
-								</div>
-								<div class="post-card__info">
-									<div class="post-card__category"><a href="">آخرین اخبار</a></div>
-									<div class="post-card__name"><a href="">لورم ایپسوم متن ساختگی با تولید سادگی
-											نامفهوم از صنعت</a></div>
-									<div class="post-card__date">5 فروردین 1401</div>
-									<div class="post-card__content">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از
-										صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله
-										در ستون و سطرآنچنان</div>
-									<div class="post-card__read-more"><a href="" class="btn btn-secondary btn-sm">بیشتر
-											بخوانید</a></div>
-								</div>
-							</div>
-							<div class="post-card">
-								<div class="post-card__image">
-									<a href="">
-										<img src="{{media_url}}/images/products/p3.jpg" alt="">
-									</a>
-								</div>
-								<div class="post-card__info">
-									<div class="post-card__category"><a href="">محصولات جدید</a></div>
-									<div class="post-card__name"><a href="">لورم ایپسوم متن ساختگی با تولید سادگی
-											نامفهوم از صنعت چاپ و با</a></div>
-									<div class="post-card__date">12 اسفند 1397</div>
-									<div class="post-card__content">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از
-										صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله
-										در ستون و سطرآنچنان</div>
-									<div class="post-card__read-more"><a href="" class="btn btn-secondary btn-sm">بیشتر
-											بخوانید</a></div>
-								</div>
-							</div>
-							<div class="post-card">
-								<div class="post-card__image">
-									<a href="">
-										<img src="{{media_url}}images/products/p3.jpg" alt="">
-									</a>
-								</div>
-								<div class="post-card__info">
-									<div class="post-card__category"><a href="">پیشنهادهای ویژه</a></div>
-									<div class="post-card__name"><a href="">لورم ایپسوم متن ساختگی با تولید سادگی
-											نامفهوم از صنعت چاپ و با استفاده از طراحان</a></div>
-									<div class="post-card__date">30 بهمن 1397</div>
-									<div class="post-card__content">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از
-										صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله
-										در ستون و سطرآنچنان</div>
-									<div class="post-card__read-more"><a href="" class="btn btn-secondary btn-sm">بیشتر
-											بخوانید</a></div>
-								</div>
-							</div>
-							<div class="post-card">
-								<div class="post-card__image">
-									<a href="">
-										<img src="{{media_url}}/images/products/p3.jpg" alt="">
-									</a>
-								</div>
-								<div class="post-card__info">
-									<div class="post-card__category"><a href="">محصولات جدید</a></div>
-									<div class="post-card__name"><a href="">لورم ایپسوم متن ساختگی با تولید سادگی
-											نامفهوم از صنعت چاپ و</a></div>
-									<div class="post-card__date">12 دی 1397</div>
-									<div class="post-card__content">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از
-										صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله
-										در ستون و سطرآنچنان</div>
-									<div class="post-card__read-more"><a href="" class="btn btn-secondary btn-sm">بیشتر
-											بخوانید</a></div>
-								</div>
-							</div>
-							<div class="post-card">
-								<div class="post-card__image">
-									<a href="">
-										<img src="{{media_url}}/images/products/p3.jpg" alt="">
-									</a>
-								</div>
-								<div class="post-card__info">
-									<div class="post-card__category"><a href="">پیشنهادهای ویژه</a></div>
-									<div class="post-card__name"><a href="">لورم ایپسوم متن ساختگی با تولید سادگی
-											نامفهوم از صنعت</a></div>
-									<div class="post-card__date">21 آذر 1397</div>
-									<div class="post-card__content">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از
-										صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله
-										در ستون و سطرآنچنان</div>
-									<div class="post-card__read-more"><a href="" class="btn btn-secondary btn-sm">بیشتر
-											بخوانید</a></div>
-								</div>
-							</div>
-							<div class="post-card">
-								<div class="post-card__image">
-									<a href="">
-										<img src="{{media_url}}/images/products/p3.jpg" alt="">
-									</a>
-								</div>
-								<div class="post-card__info">
-									<div class="post-card__category"><a href="">پیشنهادهای ویژه</a></div>
-									<div class="post-card__name"><a href="">لورم ایپسوم متن ساختگی با تولید سادگی
-											نامفهوم از صنعت چاپ و با استفاده از</a></div>
-									<div class="post-card__date">3 آذر 1397</div>
-									<div class="post-card__content">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از
-										صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله
-										در ستون و سطرآنچنان</div>
-									<div class="post-card__read-more"><a href="" class="btn btn-secondary btn-sm">بیشتر
-											بخوانید</a></div>
-								</div>
-							</div>
-							<div class="post-card">
-								<div class="post-card__image">
-									<a href="">
-										<img src="{{media_url}}/images/products/p3.jpg" alt="">
-									</a>
-								</div>
-								<div class="post-card__info">
-									<div class="post-card__category"><a href="">آخرین اخبار</a></div>
-									<div class="post-card__name"><a href="">لورم ایپسوم متن ساختگی با تولید سادگی
-											نامفهوم از صنعت چاپ و با استفاده</a></div>
-									<div class="post-card__date">29 آبان 1397</div>
-									<div class="post-card__content">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از
-										صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله
-										در ستون و سطرآنچنان</div>
-									<div class="post-card__read-more"><a href="" class="btn btn-secondary btn-sm">بیشتر
-											بخوانید</a></div>
-								</div>
-							</div>
-							<div class="post-card">
-								<div class="post-card__image">
-									<a href="">
-										<img src="{{media_url}}/images/products/p3.jpg" alt="">
-									</a>
-								</div>
-								<div class="post-card__info">
-									<div class="post-card__category"><a href="">محصولات جدید</a></div>
-									<div class="post-card__name"><a href="">لورم ایپسوم متن ساختگی با تولید سادگی
-											نامفهوم از صنعت چاپ و با استفاده از</a></div>
-									<div class="post-card__date">10 مهر 1397</div>
-									<div class="post-card__content">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از
-										صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله
-										در ستون و سطرآنچنان</div>
-									<div class="post-card__read-more"><a href="" class="btn btn-secondary btn-sm">بیشتر
-											بخوانید</a></div>
-								</div>
-							</div>
-							<div class="post-card">
-								<div class="post-card__image">
-									<a href="">
-										<img src="{{media_url}}/images/products/p3.jpg" alt="">
-									</a>
-								</div>
-								<div class="post-card__info">
-									<div class="post-card__category"><a href="">پیشنهادهای ویژه</a></div>
-									<div class="post-card__name"><a href="">لورم ایپسوم متن ساختگی با تولید سادگی
-											نامفهوم از صنعت چاپ</a></div>
-									<div class="post-card__date">1 شهریور 1397</div>
-									<div class="post-card__content">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از
-										صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله
-										در ستون و سطرآنچنان</div>
-									<div class="post-card__read-more"><a href="" class="btn btn-secondary btn-sm">بیشتر
-											بخوانید</a></div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- .block-posts / end -->
-			<!-- .block-brands -->
-			
-			<div class="block block-brands">
-				<div class="container">
-					<div class="block-brands__slider">
-						<div class="owl-carousel">
-							<div class="block-brands__item">
-								<a href=""><img src="https://via.placeholder.com/380x80/79f.png/fff" alt=""></a>
-							</div>
-							<div class="block-brands__item">
-								<a href=""><img src="https://via.placeholder.com/380x80/08f.png/fff" alt=""></a>
-							</div>
-							<div class="block-brands__item">
-								<a href=""><img src="https://via.placeholder.com/380x80/a7f.png/fff" alt=""></a>
-							</div>
-							<div class="block-brands__item">
-								<a href=""><img src="https://via.placeholder.com/380x80/06f.png/fff" alt=""></a>
-							</div>
-							<div class="block-brands__item">
-								<a href=""><img src="https://via.placeholder.com/380x80/e5f.png/fff" alt=""></a>
-							</div>
-							<div class="block-brands__item">
-								<a href=""><img src="https://via.placeholder.com/380x80/04f.png/fff" alt=""></a>
-							</div>
-							<div class="block-brands__item">
-								<a href=""><img src="https://via.placeholder.com/380x80/f3f.png/fff" alt=""></a>
-							</div>
-
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- .block-brands / end -->
-		</div>
-		<!-- site__body / end -->
+<!-- اسلایدر اصلی -->
+{% include 'partials/latest_blogs_slider.html' %}
 {% endblock content %}
-
-
-
+ 

@@ -1,10 +1,9 @@
 {% extends "main_template.html" %}
-
 {% load render_partial %}
 {% load humanize %}
 
 {% block title %}
-	فروشگاه
+	محصولات
 {% endblock title %}
 
 {% block content %}
@@ -19,7 +18,7 @@
                             /
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="#">محصولات گروه{{current_group.group_title}}</a>
+                            <a href="#">محصولات گروه {{current_group.group_title}}</a>
                         </li>
                         
                     </ol>
@@ -35,7 +34,6 @@
             <div class="shop-layout__sidebar">
                 <div class="block block-sidebar">
                     <div class="block-sidebar__item">
-						<form action=""> 
                         <div class="widget-filters widget" data-collapse data-collapse-opened-class="filter--opened">
 							<h4 class="widget__title">فیلترها</h4>
                             <div class="widget-filters__list">
@@ -52,8 +50,7 @@
 													{% render_partial "products:product_groups_partial"%}
                                                 </div>
                                             </div>
-										</form>
-                                        </div>
+										</div>
                                     </div>
                                 </div>
 								{% include "partials/products/price_filter.html" %}
@@ -67,68 +64,41 @@
                             </div>
                         </div>
                     </div>
-                    {% comment %} <div class="block-sidebar__item d-none d-lg-block">
+                  <div class="block-sidebar__item d-none d-lg-block">
                         <div class="widget-products widget">
-                            <h4 class="widget__title">محصولات جدید</h4>
+                            <h4 class="widget__title">🆕 محصولات جدید</h4>
                             <div class="widget-products__list">
+                                {% for product in new_products %}
                                 <div class="widget-products__item">
                                     <div class="widget-products__image">
-                                        <a href="product.html">
-                                            <img src="https://picsum.photos/700/700" alt="">
+                                        <a href="{% url 'products:product_details' slug=product.slug %}">
+                                            <img src="{{ media_url }}{{ product.image_name }}" alt="{{ product.product_name }}" loading="lazy">
                                         </a>
                                     </div>
                                     <div class="widget-products__info">
-                                        <div class="widget-products__name"><a href="product.html">اره برقی برندیکس مدل 300 وات</a></div>
-                                        <div class="widget-products__prices">749,000 تومان</div>
+                                        <div class="widget-products__name">
+                                            <a href="{% url 'products:product_details' slug=product.slug %}">
+                                                {{ product.product_name|truncatechars:30 }}
+                                            </a>
+                                        </div>
+                                        <div class="widget-products__prices">
+                                            {% if product.price > product.get_price_by_discount %}
+                                                <span class="widget-products__new-price">{{ product.get_price_by_discount|intcomma }} تومان</span>
+                                                <span class="widget-products__old-price">{{ product.price|intcomma }} تومان</span>
+                                            {% else %}
+                                                <span class="widget-products__new-price">{{ product.price|intcomma }} تومان</span>
+                                            {% endif %}
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="widget-products__item">
-                                    <div class="widget-products__image">
-                                        <a href="product.html">
-                                            <img src="https://picsum.photos/700/700" alt="">
-                                        </a>
-                                    </div>
-                                    <div class="widget-products__info">
-                                        <div class="widget-products__name"><a href="product.html">اره چوب بری IRadix مدل 2700 وات</a></div>
-                                        <div class="widget-products__prices">1,019,000 تومان</div>
-                                    </div>
+                                {% empty %}
+                                <div class="widget-products__item" style="text-align:center; padding:20px 0; color:#999;">
+                                    هیچ محصول جدیدی یافت نشد
                                 </div>
-                                <div class="widget-products__item">
-                                    <div class="widget-products__image">
-                                        <a href="product.html">
-                                            <img src="https://picsum.photos/700/700" alt="">
-                                        </a>
-                                    </div>
-                                    <div class="widget-products__info">
-                                        <div class="widget-products__name"><a href="product.html">پیچ گوشتی برقی برندیکس مدل 200 وات</a></div>
-                                        <div class="widget-products__prices">850,000 تومان</div>
-                                    </div>
-                                </div>
-                                <div class="widget-products__item">
-                                    <div class="widget-products__image">
-                                        <a href="product.html">
-                                            <img src="https://picsum.photos/700/700" alt="">
-                                        </a>
-                                    </div>
-                                    <div class="widget-products__info">
-                                        <div class="widget-products__name"><a href="product.html">دریل برندیکس سری 3 مدل 2018</a></div>
-                                        <div class="widget-products__prices"><span class="widget-products__new-price">949,000 تومان</span> <span class="widget-products__old-price">1,189,000 تومان</span></div>
-                                    </div>
-                                </div>
-                                <div class="widget-products__item">
-                                    <div class="widget-products__image">
-                                        <a href="product.html">
-                                            <img src="https://picsum.photos/700/700" alt="">
-                                        </a>
-                                    </div>
-                                    <div class="widget-products__info">
-                                        <div class="widget-products__name"><a href="product.html">میخ کوب برقی برندیکس مدل 2019</a></div>
-                                        <div class="widget-products__prices">1,700,000 تومان</div>
-                                    </div>
-                                </div>
+                                {% endfor %}
                             </div>
                         </div>
-                    </div> {% endcomment %}
+                    </div> 
                 </div>
             </div>
             <div class="shop-layout__content">
@@ -187,4 +157,214 @@
     </div>
 </div>
 <!-- site__body / end -->
+
+<style>
+/* ==========================================================
+   تم آبی-صورتی برای صفحه محصولات
+========================================================== */
+:root {
+    --blue-deep: #1E3A8A;
+    --blue-dark: #1E40AF;
+    --blue-primary: #3B82F6;
+    --blue-light: #60A5FA;
+    --blue-glow: #93C5FD;
+    --blue-soft: #DBEAFE;
+    --pink-accent: #EC4899;
+    --pink-light: #F472B6;
+    --purple-mix: #8B5CF6;
+    --purple-light: #A78BFA;
+    --text-dark: #0F172A;
+    --text-body: #334155;
+    --text-muted: #64748B;
+    --bg-page: #F0F5FF;
+    --glass-bg: rgba(255, 255, 255, 0.75);
+    --glass-border: rgba(255, 255, 255, 0.6);
+    --shadow-blue: rgba(59, 130, 246, 0.15);
+}
+
+/* هدر صفحه */
+.page-header {
+    background: linear-gradient(135deg, var(--blue-deep), var(--purple-mix));
+    padding: 30px 0 25px;
+    border-radius: 0 0 30px 30px;
+    margin-bottom: 30px;
+    color: white;
+}
+.page-header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 5px 0 0;
+}
+.page-header .breadcrumb {
+    background: transparent;
+    padding: 0;
+    margin: 0;
+}
+.page-header .breadcrumb-item a {
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+}
+.page-header .breadcrumb-item.active {
+    color: white;
+}
+
+/* ویجت فیلتر */
+.widget-filters {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 4px 20px var(--shadow-blue);
+}
+.widget__title {
+    color: var(--blue-deep);
+    font-weight: 700;
+    font-size: 18px;
+    border-bottom: 2px solid var(--blue-soft);
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+}
+.filter__title {
+    color: var(--text-dark);
+    font-weight: 600;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: right;
+    padding: 8px 0;
+}
+.filter__title:hover {
+    color: var(--blue-primary);
+}
+.widget-filters__actions .btn-primary {
+    background: linear-gradient(135deg, var(--blue-primary), var(--purple-mix));
+    border: none;
+    border-radius: 10px;
+    padding: 8px 20px;
+    font-weight: 600;
+    color: white;
+    transition: all 0.3s ease;
+}
+.widget-filters__actions .btn-primary:hover {
+    background: linear-gradient(135deg, var(--purple-mix), var(--pink-accent));
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+}
+.widget-filters__actions .btn-secondary {
+    background: var(--blue-soft);
+    border: none;
+    border-radius: 10px;
+    padding: 8px 20px;
+    font-weight: 600;
+    color: var(--blue-deep);
+    transition: all 0.3s ease;
+}
+.widget-filters__actions .btn-secondary:hover {
+    background: var(--blue-light);
+    transform: translateY(-2px);
+}
+
+/* ویجت محصولات جدید */
+.widget-products {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 4px 20px var(--shadow-blue);
+}
+.widget-products__item {
+    display: flex;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--blue-soft);
+    align-items: center;
+}
+.widget-products__item:last-child {
+    border-bottom: none;
+}
+.widget-products__image {
+    flex: 0 0 60px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.widget-products__image img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+.widget-products__info {
+    flex: 1;
+}
+.widget-products__name a {
+    color: var(--text-dark);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 13px;
+    transition: color 0.3s ease;
+}
+.widget-products__name a:hover {
+    color: var(--blue-primary);
+}
+.widget-products__prices {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--pink-accent);
+}
+.widget-products__old-price {
+    color: var(--text-muted);
+    text-decoration: line-through;
+    font-size: 12px;
+    font-weight: 400;
+    margin-right: 6px;
+}
+
+/* گزینه‌های نمایش */
+.view-options {
+    background: var(--glass-bg);
+    backdrop-filter: blur(8px);
+    border-radius: 12px;
+    padding: 15px 20px;
+    border: 1px solid var(--glass-border);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 15px;
+}
+.view-options__legend {
+    color: var(--text-body);
+    font-weight: 500;
+    font-size: 14px;
+}
+.view-options__control label {
+    color: var(--text-muted);
+    font-size: 13px;
+    margin-left: 8px;
+}
+.view-options__control select {
+    border: 2px solid var(--blue-soft);
+    border-radius: 10px;
+    padding: 6px 12px;
+    font-size: 13px;
+    color: var(--text-dark);
+    background: white;
+    transition: all 0.3s ease;
+}
+.view-options__control select:focus {
+    border-color: var(--blue-primary);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+    outline: none;
+}
+</style>
+
+<script>
+function select_sort() {
+    const sortType = document.getElementById('select_sort').value;
+    const currentUrl = new URL(window.location.href);
+    currentUrl.searchParams.set('sort_type', sortType);
+    window.location.href = currentUrl.toString();
+}
+</script>
 {% endblock content %}

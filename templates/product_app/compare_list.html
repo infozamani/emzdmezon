@@ -1,206 +1,428 @@
 {% extends "main_template.html" %}
-
-{% load render_partial %}
+{% load humanize %}
 
 {% block title %}
-    لیست مقایسه
+    لیست مقایسه محصولات
 {% endblock title %}
 
 {% block content %}
-    <div id="compare_list" class="container">
+
+<style>
+/* ==========================================================
+   تم آبی-صورتی برای مقایسه
+========================================================== */
+:root {
+    --blue-deep: #1E3A8A;
+    --blue-primary: #3B82F6;
+    --blue-soft: #DBEAFE;
+    --blue-light: #60A5FA;
+    --pink-accent: #EC4899;
+    --purple-mix: #8B5CF6;
+    --text-dark: #0F172A;
+    --text-body: #334155;
+    --text-muted: #64748B;
+    --glass-bg: rgba(255, 255, 255, 0.75);
+    --glass-border: rgba(255, 255, 255, 0.6);
+    --shadow-blue: rgba(59, 130, 246, 0.15);
+}
+
+.compare-page {
+    padding: 30px 0;
+    background: var(--glass-bg);
+    backdrop-filter: blur(8px);
+    min-height: 60vh;
+}
+.compare-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+.compare-header h2 {
+    color: var(--text-dark);
+    font-weight: 700;
+    font-size: 28px;
+}
+.compare-header h2 i {
+    color: var(--blue-primary);
+}
+.compare-header .badge {
+    background: linear-gradient(135deg, var(--blue-primary), var(--purple-mix));
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+}
+.compare-table-wrap {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px var(--shadow-blue);
+    border: 1px solid var(--blue-soft);
+}
+.compare-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.compare-table th,
+.compare-table td {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--blue-soft);
+    text-align: center;
+    vertical-align: middle;
+}
+.compare-table th {
+    background: linear-gradient(135deg, var(--blue-deep), var(--purple-mix));
+    color: white;
+    font-weight: 600;
+    font-size: 15px;
+}
+.compare-table td {
+    font-size: 14px;
+    color: var(--text-body);
+}
+.compare-table tr:hover td {
+    background: rgba(59, 130, 246, 0.04);
+}
+.compare-table .product-image img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 2px solid var(--blue-soft);
+    transition: all 0.3s ease;
+}
+.compare-table .product-image img:hover {
+    border-color: var(--blue-primary);
+    transform: scale(1.05);
+}
+.compare-table .product-name a {
+    color: var(--text-dark);
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+.compare-table .product-name a:hover {
+    color: var(--blue-primary);
+}
+.compare-table .product-price {
+    font-weight: 700;
+    color: var(--pink-accent);
+}
+.compare-table .product-price del {
+    color: var(--text-muted);
+    font-weight: 400;
+    font-size: 13px;
+    margin-left: 8px;
+}
+.compare-table .btn-remove {
+    background: none;
+    border: none;
+    color: #ef4444;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 5px 10px;
+}
+.compare-table .btn-remove:hover {
+    transform: scale(1.2);
+}
+.compare-table .btn-add-cart-compare {
+    background: linear-gradient(135deg, var(--blue-primary), var(--purple-mix));
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 18px;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.compare-table .btn-add-cart-compare:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+}
+.compare-empty {
+    text-align: center;
+    padding: 80px 20px;
+}
+.compare-empty i {
+    font-size: 72px;
+    color: var(--blue-soft);
+    margin-bottom: 20px;
+}
+.compare-empty h3 {
+    color: var(--text-dark);
+}
+.compare-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+.btn-compare-primary {
+    background: linear-gradient(135deg, var(--blue-primary), var(--purple-mix));
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 30px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.btn-compare-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3);
+    color: white;
+    text-decoration: none;
+}
+.btn-compare-secondary {
+    background: var(--blue-soft);
+    color: var(--text-dark);
+    border: none;
+    border-radius: 10px;
+    padding: 12px 30px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+.btn-compare-secondary:hover {
+    background: var(--blue-light);
+    transform: translateY(-3px);
+}
+@media (max-width: 768px) {
+    .compare-table-wrap { overflow-x: auto; }
+    .compare-table { min-width: 600px; }
+    .compare-table th, .compare-table td { padding: 10px 14px; font-size: 13px; }
+    .compare-table .product-image img { width: 60px; height: 60px; }
+    .compare-header h2 { font-size: 22px; }
+}
+</style>
+
+<div class="compare-page">
+    <div class="container">
+        <div class="compare-header">
+            <h2><i class="fa fa-balance-scale"></i> مقایسه محصولات</h2>
+            <p style="color: var(--text-muted);">
+                <span class="badge">{{ compare_list.count }}</span> محصول برای مقایسه انتخاب شده است
+            </p>
+        </div>
+
         {% if compare_list.count > 0 %}
-            <div class="compare-header">
-                <h2 class="text-center mb-4">
-                    <i class="fa fa-balance-scale"></i> مقایسه محصولات
-                </h2>
-                <div class="compare-info text-center mb-3">
-                    <span class="badge badge-primary">{{ compare_list.count }}</span> محصول برای مقایسه انتخاب شده است
-                    <button onclick="clearCompareList()" class="btn btn-sm btn-danger ml-3">
-                        <i class="fa fa-trash"></i> خالی کردن لیست
-                    </button>
-                </div>
-            </div>
-            
-            <!-- جدول مقایسه -->
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover compare-table">
+            <div class="compare-table-wrap">
+                <table class="compare-table" id="compare-table">
                     <thead>
-                        <tr style="background: linear-gradient(135deg, #1a1a2e, #16213e); color: #fff; text-align: center;">
-                            <th style="width: 20%;">ویژگی کالا</th>
+                        <tr>
+                            <th style="width: 120px;">ویژگی</th>
                             {% for product in products %}
-                                <th style="min-width: 180px; position: relative;">
-                                    <i class="fa fa-times remove-btn" 
-                                       style="cursor: pointer; color: #e94560; font-size: 18px;"
-                                       onclick="deleteFromCompare({{ product.id }})">
-                                    </i>
-                                    {{ product.product_name }}
-                                    <br>
-                                    <small style="color: #ffd700;">
-                                        <i class="fa fa-star"></i> 
-                                        <span id="score-{{ product.id }}">...</span>
-                                    </small>
-                                </th>
+                            <th>
+                                <div class="product-image">
+                                    <img src="{{ media_url }}{{ product.image_name }}" alt="{{ product.product_name }}">
+                                </div>
+                                <div class="product-name">
+                                    <a href="{% url 'products:product_details' slug=product.slug %}">{{ product.product_name|truncatechars:30 }}</a>
+                                </div>
+                                <button class="btn-remove" onclick="deleteFromCompare({{ product.id }})" title="حذف از مقایسه">
+                                    <i class="fa fa-times-circle"></i>
+                                </button>
+                            </th>
                             {% endfor %}
                         </tr>
                     </thead>
                     <tbody>
-                        {% if features %}
-                            {% for feature in features %}
-                                <tr>
-                                    <td style="font-weight: 700; background: #f8f9fa;">{{ feature }}</td>
-                                    {% for product in products %}
-                                        <td style="text-align: center;">
-                                            {% for item in product.product_features.all %}
-                                                {% if item.feature == feature %}
-                                                    <span class="badge badge-info" style="padding: 5px 12px; margin: 2px;">
-                                                        {{ item.filter_value.value_title }}
-                                                    </span>
-                                                {% endif %}
-                                            {% endfor %}
-                                        </td>
-                                    {% endfor %}
-                                </tr>
-                            {% endfor %}
-                        {% else %}
-                            <tr>
-                                <td colspan="{{ products|length|add:1 }}" style="text-align: center; color: #999; padding: 30px;">
-                                    ویژگی‌ای برای این محصولات ثبت نشده است
-                                </td>
-                            </tr>
-                        {% endif %}
-                        
-                        <!-- ردیف امتیاز -->
-                        <tr style="background: #f8f9fa;">
-                            <td style="font-weight: 700;">امتیاز</td>
+                        <tr>
+                            <td><strong>قیمت</strong></td>
                             {% for product in products %}
-                                <td style="text-align: center; font-size: 18px;">
-                                    <span id="score-{{ product.id }}-display">...</span>
-                                    <i class="fa fa-star" style="color: #ffd700;"></i>
-                                </td>
+                            <td class="product-price">
+                                {% if product.get_number_in_warehouse <= 0 %}
+                                    <span style="color: #ef4444;">ناموجود</span>
+                                {% else %}
+                                    {% if product.price > product.get_price_by_discount %}
+                                        <del>{{ product.price|intcomma }} تومان</del>
+                                        <br>
+                                        <span style="color: var(--pink-accent);">{{ product.get_price_by_discount|intcomma }} تومان</span>
+                                    {% else %}
+                                        {{ product.price|intcomma }} تومان
+                                    {% endif %}
+                                {% endif %}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        <tr>
+                            <td><strong>موجودی</strong></td>
+                            {% for product in products %}
+                            <td>
+                                {% if product.get_number_in_warehouse > 0 %}
+                                    <span style="color: #22c55e;">موجود ({{ product.get_number_in_warehouse }})</span>
+                                {% else %}
+                                    <span style="color: #ef4444;">ناموجود</span>
+                                {% endif %}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        <tr>
+                            <td><strong>برند</strong></td>
+                            {% for product in products %}
+                            <td>{{ product.brand.brand_name|default:"-" }}</td>
+                            {% endfor %}
+                        </tr>
+                        {% for feature in features %}
+                        <tr>
+                            <td><strong>{{ feature.feature_name }}</strong></td>
+                            {% for product in products %}
+                            <td>
+                                {% for pf in product.product_features.all %}
+                                    {% if pf.feature == feature %}
+                                        {{ pf.value }}
+                                    {% endif %}
+                                {% empty %}
+                                    -
+                                {% endfor %}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                        <tr>
+                            <td><strong>عملیات</strong></td>
+                            {% for product in products %}
+                            <td>
+                                {% if product.get_number_in_warehouse > 0 %}
+                                    <button class="btn-add-cart-compare" onclick="addToCart({{ product.id }})">
+                                        <i class="fa fa-shopping-cart"></i> خرید
+                                    </button>
+                                {% else %}
+                                    <span style="color: #999; font-size: 13px;">ناموجود</span>
+                                {% endif %}
+                            </td>
                             {% endfor %}
                         </tr>
                     </tbody>
                 </table>
             </div>
-            
-            <div style="text-align: center; margin: 30px 0;">
-                <a href="{% url 'main:shop' %}" class="btn btn-primary">
+
+            <div class="compare-actions">
+                <a href="{% url 'main:index' %}" class="btn-compare-primary">
                     <i class="fa fa-arrow-right"></i> بازگشت به فروشگاه
                 </a>
+                <button class="btn-compare-secondary" onclick="clearCompareList()">
+                    <i class="fa fa-trash"></i> خالی کردن لیست
+                </button>
             </div>
-            
         {% else %}
-            <div style="text-align: center; padding: 100px 0;">
-                <i class="fa fa-balance-scale" style="font-size: 72px; color: #e94560;"></i>
-                <h2 style="color: #1a1a2e; margin: 30px 0;">کالایی برای مقایسه وجود ندارد</h2>
-                <p style="color: #999;">برای مقایسه، حداقل دو محصول را انتخاب کنید</p>
-                <a href="{% url 'main:index' %}" class="btn btn-primary btn-lg">
+            <div class="compare-empty">
+                <i class="fa fa-balance-scale"></i>
+                <h3>کالایی برای مقایسه وجود ندارد</h3>
+                <p>برای مقایسه، حداقل دو محصول را انتخاب کنید</p>
+                <a href="{% url 'main:index' %}" class="btn-compare-primary">
                     <i class="fa fa-shopping-cart"></i> رفتن به فروشگاه
                 </a>
             </div>
         {% endif %}
     </div>
-{% endblock content %}
+</div>
 
-<!-- ============================================
-     اسکریپت‌ها
-     ============================================ -->
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // ====== دریافت امتیازات محصولات ======
-    const productIds = [];
-    document.querySelectorAll('[id^="score-"]').forEach(function(el) {
-        const id = el.id.replace('score-', '');
-        if (id && !isNaN(id)) {
-            productIds.push(id);
-        }
-    });
-    
-    if (productIds.length > 0) {
-        fetchScores(productIds);
-    }
-});
-
-// ====== دریافت امتیازات ======
-function fetchScores(productIds) {
-    const params = new URLSearchParams();
-    productIds.forEach(id => params.append('productIds[]', id));
-    
-    fetch(`/products/get-products-score/?${params.toString()}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                for (const [id, score] of Object.entries(data.scores)) {
-                    const display = document.getElementById(`score-${id}-display`);
-                    if (display) {
-                        display.textContent = score || 'بدون امتیاز';
-                    }
-                }
-            }
-        })
-        .catch(error => console.error('Error:', error));
-}
-
-// ====== حذف از لیست مقایسه ======
 function deleteFromCompare(productId) {
     if (confirm('آیا از حذف این کالا از لیست مقایسه مطمئن هستید؟')) {
         fetch(`/products/delete-from-compare-list/?productId=${productId}`)
-            .then(response => {
-                if (response.ok) {
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
                     window.location.reload();
+                } else {
+                    showToast('error', data.message || 'خطا در حذف');
                 }
             })
-            .catch(error => console.error('Error:', error));
+            .catch(error => {
+                showToast('error', 'خطا در ارتباط با سرور');
+            });
     }
 }
 
-// ====== خالی کردن لیست مقایسه ======
 function clearCompareList() {
     if (confirm('آیا از خالی کردن لیست مقایسه مطمئن هستید؟')) {
         fetch('/products/clear-compare-list/')
-            .then(response => {
-                if (response.ok) {
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
                     window.location.reload();
+                } else {
+                    showToast('error', data.message || 'خطا در خالی کردن لیست');
                 }
             })
-            .catch(error => console.error('Error:', error));
+            .catch(error => {
+                showToast('error', 'خطا در ارتباط با سرور');
+            });
     }
 }
+
+function addToCart(productId) {
+    fetch(`/orders/add-to-cart/?productId=${productId}&quantity=1`, {
+        method: 'GET',
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            showToast('success', '✅ محصول با موفقیت به سبد خرید اضافه شد');
+            const cartCount = document.getElementById('cartCount');
+            if (cartCount) cartCount.textContent = data.cart_count || 0;
+        } else {
+            showToast('error', data.message || 'خطا در افزودن به سبد خرید');
+        }
+    })
+    .catch(error => {
+        showToast('error', 'خطا در ارتباط با سرور');
+    });
+}
+
+function showToast(type, message) {
+    const oldToast = document.querySelector('.custom-toast');
+    if (oldToast) oldToast.remove();
+    
+    const colors = { 'success': '#22c55e', 'error': '#ef4444' };
+    const toast = document.createElement('div');
+    toast.className = 'custom-toast';
+    toast.style.cssText = `
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        background: #1a1a2e;
+        color: #fff;
+        padding: 15px 25px;
+        border-radius: 12px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 280px;
+        max-width: 450px;
+        z-index: 99999;
+        transform: translateX(120%);
+        opacity: 0;
+        transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        border-right: 4px solid ${colors[type] || '#333'};
+        direction: rtl;
+        font-family: 'Vazir', 'Tahoma', sans-serif;
+    `;
+    toast.innerHTML = `
+        <i class="fa ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}" 
+           style="color: ${colors[type] || '#fff'}; font-size: 20px;"></i>
+        <span style="flex:1; font-size:14px;">${message}</span>
+        <button onclick="this.parentElement.remove()" 
+                style="background:none; border:none; color:rgba(255,255,255,0.5); font-size:20px; cursor:pointer;">&times;</button>
+    `;
+    document.body.appendChild(toast);
+    
+    setTimeout(() => { toast.style.transform = 'translateX(0)'; toast.style.opacity = '1'; }, 10);
+    setTimeout(() => {
+        toast.style.transform = 'translateX(120%)';
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 400);
+    }, 4000);
+}
 </script>
-
-<style>
-.compare-table .remove-btn {
-    position: absolute;
-    top: 5px;
-    left: 5px;
-    padding: 5px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 50%;
-    width: 25px;
-    height: 25px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s;
-}
-
-.compare-table .remove-btn:hover {
-    background: rgba(233, 69, 96, 0.2);
-    transform: scale(1.2);
-}
-
-.compare-table th {
-    position: relative;
-    padding: 15px 10px !important;
-}
-
-.compare-table td {
-    padding: 12px 10px !important;
-    vertical-align: middle !important;
-}
-
-.badge-info {
-    background: #17a2b8;
-    color: #fff;
-}
-</style>
+{% endblock content %}

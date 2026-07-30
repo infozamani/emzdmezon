@@ -3,12 +3,18 @@ from django.conf import settings
 from django.views import View
 from .models import Slider
 from .models import Slider,AboutUs,Post
+from apps.blog.models import Blog 
+ 
 #----------------------------------------------------------------
 def media_admin(request):
     return {'media_url':settings.MEDIA_URL,}
 #----------------------------------------------------------------
-def index (request):
-    return render(request,'main_app/index.html')
+def index(request):
+    latest_blogs = Blog.objects.filter(is_active=True).order_by('-id')[:6]
+    context = {
+        'latest_blogs': latest_blogs,
+    }
+    return render(request, 'main_app/index.html', context)  
 
 #----------------------------------------------------------------
 class SliderView(View):

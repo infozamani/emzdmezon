@@ -32,16 +32,17 @@
 	<!-- font - fontawesome -->
 	<link rel="stylesheet" href="{% static 'vendor/fontawesome-5.6.3/css/all.min.css' %} ">
 </head>
-<body style="background-image: url('{{ media_url }}/images/background/bagand.jpg'); background-size: cover; background-attachment: fixed; background-position: center; background-repeat: no-repeat;">
-    {% include "partials/products/header.html" %}
+<div style="background-color: rgba(255, 255, 255, 0.85); min-height: 100vh ; position: relative; z-index: 1;">
+<body style="background-image: url('{{ media_url }}/images/background/bagand.jpg');background-attachment: cover; "> 
+	{% include "partials/products/header.html" %}
+	{% include 'partials/products/navbar.html' %}
     {% include "partials/products/messages.html" %}
     
-    <!-- یک لایه شفاف برای خوانایی بهتر محتوا -->
-    <div style="background-color: rgba(255, 255, 255, 0.85); min-height: 100vh; padding: 20px 0;">
+ 
         {% block content %}
         {% endblock content %}
     </div>
-    
+   
     {% include "partials/products/footer.html" %}
 </body>
 </html> 

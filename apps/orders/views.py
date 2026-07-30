@@ -192,17 +192,24 @@ class ApplayCoupon(View):
                     messages.error(request,'سفارش موجود نیست')
             return redirect('orders:checkout_order', order_id)
 
-# def status_of_favorites(request):
-#     """دریافت تعداد علاقه‌مندی‌ها"""
-#     count = 0
-#     if request.user.is_authenticated:
-#         try:
-#             customer = Customer.objects.get(user=request.user)
-#             from apps.comment_scoring_favorites.models import Favorite
-#             count = Favorite.objects.filter(customer=customer).count()
-#         except:
-#             count = 0
-#     return HttpResponse(count)
+
+ 
+def status_of_shop_cart(request):
+    """دریافت تعداد سبد خرید"""
+    shop_cart = ShopCart(request)
+    return HttpResponse(shop_cart.count)
+
+def status_of_favorites(request):
+    """دریافت تعداد علاقه‌مندی‌ها"""
+    count = 0
+    if request.user.is_authenticated:
+        try:
+            customer = Customer.objects.get(user=request.user)
+            from apps.comment_scoring_favorites.models import Favorite
+            count = Favorite.objects.filter(customer=customer).count()
+        except:
+            count = 0
+    return HttpResponse(count)
 
 def status_of_compare(request):
     """دریافت تعداد مقایسه"""

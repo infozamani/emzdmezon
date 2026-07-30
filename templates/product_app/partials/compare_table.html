@@ -1,4 +1,4 @@
-{% if products %}
+{% comment %} {% if products %}
 <div class="container">
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
@@ -126,6 +126,105 @@ function updateCompareCount() {
             const badge = document.getElementById('compareCount');
             if (badge) {
                 badge.textContent = count;
+            }
+        })
+        .catch(error => console.error('Error:', error));
+}
+</script> {% endcomment %}
+<!-- جدول مقایسه -->
+<div class="table-responsive">
+    <table class="table table-bordered table-hover compare-table">
+        <thead>
+            <tr style="background: linear-gradient(135deg, #1a1a2e, #16213e); color: #fff; text-align: center;">
+                <th style="width: 20%;">ویژگی کالا</th>
+                {% for product in products %}
+                    <th style="min-width: 180px; position: relative;">
+                        <i class="fa fa-times remove-btn" 
+                           style="cursor: pointer; color: #e94560; font-size: 18px;"
+                           onclick="deleteFromCompare({{ product.id }})">
+                        </i>
+                        {{ product.product_name }}
+                        <br>
+                        <small style="color: #ffd700;">
+                            <i class="fa fa-star"></i> 
+                            <span id="score-{{ product.id }}">...</span>
+                        </small>
+                    </th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% if features %}
+                {% for feature in features %}
+                    <tr>
+                        <td style="font-weight: 700; background: #f8f9fa;">{{ feature }}</td>
+                        {% for product in products %}
+                            <td style="text-align: center;">
+                                {% for item in product.product_features.all %}
+                                    {% if item.feature == feature %}
+                                        <span class="badge badge-info" style="padding: 5px 12px; margin: 2px;">
+                                            {{ item.filter_value.value_title }}
+                                        </span>
+                                    {% endif %}
+                                {% empty %}
+                                    <span style="color: #ccc;">-</span>
+                                {% endfor %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="{{ products|length|add:1 }}" style="text-align: center; color: #999; padding: 30px;">
+                        ویژگی‌ای برای این محصولات ثبت نشده است
+                    </td>
+                </tr>
+            {% endif %}
+            
+            <!-- ردیف امتیاز -->
+            <tr style="background: #f8f9fa;">
+                <td style="font-weight: 700;">امتیاز</td>
+                {% for product in products %}
+                    <td style="text-align: center; font-size: 18px;">
+                        <span id="score-{{ product.id }}-display">...</span>
+                        <i class="fa fa-star" style="color: #ffd700;"></i>
+                    </td>
+                {% endfor %}
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+// دریافت امتیازات محصولات
+document.addEventListener('DOMContentLoaded', function() {
+    const productIds = [];
+    document.querySelectorAll('[id^="score-"]').forEach(function(el) {
+        const id = el.id.replace('score-', '');
+        if (id && !isNaN(id)) {
+            productIds.push(id);
+        }
+    });
+    
+    if (productIds.length > 0) {
+        fetchScores(productIds);
+    }
+});
+
+function fetchScores(productIds) {
+    const params = new URLSearchParams();
+    productIds.forEach(id => params.append('productIds[]', id));
+    
+    fetch(`/products/get-products-score/?${params.toString()}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                for (const [id, score] of Object.entries(data.scores)) {
+                    const display = document.getElementById(`score-${id}-display`);
+                    if (display) {
+                        display.textContent = score || 'بدون امتیاز';
+                    }
+                }
             }
         })
         .catch(error => console.error('Error:', error));

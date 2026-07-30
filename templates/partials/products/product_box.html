@@ -1,4 +1,4 @@
-{% load humanize %}
+ {% load humanize %}
 {% if type == 1 %}
   <div class="product-card" style="width: 200px !important; margin-left :12px !important;">
     <div class="product-card__image">
@@ -28,7 +28,7 @@
         {% if product.get_number_in_warehouse > 0 %}
           <button class="btn btn-primary product-card__addtocart" type="button" onclick="add_to_shop_cart({{ product.id }},1)">افزودن به سبد</button>
         {% endif %}
-        {% comment %}favorite{% endcomment %}
+         
         {% if user.is_authenticated %}
           {% if product.get_user_favorite %}
             <button class="btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__wishlist" type="button">
@@ -128,4 +128,5 @@
       </div>
     </div>
   </div>
-{% endif %}
+{% endif %}  
+ 
