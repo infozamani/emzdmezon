@@ -56,7 +56,7 @@ INSTALLED_APPS = [
     'django_render_partial',
     'django_filters',
     'django.contrib.humanize',
-    'rest_framework',
+    # 'rest_framework',
     
 
 ]

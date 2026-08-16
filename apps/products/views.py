@@ -1,3 +1,4 @@
+# products/views.py
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Product, Brand, ProductGroup, FeatureValue
 from django.db.models import Q, Count, Min, Max
@@ -55,13 +56,32 @@ def get_popular_product_groups(request, *args, **kwargs):
 
 
 # ============================================================
-# جزئیات محصول
+# جزئیات محصول (اصلاح شده)
 # ============================================================
 class productDetaileView(View):
     def get(self, request, slug):
         product = get_object_or_404(Product, slug=slug)
         if product.is_active:
-            return render(request, "product_app/product_details.html", {'product': product})
+            # دریافت همه تصاویر گالری
+            gallery_images = product.gallery_product.all()
+            
+            # دریافت محصولات مرتبط
+            related_products = []
+            for group in product.product_group.all():
+                related_products.extend(
+                    Product.objects.filter(
+                        Q(is_active=True) & 
+                        Q(product_group=group) & 
+                        ~Q(id=product.id)
+                    )[:3]
+                )
+            
+            context = {
+                'product': product,
+                'gallery_images': gallery_images,
+                'related_products': related_products,
+            }
+            return render(request, "product_app/product_details.html", context)
         return redirect('main:index')
 
 
@@ -70,12 +90,12 @@ class productDetaileView(View):
 # ============================================================
 def get_related_products(request, *args, **kwargs):
     current_product = get_object_or_404(Product, slug=kwargs['slug'])
-    related_product = []
+    related_products = []
     for group in current_product.product_group.all():
-        related_product.extend(Product.objects.filter(
+        related_products.extend(Product.objects.filter(
             Q(is_active=True) & Q(product_group=group) & ~Q(id=current_product.id)
         ))
-    return render(request, "product_app/partials/related_products.html", {'related_product': related_product})
+    return render(request, "product_app/partials/related_products.html", {'related_products': related_products})
 
 
 # ============================================================
@@ -133,22 +153,18 @@ class ProductsBygroupView(View):
         current_group = get_object_or_404(ProductGroup, slug=slug)
         products = Product.objects.filter(Q(is_active=True) & Q(product_group=current_group))
         
-        # قیمت فیلتر
         res_aggre = products.aggregate(min=Min('price'), max=Max('price'))
         filter = ProductFilter(request.GET, queryset=products)
         products = filter.qs
         
-        # برند فیلتر
         brands_filter = request.GET.getlist('brand')
         if brands_filter:
             products = products.filter(brand__id__in=brands_filter)
         
-        # ویژگی فیلتر
         features_filter = request.GET.getlist('feature')
         if features_filter:
             products = products.filter(product_features__filter_value__id__in=features_filter).distinct()
         
-        # مرتب‌سازی
         sort_type = request.GET.get('sort_type')
         if not sort_type:
             sort_type = "0"
@@ -164,7 +180,6 @@ class ProductsBygroupView(View):
         page_obj = paginator.get_page(page_number)
         product_count = products.count()
         
-        # لیست تعداد نمایش
         show_count_product = []
         i = product_per_page
         while i < product_count:
@@ -172,7 +187,6 @@ class ProductsBygroupView(View):
             i *= 2
         show_count_product.append(i)
         
-        # دریافت محصولات جدید برای سایدبار
         new_products = Product.objects.filter(is_active=True).order_by('-id')[:5]
         
         context = {
@@ -185,7 +199,7 @@ class ProductsBygroupView(View):
             'show_count_product': show_count_product,
             'filter': filter,
             'sort_type': sort_type,
-            'new_products': new_products,  # اضافه شد
+            'new_products': new_products,
         }
         return render(request, "product_app/products.html", context)
 
@@ -355,3 +369,48 @@ def toggle_favorite(request):
         return JsonResponse({'status': 'error', 'message': 'محصول یافت نشد'})
     except Customer.DoesNotExist:
         return JsonResponse({'status': 'error', 'message': 'کاربر یافت نشد'})
+
+# ============================================================
+# امتیازدهی
+# ============================================================
+def add_score(request):
+    """افزودن امتیاز به محصول (AJAX)"""
+    if not request.user.is_authenticated:
+        return JsonResponse({'status': 'error', 'message': 'لطفاً ابتدا وارد شوید'})
+    
+    product_id = request.GET.get('productId')
+    score = request.GET.get('score')
+    
+    if not product_id or not score:
+        return JsonResponse({'status': 'error', 'message': 'اطلاعات ناقص است'})
+    
+    try:
+        score = int(score)
+        if score < 1 or score > 5:
+            return JsonResponse({'status': 'error', 'message': 'امتیاز باید بین 1 تا 5 باشد'})
+        
+        product = Product.objects.get(id=product_id)
+        customer = Customer.objects.get(user=request.user)
+        
+        # ثبت یا بروزرسانی امتیاز
+        from apps.comment_scoring_favorites.models import Score
+        score_obj, created = Score.objects.get_or_create(
+            product=product,
+            user=customer,
+            defaults={'score': score}
+        )
+        if not created:
+            score_obj.score = score
+            score_obj.save()
+        
+        return JsonResponse({
+            'status': 'success',
+            'message': 'امتیاز شما با موفقیت ثبت شد',
+            'score': score
+        })
+    except Product.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'محصول یافت نشد'})
+    except Customer.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'کاربر یافت نشد'})
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)})

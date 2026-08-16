@@ -1,39 +1,233 @@
-			<div class="block-slideshow block-slideshow--layout--full block">
-				<div class="container">
-					<div class="row">
-						<div class="col-12">
-							<div class="block-slideshow__body">
-								<div class="owl-carousel">
-                                    {% for slide in sliders %}
-                                        <a class="block-slideshow__slide" href="{{silde.slider_link}}" target="_blank">
-                                            <div class="block-slideshow__slide-image block-slideshow__slide-image--desktop"
-                                                style="background-image: url('{{media_url}}{{slide.image_title}}">
-                                            </div>
-                                            
-                                            <div class="block-slideshow__slide-content">
-                                                <div class="block-slideshow__slide-title">
-                                                {% if slide.slider_title1 %}
-                                                    {{slide.slider_title1 }}
-                                                {% endif %}
-                                                </div>
-                                                <div class="block-slideshow__slide-text">
-                                                {% if slide.slider_title2 %}
-                                                        {{slide.slider_title2 }}
-                                                {% endif %}
-                                                </div>
-                                                <div class="block-slideshow__slide-text">
-                                                    <br />
-                                                        {% if slide.slider_title3 %}
-                                                            {{slide.slider_title3 }}
-                                                        {% endif %}
-                                                </div>
-                                            </div>
-									    </a>
-                                    {% endfor %}
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- .block-slideshow / end -->
+<!-- ============================================================
+         اسلایدشو
+    ============================================================ -->
+<style>
+    
+/* ==========================================================
+   ویژگی‌ها (Features) - کارت‌های شیشه‌ای
+========================================================== */
+.block-features--layout--boxed {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 40px 24px;
+    margin: 35px 0;
+    box-shadow: 
+        0 8px 40px var(--shadow-blue),
+        0 0 0 1px rgba(255,255,255,0.6) inset;
+}
+.block-features__list {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.block-features__item {
+    text-align: center;
+    padding: 0 20px;
+    flex: 1 1 180px;
+    min-width: 150px;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.block-features__item:hover {
+    transform: translateY(-8px);
+}
+.block-features__icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 18px;
+    background: linear-gradient(135deg, var(--blue-primary), var(--purple-mix), var(--pink-accent));
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 26px;
+    box-shadow: 
+        0 8px 25px rgba(59, 130, 246, 0.3),
+        0 0 0 1px rgba(255,255,255,0.2) inset;
+    transition: all 0.4s ease;
+    transform: perspective(500px) rotateX(0deg);
+}
+.block-features__item:hover .block-features__icon {
+    transform: perspective(500px) rotateX(8deg) scale(1.08);
+    box-shadow: 
+        0 12px 35px rgba(139, 92, 246, 0.35),
+        0 0 0 1px rgba(255,255,255,0.3) inset;
+}
+.block-features__title {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 6px;
+}
+.block-features__subtitle {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+.block-features__divider {
+    width: 1px;
+    background: linear-gradient(180deg, transparent, var(--blue-primary), transparent);
+    opacity: 0.2;
+    flex-shrink: 0;
+}
+@media (max-width: 768px) {
+    .block-features--layout--boxed { padding: 28px 16px; border-radius: 20px; }
+    .block-features__item { flex: 1 1 45%; padding: 0 10px; }
+    .block-features__divider { display: none; }
+    .block-features__icon { width: 52px; height: 52px; font-size: 20px; border-radius: 16px; }
+    .block-features__title { font-size: 15px; }
+}
+
+/* ==========================================================
+   هدر بخش‌ها
+========================================================== */
+.block-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 28px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid rgba(59, 130, 246, 0.1);
+}
+.block-header__title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-dark);
+    white-space: nowrap;
+    margin: 0;
+}
+.block-header__divider {
+    flex: 1;
+    height: 2px;
+    background: linear-gradient(90deg, var(--blue-primary), var(--purple-mix), var(--pink-accent));
+    border-radius: 2px;
+    opacity: 0.4;
+}
+.block-header__arrows-list {
+    display: flex;
+    gap: 8px;
+}
+.block-header__arrow {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    border: 2px solid var(--blue-soft);
+    background: white;
+    color: var(--blue-primary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    box-shadow: 0 2px 8px rgba(59,130,246,0.08);
+}
+.block-header__arrow:hover {
+    background: linear-gradient(135deg, var(--blue-primary), var(--purple-mix));
+    color: white;
+    border-color: transparent;
+    transform: scale(1.1) translateY(-2px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.25);
+}
+@media (max-width: 768px) {
+    .block-header__title { font-size: 18px; }
+    .block-header__arrow { width: 32px; height: 32px; font-size: 13px; }
+}
+
+</style>
+
+<div class="block-slideshow block-slideshow--layout--full block">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="block-slideshow__body">
+                    <!-- ====== اصلاح: کلاس owl-carousel--slideshow اضافه شد ====== -->
+                    <div class="owl-carousel owl-carousel--slideshow">
+                        {% for slide in sliders %}
+                            <a class="block-slideshow__slide" href="{{ slide.slider_link }}" target="_blank">
+                                <div class="block-slideshow__slide-image block-slideshow__slide-image--desktop"
+                                    style="background-image: url('{{ media_url }}{{ slide.image_title }}')">
+                                </div>
+                                
+                                <div class="block-slideshow__slide-content">
+                                    <div class="block-slideshow__slide-title">
+                                    {% if slide.slider_title1 %}
+                                        {{ slide.slider_title1 }}
+                                    {% endif %}
+                                    </div>
+                                    <div class="block-slideshow__slide-text">
+                                    {% if slide.slider_title2 %}
+                                            {{ slide.slider_title2 }}
+                                    {% endif %}
+                                    </div>
+                                    <div class="block-slideshow__slide-text">
+                                        <br />
+                                            {% if slide.slider_title3 %}
+                                                {{ slide.slider_title3 }}
+                                            {% endif %}
+                                    </div>
+                                </div>
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- .block-slideshow / end --> 
+
+<!-- ============================================================
+     ویژگی‌ها
+============================================================ -->
+<div class="block block-features block-features--layout--boxed">
+    <div class="container">
+        <div class="block-features__list">
+            <div class="block-features__item">
+                <div class="block-features__icon">
+                    <i class="fas fa-shipping-fast"></i>
+                </div>
+                <div class="block-features__content">
+                    <div class="block-features__title">ارسال رایگان</div>
+                    <div class="block-features__subtitle">برای خریدهای بالای ۵۰۰ هزار تومان</div>
+                </div>
+            </div>
+            <div class="block-features__divider"></div>
+            <div class="block-features__item">
+                <div class="block-features__icon">
+                    <i class="fas fa-headset"></i>
+                </div>
+                <div class="block-features__content">
+                    <div class="block-features__title">پشتیبانی ۲۴ ساعته</div>
+                    <div class="block-features__subtitle">هر زمان تماس بگیرید</div>
+                </div>
+            </div>
+            <div class="block-features__divider"></div>
+            <div class="block-features__item">
+                <div class="block-features__icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="block-features__content">
+                    <div class="block-features__title">۱۰۰٪ امن</div>
+                    <div class="block-features__subtitle">پرداخت‌های امن و مطمئن</div>
+                </div>
+            </div>
+            <div class="block-features__divider"></div>
+            <div class="block-features__item">
+                <div class="block-features__icon">
+                    <i class="fas fa-percent"></i>
+                </div>
+                <div class="block-features__content">
+                    <div class="block-features__title">پیشنهادات ویژه</div>
+                    <div class="block-features__subtitle">تخفیف‌های هفتگی شگفت‌انگیز</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- .block-features / end -->
