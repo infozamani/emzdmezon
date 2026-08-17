@@ -1,28 +1,301 @@
 <div class="block block--highlighted block-categories block-categories--layout--compact">
+    <style>
+        /* ==========================================================
+           کارت‌های گروه با تصویر پس‌زمینه Full Cover
+           ========================================================== */
+        .block-categories--layout--compact {
+            padding: 50px 0;
+            margin: 40px 0;
+            background: #f8fafc;
+        }
+        
+        .block-categories--layout--compact .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ====== هدر ====== */
+        .block-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .block-header__title {
+            font-size: 32px;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+        .block-header__divider {
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #e94560, #c73652);
+            border-radius: 2px;
+            margin: 0 auto;
+        }
+
+        /* ====== لیست کارت‌ها ====== */
+        .block-categories__list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        /* ====== کارت اصلی ====== */
+        .category-card {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            aspect-ratio: 16 / 10;
+            background: #1a1a2e;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        /* ====== تصویر پس‌زمینه ====== */
+        .category-card__bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            transition: transform 0.6s ease;
+            z-index: 1;
+        }
+
+        /* ====== اوورلی (سایه تیره روی تصویر) ====== */
+        .category-card__overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to top,
+                rgba(0, 0, 0, 0.7) 0%,
+                rgba(0, 0, 0, 0.3) 40%,
+                rgba(0, 0, 0, 0.1) 70%,
+                rgba(0, 0, 0, 0.05) 100%
+            );
+            z-index: 2;
+            transition: all 0.4s ease;
+        }
+
+        /* ====== محتوای کارت ====== */
+        .category-card__content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 30px 25px 25px;
+            z-index: 3;
+        }
+
+        /* ====== تعداد ====== */
+        .category-card__count {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 4px 14px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #1a1a2e;
+            border: 2px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .category-card__count .num {
+            color: #e94560;
+            font-weight: 900;
+            font-size: 14px;
+        }
+        .category-card__count .label {
+            color: #64748b;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        /* ====== نام گروه ====== */
+        .category-card__name {
+            margin: 0;
+            z-index: 4;
+        }
+        .category-card__name a {
+            color: #ffffff !important;
+            font-size: 20px;
+            font-weight: 700;
+            text-decoration: none;
+            display: block;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            letter-spacing: 0.3px;
+            line-height: 1.3;
+        }
+
+        {% comment %} /* ====== دکمه مشاهده ====== */
+        .category-card__btn {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 6px 20px;
+            background: #e94560;
+            color: #fff;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        } {% endcomment %}
+        {% comment %} .category-card__btn:hover {
+            background: #c73652;
+            transform: scale(1.05);
+        } {% endcomment %}
+
+        /* ====== هاور افکت‌ها ====== */
+        .category-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        }
+
+        .category-card:hover .category-card__bg {
+            transform: scale(1.08);
+        }
+
+        .category-card:hover .category-card__overlay {
+            background: linear-gradient(
+                to top,
+                rgba(0, 0, 0, 0.8) 0%,
+                rgba(0, 0, 0, 0.4) 40%,
+                rgba(0, 0, 0, 0.15) 70%,
+                rgba(0, 0, 0, 0.05) 100%
+            );
+        }
+
+        .category-card:hover .category-card__name a {
+            color: #fff;
+            text-shadow: 0 2px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        /* ====== واکنش‌گرایی ====== */
+        @media (max-width: 992px) {
+            .block-categories__list {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+                gap: 20px;
+            }
+            .category-card__name a {
+                font-size: 18px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .block-categories__list {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+            .category-card {
+                aspect-ratio: 4 / 3;
+            }
+            .category-card__content {
+                padding: 20px 15px 18px;
+            }
+            .category-card__name a {
+                font-size: 15px;
+            }
+            .category-card__btn {
+                font-size: 11px;
+                padding: 4px 14px;
+            }
+            .category-card__count {
+                top: 10px;
+                right: 10px;
+                padding: 3px 10px;
+                font-size: 11px;
+            }
+            .block-header__title {
+                font-size: 24px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .block-categories__list {
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+            }
+            .category-card {
+                aspect-ratio: 3 / 2;
+            }
+            .category-card__name a {
+                font-size: 13px;
+            }
+            .category-card__content {
+                padding: 14px 12px 12px;
+            }
+            .category-card__btn {
+                font-size: 10px;
+                padding: 3px 12px;
+                margin-top: 8px;
+            }
+            .category-card__count {
+                top: 8px;
+                right: 8px;
+                padding: 2px 8px;
+                font-size: 10px;
+            }
+            .category-card__count .num {
+                font-size: 11px;
+            }
+            .block-header__title {
+                font-size: 20px;
+            }
+        }
+    </style>
+
     <div class="container">
+        <!-- ====== هدر ====== -->
         <div class="block-header">
-            <h3 class="block-header__title">دسته های محبوب</h3>
+            <h3 class="block-header__title">    دسته بندی ها    </h3>
             <div class="block-header__divider"></div>
         </div>
+
+        <!-- ====== لیست کارت‌ها ====== -->
         <div class="block-categories__list">
-           {% for group in product_groups %}
-            <div class="block-categories__item category-card category-card--layout--compact">
-                <div class="category-card__body">
-                    <div class="category-card__image">
-                        <a href="{% url "products:product_of_group" slug=group.slug%}">
-                            <img src="{{media_url}}{{group.image_name}}" alt="">
-                        </a>
-                    </div>
-                    <div class="category-card__content">
-                        <div class="category-card__name">
-                            <a href="{% url "products:product_of_group" slug=group.slug%}">{{group.group_title}}</a>
-                        </div>
-                        <div class="category-card__products">{{group.products_of_groups.all|length}} محصول</div>
-                    </div>
+            {% for group in product_groups %}
+            <a href="{% url 'products:product_of_group' slug=group.slug %}" class="category-card" style="text-decoration: none;">
+                
+                <!-- ====== تصویر پس‌زمینه ====== -->
+                <div class="category-card__bg" 
+                     style="background-image: url('{{ media_url }}{{ group.image_name|default:'images/default-group.jpg' }}');">
                 </div>
-            </div>
+                
+                <!-- ====== اوورلی تیره ====== -->
+                <div class="category-card__overlay"></div>
+                
+                <!-- ====== تعداد متخصصین ====== -->
+                <div class="category-card__count" title="تعداد متخصصین">
+                    <span class="num">{{ group.count }}</span>
+                    <span class="label">نفر</span>
+                </div>
+                
+                {% comment %} <!-- ====== محتوای کارت ====== -->
+                <div class="category-card__content">
+                    <h4 class="category-card__name">{{ group.group_title }}</h4>
+                    <span class="category-card__btn">مشاهده محصولات</span>
+                </div> {% endcomment %}
+                
+            </a>
             {% endfor %}
-            <a href="{% url "products:product_groups" %}">همه</a>
         </div>
     </div>
 </div>
