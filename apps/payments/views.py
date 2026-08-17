@@ -43,10 +43,10 @@ class ZarinpalPaymentView(LoginRequiredMixin, View):
             if len(req.json)['errors'] == 0:
                 return redirect(ZP_API_STARTPAY.format(athority=authority))
             else:
-                # e_code = req.json(['errors']['code'])
-                # e_message = req.json(['errors']['message'])
-                e_code = req.json().get('errors', {}).get('code')
-                e_message = req.json().get('errors', {}).get('message')
+                e_code = req.json(['errors']['code'])
+                e_message = req.json(['errors']['message'])
+                # e_code = req.json().get('errors', {}).get('code')
+                # e_message = req.json().get('errors', {}).get('message')
                 return HttpResponse(f"Error code:{e_code}, Error Message: {e_message}")
         except ObjectDoesNotExist:
             return redirect('payments:zarinpal_payment', order_id)
