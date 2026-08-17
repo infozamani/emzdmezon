@@ -151,7 +151,11 @@ class ProductsBygroupView(View):
     def get(self, request, *args, **kwargs):
         slug = kwargs['slug']
         current_group = get_object_or_404(ProductGroup, slug=slug)
-        products = Product.objects.filter(Q(is_active=True) & Q(product_group=current_group))
+        
+        # ===== اعمال order_by در ابتدای کوئری =====
+        products = Product.objects.filter(
+            Q(is_active=True) & Q(product_group=current_group)
+        ).order_by('-id')  
         
         res_aggre = products.aggregate(min=Min('price'), max=Max('price'))
         filter = ProductFilter(request.GET, queryset=products)

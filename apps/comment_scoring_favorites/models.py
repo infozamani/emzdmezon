@@ -42,7 +42,7 @@ class Favorite(models.Model):
     registerdate = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ درج')
         
     def __str__(self) -> str:
-        return f"{self.product} - {self.favorite_CustomUser} - {self.registerdate}"
+        return f"{self.product} - {self.favorite_user} - {self.registerdate}"
 
     class Meta:
         verbose_name = 'علاقه'
