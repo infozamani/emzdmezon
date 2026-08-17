@@ -175,3 +175,15 @@ class ProductGallery(models.Model):
     class Meta:
         verbose_name = ("تصویر ")
         verbose_name_plural =('تصاویر')
+#----------------------------------------------------------------
+## create the def signala for the delete_product_image(1)
+# def delete_product_image(sender, **kwargs):
+#     print(100*"*")
+#     print("prudelete_product_image...")
+#     print(100*"*")
+# post_delete.connect(receiver=delete_product_image, sender=Product)
+
+## create the def signala for the delete_product_image(2)
+
+# @receiver(post_delete, sender=Product)
+# def delete_product_image(sender, **kwargs):
