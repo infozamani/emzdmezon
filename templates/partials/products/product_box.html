@@ -1,4 +1,4 @@
-{% load humanize %}
+{% comment %} {% load humanize %}
 
 <!-- ============================================================
      TYPE 1: کارت ساده محصول (برای اسلایدر محبوب‌ترین محصولات)
@@ -199,6 +199,552 @@
                     <i class="fa fa-balance-scale" style="color: #6c7a8a; font-size: 14px;"></i>
                 </button>
             </div>
+        </div>
+    </div>
+</div>
+{% endif %} {% endcomment %}
+{% load humanize %}
+
+<style>
+/* ============================================================
+   استایل کارت محصول با تصویر بلند و نام پایین‌تر
+   ============================================================ */
+.product-card {
+    position: relative;
+    width: 100% !important;
+    margin: 0 !important;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 1px solid #e8ecf1;
+    background: #fff;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.product-card:hover {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    border-color: #4a90d9;
+    transform: translateY(-4px);
+}
+
+/* ====== کانتینر تصویر (بلندتر) ====== */
+.product-card__image-wrapper {
+    position: relative;
+    width: 100%;
+    padding-top: 135%; /* ← افزایش ارتفاع به ۱۳۵% (نسبت حدود ۳:۴) */
+    background: #f5f7fa;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.product-card__image-wrapper img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.product-card:hover .product-card__image-wrapper img {
+    transform: scale(1.06);
+}
+
+/* ====== برچسب‌ها روی تصویر ====== */
+.product-card__badges {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.product-card__badge {
+    font-size: 11px;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+.product-card__badge--popular {
+    background: linear-gradient(135deg, #ff8a65, #ff6b35);
+    color: #fff;
+}
+
+.product-card__badge--new {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: #fff;
+}
+
+.product-card__badge--sale {
+    background: linear-gradient(135deg, #e94560, #dc3545);
+    color: #fff;
+}
+
+.product-card__badge--stock {
+    background: rgba(0, 0, 0, 0.75);
+    color: #ffd700;
+    backdrop-filter: blur(4px);
+    font-size: 10px;
+}
+
+/* ====== اطلاعات محصول (زیر تصویر) ====== */
+.product-card__info {
+    padding: 16px 16px 18px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    gap: 4px;
+}
+
+/* ====== نام محصول (پایین‌تر و بزرگ‌تر) ====== */
+.product-card__name {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    line-height: 1.5;
+    min-height: 50px;
+    height: auto;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.product-card__name a {
+    color: #1a1a2e;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.product-card__name a:hover {
+    color: #4a90d9;
+}
+
+/* ====== موجودی (مثل تصویر شما) ====== */
+.product-card__stock-info {
+    font-size: 13px;
+    color: #6c7a8a;
+    margin-bottom: 4px;
+    font-weight: 500;
+    padding: 2px 0;
+}
+
+.product-card__stock-info .stock-number {
+    color: #e94560;
+    font-weight: 700;
+}
+
+.product-card__stock-info .in-stock {
+    color: #28a745;
+}
+
+.product-card__stock-info .out-stock {
+    color: #e94560;
+}
+
+/* ====== قیمت ====== */
+.product-card__price {
+    font-size: 19px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 14px;
+    padding: 2px 0;
+}
+
+.product-card__price del {
+    color: #999;
+    font-size: 14px;
+    font-weight: 400;
+    margin-left: 8px;
+}
+
+.product-card__price .discount {
+    color: #e94560;
+}
+
+.product-card__price .out-of-stock {
+    color: #e94560;
+    font-size: 15px;
+}
+
+/* ====== دکمه‌ها ====== */
+.product-card__buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+}
+
+.product-card__buttons .btn {
+    font-size: 13px;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.product-card__buttons .btn-add {
+    background: #4a90d9;
+    color: #fff;
+    flex: 1;
+    min-width: 70px;
+}
+
+.product-card__buttons .btn-add:hover {
+    background: #3a7bc8;
+    transform: scale(1.02);
+    box-shadow: 0 4px 15px rgba(74, 144, 217, 0.35);
+}
+
+.product-card__buttons .btn-add:active {
+    transform: scale(0.97);
+}
+
+.product-card__buttons .btn-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #f5f7fa;
+    color: #6c7a8a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    border: 1px solid #e8ecf1;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.product-card__buttons .btn-icon:hover {
+    background: #4a90d9;
+    color: #fff;
+    border-color: #4a90d9;
+    transform: scale(1.08);
+}
+
+.product-card__buttons .btn-icon.active {
+    background: #e94560;
+    color: #fff;
+    border-color: #e94560;
+}
+
+.product-card__buttons .btn-icon.active:hover {
+    background: #c73652;
+}
+
+/* ====== واکنش‌گرایی ====== */
+@media (max-width: 768px) {
+    .product-card__image-wrapper {
+        padding-top: 115%; /* در موبایل کمی کمتر */
+    }
+    
+    .product-card__info {
+        padding: 12px 14px 14px;
+    }
+    
+    .product-card__name {
+        font-size: 15px;
+        min-height: 44px;
+    }
+    
+    .product-card__price {
+        font-size: 17px;
+    }
+    
+    .product-card__buttons .btn {
+        font-size: 12px;
+        padding: 8px 14px;
+    }
+    
+    .product-card__buttons .btn-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .product-card__image-wrapper {
+        padding-top: 100%;
+    }
+    
+    .product-card__name {
+        font-size: 14px;
+        min-height: 40px;
+    }
+    
+    .product-card__price {
+        font-size: 15px;
+    }
+    
+    .product-card__buttons .btn {
+        font-size: 11px;
+        padding: 7px 12px;
+    }
+    
+    .product-card__buttons .btn-icon {
+        width: 34px;
+        height: 34px;
+        font-size: 13px;
+    }
+}
+</style>
+
+<!-- ============================================================
+     TYPE 1: کارت ساده محصول (محبوب‌ترین)
+     ============================================================ -->
+{% if type == 1 %}
+<div class="product-card" data-product-id="{{ product.id }}">
+    
+    <!-- ====== تصویر بلند ====== -->
+    <div class="product-card__image-wrapper">
+        <a href="{{ product.get_absolute_url }}">
+            <img src="{{ media_url }}{{ product.image_name }}" alt="{{ product.product_name }}" loading="lazy">
+        </a>
+        
+        <!-- برچسب‌ها روی تصویر -->
+        <div class="product-card__badges">
+            <div class="product-card__badge product-card__badge--popular">🔥 محبوب</div>
+            {% if product.get_price_by_discount < product.price %}
+                <div class="product-card__badge product-card__badge--sale">
+                    {{ product.get_discount_percent }}%
+                </div>
+            {% endif %}
+            {% if product.get_number_in_warehouse > 0 and product.get_number_in_warehouse <= 5 %}
+                <div class="product-card__badge product-card__badge--stock">
+                    ⚡ تنها {{ product.get_number_in_warehouse }} عدد
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- ====== اطلاعات زیر تصویر ====== -->
+    <div class="product-card__info">
+        
+        <!-- نام محصول (پایین‌تر) -->
+        <div class="product-card__name">
+            <a href="{{ product.get_absolute_url }}">{{ product.product_name|truncatechars:45 }}</a>
+        </div>
+        
+        <!-- موجودی -->
+        <div class="product-card__stock-info">
+            {% if product.get_number_in_warehouse > 0 %}
+                {% if product.get_number_in_warehouse <= 5 %}
+                    🛒 تنها <span class="stock-number">{{ product.get_number_in_warehouse }}</span> عدد در انبار باقی مانده
+                {% else %}
+                    <span class="in-stock">✅ موجود در انبار</span>
+                {% endif %}
+            {% else %}
+                <span class="out-stock">❌ ناموجود</span>
+            {% endif %}
+        </div>
+        
+        <!-- قیمت -->
+        <div class="product-card__price">
+            {% if product.get_number_in_warehouse <= 0 %}
+                <span class="out-of-stock">ناموجود</span>
+            {% else %}
+                {% if product.get_price_by_discount < product.price %}
+                    <del>{{ product.price|intcomma }}</del>
+                    <span class="discount">{{ product.get_price_by_discount|intcomma }} تومان</span>
+                {% else %}
+                    {{ product.price|intcomma }} تومان
+                {% endif %}
+            {% endif %}
+        </div>
+        
+        <!-- دکمه‌ها -->
+        <div class="product-card__buttons">
+            {% if product.get_number_in_warehouse > 0 %}
+                <button class="btn btn-add" type="button" onclick="addToCart({{ product.id }})">
+                    <i class="fa fa-shopping-cart"></i> افزودن
+                </button>
+            {% else %}
+                <button class="btn btn-add" disabled style="background: #ccc; cursor: not-allowed;">
+                    <i class="fa fa-times"></i> ناموجود
+                </button>
+            {% endif %}
+            
+            {% if user.is_authenticated %}
+                <button class="btn btn-icon {% if product.get_user_favorite %}active{% endif %}" 
+                        type="button" onclick="addToFavorites({{ product.id }})" 
+                        title="علاقه‌مندی">
+                    <i class="fa {% if product.get_user_favorite %}fa-heart{% else %}fa-heart-o{% endif %}"></i>
+                </button>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================
+     TYPE 2: کارت با لیبل جدید
+     ============================================================ -->
+{% elif type == 2 %}
+<div class="product-card" data-product-id="{{ product.id }}">
+    
+    <div class="product-card__image-wrapper">
+        <a href="{{ product.get_absolute_url }}">
+            <img src="{{ media_url }}{{ product.image_name }}" alt="{{ product.product_name }}" loading="lazy">
+        </a>
+        
+        <div class="product-card__badges">
+            <div class="product-card__badge product-card__badge--new">✨ جدید</div>
+            {% if product.get_price_by_discount < product.price %}
+                <div class="product-card__badge product-card__badge--sale">
+                    {{ product.get_discount_percent }}%
+                </div>
+            {% endif %}
+            {% if product.get_number_in_warehouse > 0 and product.get_number_in_warehouse <= 5 %}
+                <div class="product-card__badge product-card__badge--stock">
+                    ⚡ تنها {{ product.get_number_in_warehouse }} عدد
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="product-card__info">
+        <div class="product-card__name">
+            <a href="{{ product.get_absolute_url }}">{{ product.product_name|truncatechars:45 }}</a>
+        </div>
+        
+        <div class="product-card__stock-info">
+            {% if product.get_number_in_warehouse > 0 %}
+                {% if product.get_number_in_warehouse <= 5 %}
+                    🛒 تنها <span class="stock-number">{{ product.get_number_in_warehouse }}</span> عدد در انبار باقی مانده
+                {% else %}
+                    <span class="in-stock">✅ موجود در انبار</span>
+                {% endif %}
+            {% else %}
+                <span class="out-stock">❌ ناموجود</span>
+            {% endif %}
+        </div>
+        
+        <div class="product-card__price">
+            {% if product.get_number_in_warehouse <= 0 %}
+                <span class="out-of-stock">ناموجود</span>
+            {% else %}
+                {% if product.get_price_by_discount < product.price %}
+                    <del>{{ product.price|intcomma }}</del>
+                    <span class="discount">{{ product.get_price_by_discount|intcomma }} تومان</span>
+                {% else %}
+                    {{ product.price|intcomma }} تومان
+                {% endif %}
+            {% endif %}
+        </div>
+        
+        <div class="product-card__buttons">
+            {% if product.get_number_in_warehouse > 0 %}
+                <button class="btn btn-add" type="button" onclick="addToCart({{ product.id }})">
+                    <i class="fa fa-shopping-cart"></i> افزودن
+                </button>
+            {% else %}
+                <button class="btn btn-add" disabled style="background: #ccc; cursor: not-allowed;">
+                    <i class="fa fa-times"></i> ناموجود
+                </button>
+            {% endif %}
+            
+            {% if user.is_authenticated %}
+                <button class="btn btn-icon {% if product.get_user_favorite %}active{% endif %}" 
+                        type="button" onclick="addToFavorites({{ product.id }})" 
+                        title="علاقه‌مندی">
+                    <i class="fa {% if product.get_user_favorite %}fa-heart{% else %}fa-heart-o{% endif %}"></i>
+                </button>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================
+     TYPE 3: کارت کامل با دکمه مقایسه
+     ============================================================ -->
+{% elif type == 3 %}
+<div class="product-card" data-product-id="{{ product.id }}">
+    
+    <div class="product-card__image-wrapper">
+        <a href="{% url 'products:product_details' slug=product.slug %}">
+            <img src="{{ media_url }}{{ product.image_name }}" alt="{{ product.product_name }}" loading="lazy">
+        </a>
+        
+        <div class="product-card__badges">
+            {% if product.get_price_by_discount < product.price %}
+                <div class="product-card__badge product-card__badge--sale">
+                    {{ product.get_discount_percent }}%
+                </div>
+            {% endif %}
+            <div class="product-card__badge product-card__badge--new">✨ جدید</div>
+            {% if product.get_number_in_warehouse > 0 and product.get_number_in_warehouse <= 5 %}
+                <div class="product-card__badge product-card__badge--stock">
+                    ⚡ تنها {{ product.get_number_in_warehouse }} عدد
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="product-card__info">
+        <div class="product-card__name">
+            <a href="{% url 'products:product_details' slug=product.slug %}">{{ product.product_name|truncatechars:45 }}</a>
+        </div>
+        
+        <div class="product-card__stock-info">
+            {% if product.get_number_in_warehouse > 0 %}
+                {% if product.get_number_in_warehouse <= 5 %}
+                    🛒 تنها <span class="stock-number">{{ product.get_number_in_warehouse }}</span> عدد در انبار باقی مانده
+                {% else %}
+                    <span class="in-stock">✅ موجود در انبار</span>
+                {% endif %}
+            {% else %}
+                <span class="out-stock">❌ ناموجود</span>
+            {% endif %}
+        </div>
+        
+        <div class="product-card__price">
+            {% if product.get_number_in_warehouse <= 0 %}
+                <span class="out-of-stock">ناموجود</span>
+            {% else %}
+                {% if product.get_price_by_discount < product.price %}
+                    <del>{{ product.price|intcomma }}</del>
+                    <span class="discount">{{ product.get_price_by_discount|intcomma }} تومان</span>
+                {% else %}
+                    {{ product.price|intcomma }} تومان
+                {% endif %}
+            {% endif %}
+        </div>
+        
+        <div class="product-card__buttons">
+            {% if product.get_number_in_warehouse > 0 %}
+                <button class="btn btn-add" type="button" onclick="addToCart({{ product.id }})">
+                    <i class="fa fa-shopping-cart"></i> افزودن
+                </button>
+            {% else %}
+                <button class="btn btn-add" disabled style="background: #ccc; cursor: not-allowed;">
+                    <i class="fa fa-times"></i> ناموجود
+                </button>
+            {% endif %}
+            
+            {% if user.is_authenticated %}
+                <button class="btn btn-icon {% if product.get_user_favorite %}active{% endif %}" 
+                        type="button" onclick="addToFavorites({{ product.id }})" 
+                        title="علاقه‌مندی">
+                    <i class="fa {% if product.get_user_favorite %}fa-heart{% else %}fa-heart-o{% endif %}"></i>
+                </button>
+            {% endif %}
+            
+            <button class="btn btn-icon" type="button" onclick="addToCompareList({{ product.id }})" title="مقایسه">
+                <i class="fa fa-balance-scale"></i>
+            </button>
         </div>
     </div>
 </div>

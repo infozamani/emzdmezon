@@ -251,11 +251,11 @@
         <div class="compare-header">
             <h2><i class="fa fa-balance-scale"></i> مقایسه محصولات</h2>
             <p style="color: var(--text-muted);">
-                <span class="badge">{{ compare_list|length }}</span> محصول برای مقایسه انتخاب شده است
+                <span class="badge">{{ compare_list.count }}</span> محصول برای مقایسه انتخاب شده است
             </p>
         </div>
 
-        {% if products|length > 0 %}
+        {% if compare_list.count > 0 %}
             <div class="compare-table-wrap">
                 <table class="compare-table" id="compare-table">
                     <thead>
@@ -279,7 +279,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- ردیف قیمت -->
                         <tr>
                             <td><strong>قیمت</strong></td>
                             {% for product in products %}
@@ -298,8 +297,6 @@
                             </td>
                             {% endfor %}
                         </tr>
-                        
-                        <!-- ردیف موجودی -->
                         <tr>
                             <td><strong>موجودی</strong></td>
                             {% for product in products %}
@@ -312,8 +309,6 @@
                             </td>
                             {% endfor %}
                         </tr>
-                        
-                        <!-- ردیف برند -->
                         <tr>
                             <td><strong>برند</strong></td>
                             {% for product in products %}
@@ -321,37 +316,24 @@
                             {% endfor %}
                         </tr>
                         
-                        <!-- ==========================================
-                             نمایش ویژگی‌های محصولات (روش اصلاح‌شده)
-                             ========================================== -->
-                        {% if features %}
-                            {% for feature in features %}
-                            <tr>
-                                <td><strong>{{ feature.feature_name }}</strong></td>
-                                {% for product in products %}
-                                <td>
-                                    {# پیدا کردن مقدار ویژگی برای این محصول #}
-                                    {% for pf in product.product_features.all %}
-                                        {% if pf.feature.id == feature.id %}
-                                            {{ pf.value }}
-                                        {% endif %}
-                                    {% empty %}
-                                        <span style="color: #999;">-</span>
-                                    {% endfor %}
-                                </td>
+                        <!-- ====== نمایش ویژگی‌های محصولات ====== -->
+                        {% for feature in features %}
+                        <tr>
+                            <td><strong>{{ feature.feature_name }}</strong></td>
+                            {% for product in products %}
+                            <td>
+                                {% for pf in product.product_features.all %}
+                                    {% if pf.feature == feature %}
+                                        {{ pf.value }}
+                                    {% endif %}
+                                {% empty %}
+                                    <span style="color: #999;">-</span>
                                 {% endfor %}
-                            </tr>
+                            </td>
                             {% endfor %}
-                        {% else %}
-                            <!-- اگر ویژگی‌ای وجود نداشت، پیام نمایش بده -->
-                            <tr>
-                                <td colspan="{{ products|length|add:1 }}" style="color: #999; padding: 20px;">
-                                    <i class="fa fa-info-circle"></i> این محصولات دارای ویژگی خاصی نیستند.
-                                </td>
-                            </tr>
-                        {% endif %}
+                        </tr>
+                        {% endfor %}
                         
-                        <!-- ردیف عملیات -->
                         <tr>
                             <td><strong>عملیات</strong></td>
                             {% for product in products %}
