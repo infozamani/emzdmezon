@@ -1,4 +1,4 @@
-<div class="block block-products-carousel" data-layout="grid-5">
+{% comment %} <div class="block block-products-carousel" data-layout="grid-5">
     <div class="container">
         {% include 'partials/products/root_group.html' with title=' محبوب ترین محصولات' %}
         <div class="product-flexbox" style="">
@@ -21,4 +21,148 @@
         </div>
     </div>
 </div>
-</div>  
+</div>   {% endcomment %}
+
+<!-- ============================================================
+     اسلایدر محبوب‌ترین محصولات در صفحه اصلی
+============================================================ -->
+
+<div class="block block-products-carousel" data-layout="grid-5">
+    <div class="container">
+        <!-- ====== هدر با دکمه‌های قبلی/بعدی ====== -->
+        <div class="block-header">
+            <h3 class="block-header__title">🔥 محبوب‌ترین محصولات</h3>
+            <div class="block-header__divider"></div>
+            <div class="block-header__arrows-list">
+                <button class="block-header__arrow block-header__arrow--left" type="button">
+                    <i class="fas fa-angle-right"></i>
+                </button>
+                <button class="block-header__arrow block-header__arrow--right" type="button">
+                    <i class="fas fa-angle-left"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- ====== اسلایدر محصولات ====== -->
+        <div class="block-products-carousel__slider">
+            <div class="owl-carousel owl-carousel--cheapest">
+                {% if products %}
+                    {% for product in products %}
+                        <div class="block-products-carousel__cell">
+                            {% include 'partials/products/product_box.html' with type=1 %}
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="block-products-carousel__cell">
+                        <div class="product-card" style="padding: 40px 30px; text-align: center; border: 1px solid #e5e7eb; border-radius: 12px;">
+                            <p style="color: #94A3B8; font-size: 16px; margin-bottom: 10px;">📦 محصولی برای نمایش وجود ندارد</p>
+                            <p style="color: #CBD5E1; font-size: 14px;">تعداد محصولات: {{ products|length }}</p>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* ====== اسلایدر محبوب‌ترین محصولات ====== */
+.block-products-carousel .owl-carousel--cheapest .owl-stage-outer {
+    padding: 10px 0 30px 0;
+}
+.block-products-carousel .owl-carousel--cheapest .owl-stage {
+    display: flex;
+    align-items: stretch;
+}
+.block-products-carousel .owl-carousel--cheapest .block-products-carousel__cell {
+    height: 100%;
+    padding: 0 8px;
+}
+
+/* ====== دکمه‌های قبلی/بعدی ====== */
+.block-products-carousel .owl-carousel--cheapest .owl-nav {
+    position: absolute;
+    top: -50px;
+    left: 0;
+    display: flex;
+    gap: 5px;
+}
+.block-products-carousel .owl-carousel--cheapest .owl-nav button {
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 50%;
+    background: #f1f1f1;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.block-products-carousel .owl-carousel--cheapest .owl-nav button:hover {
+    background: #4a90d9;
+    color: #fff;
+}
+
+/* ====== نقطه‌های ناوبری ====== */
+.block-products-carousel .owl-carousel--cheapest .owl-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 15px;
+}
+.block-products-carousel .owl-carousel--cheapest .owl-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #ddd;
+    border: none;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+.block-products-carousel .owl-carousel--cheapest .owl-dot.active {
+    background: #4a90d9;
+    width: 30px;
+    border-radius: 10px;
+}
+
+/* ====== واکنش‌گرایی ====== */
+@media (max-width: 768px) {
+    .block-products-carousel .owl-carousel--cheapest .product-card__image img {
+        height: 150px;
+    }
+}
+@media (max-width: 480px) {
+    .block-products-carousel .owl-carousel--cheapest .product-card__image img {
+        height: 120px;
+    }
+}
+</style>
+
+<script>
+$(document).ready(function() {
+    var owl = $('.owl-carousel--cheapest');
+    owl.owlCarousel({
+        rtl: true,
+        items: 5,
+        margin: 0,
+        loop: true,
+        nav: false,
+        dots: true,
+        autoplay: true,
+        autoplayTimeout: 4000,
+        autoplayHoverPause: true,
+        responsive: {
+            0: { items: 1, dots: true },
+            480: { items: 2, dots: true },
+            768: { items: 3, dots: true },
+            992: { items: 4, dots: false },
+            1200: { items: 5, dots: false }
+        }
+    });
+    $('.block-header__arrow--left').click(function() { owl.trigger('prev.owl.carousel'); });
+    $('.block-header__arrow--right').click(function() { owl.trigger('next.owl.carousel'); });
+});
+</script>

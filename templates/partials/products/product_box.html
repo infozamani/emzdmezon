@@ -1,4 +1,4 @@
- {% load humanize %}
+ {% comment %} {% load humanize %}
 {% if type == 1 %}
   <div class="product-card" style="width: 200px !important; margin-left :12px !important;">
     <div class="product-card__image">
@@ -129,4 +129,483 @@
     </div>
   </div>
 {% endif %}  
- 
+  {% endcomment %}
+{% load humanize %}
+
+<!-- ============================================================
+     TYPE 1: کارت ساده محصول (برای اسلایدر محبوب‌ترین محصولات)
+     ============================================================ -->
+{% if type == 1 %}
+<div class="product-card" style="width: 100% !important; margin: 0 !important; border-radius: 12px; overflow: hidden; transition: all 0.3s ease; border: 1px solid #e8ecf1; background: #fff; height: 100%; display: flex; flex-direction: column;">
+    
+    <!-- ====== تصویر ====== -->
+    <div class="product-card__image" style="padding: 15px; background: #f8fafc; position: relative; flex-shrink: 0;">
+        <a href="{{ product.get_absolute_url }}" style="display: block;">
+            <img src="{{ media_url }}{{ product.image_name }}" alt="{{ product.product_name }}" loading="lazy" style="width: 100%; height: 180px; object-fit: cover; border-radius: 8px;">
+        </a>
+        
+        <!-- ====== برچسب‌ها ====== -->
+        <div class="product-card__badges-list" style="position: absolute; top: 10px; right: 10px; z-index: 2; display: flex; flex-direction: column; gap: 5px;">
+            <!-- برچسب محبوب (رنگ روشن) -->
+            <div class="product-card__badge product-card__badge--popular" style="background: linear-gradient(135deg, #ff8a65, #ffab40); color: #fff; font-size: 10px; padding: 3px 10px; border-radius: 20px; box-shadow: 0 2px 8px rgba(255, 138, 101, 0.3); font-weight: 600;">
+                🔥 محبوب
+            </div>
+            <!-- ====== برچسب تخفیف (اصلاح شده) ====== -->
+            {% if product.get_price_by_discount < product.price %}
+                <div class="product-card__badge product-card__badge--sale" style="background: #e94560; color: #fff; font-size: 10px; padding: 3px 10px; border-radius: 20px; font-weight: 600;">
+                    {{ product.get_discount_percent }}% تخفیف
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- ====== اطلاعات ====== -->
+    <div class="product-card__info" style="padding: 12px 15px 10px; flex: 1; display: flex; flex-direction: column;">
+        <div class="product-card__name" style="font-size: 14px; font-weight: 600; margin-bottom: 5px; height: 40px; overflow: hidden;">
+            <a href="{{ product.get_absolute_url }}" style="color: #1a1a2e; text-decoration: none; transition: color 0.3s;">
+                {{ product.product_name|truncatechars:35 }}
+            </a>
+        </div>
+        
+        <!-- ====== قیمت (اصلاح شده برای تخفیف) ====== -->
+        <div class="product-card__prices" style="margin-top: auto;">
+            {% if product.get_number_in_warehouse <= 0 %}
+                <span style="color: #e94560; font-weight: 600;">ناموجود</span>
+            {% else %}
+                {% if product.get_price_by_discount < product.price %}
+                    <del style="color: #999; font-size: 12px;">{{ product.price|intcomma }} تومان</del>
+                    <div style="color: #e94560; font-weight: 700; font-size: 16px;">{{ product.get_price_by_discount|intcomma }} تومان</div>
+                {% else %}
+                    <div style="color: #1a1a2e; font-weight: 700; font-size: 16px;">{{ product.price|intcomma }} تومان</div>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- ====== دکمه‌ها (رنگ آبی #4a90d9) ====== -->
+    <div class="product-card__actions" style="padding: 10px 15px 15px; border-top: 1px solid #f0f2f5; flex-shrink: 0;">
+        <div class="product-card__buttons" style="display: flex; gap: 6px;">
+            {% if product.get_number_in_warehouse > 0 %}
+                <button class="btn btn-primary btn-sm add-to-cart-btn" type="button" data-product-id="{{ product.id }}" style="flex: 1; font-size: 12px; padding: 7px 12px; background: #4a90d9; border: none; color: #fff; border-radius: 6px; cursor: pointer; transition: all 0.3s; font-weight: 500;">
+                    <i class="fa fa-shopping-cart"></i> افزودن
+                </button>
+            {% else %}
+                <button class="btn btn-secondary btn-sm" disabled style="flex: 1; font-size: 12px; padding: 7px 12px; background: #e8ecf1; border: none; color: #999; border-radius: 6px; cursor: not-allowed;">
+                    <i class="fa fa-times"></i> ناموجود
+                </button>
+            {% endif %}
+            
+            <!-- دکمه علاقه‌مندی -->
+            {% if user.is_authenticated %}
+                <button class="btn btn-light btn-sm wishlist-btn" type="button" data-product-id="{{ product.id }}" style="width: 34px; height: 34px; border-radius: 50%; border: 1px solid #d0d5dc; background: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s; padding: 0;">
+                    {% if product.get_user_favorite %}
+                        <i class="fa fa-heart" style="color: #e94560; font-size: 15px;"></i>
+                    {% else %}
+                        <i class="fa fa-heart-o" style="color: #6c7a8a; font-size: 15px;"></i>
+                    {% endif %}
+                </button>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================
+     TYPE 2: کارت محصول با لیبل جدید (برای اسلایدر آخرین محصولات)
+     ============================================================ -->
+{% elif type == 2 %}
+<div class="product-card" style="width: 100% !important; margin: 0 !important; border-radius: 12px; overflow: hidden; transition: all 0.3s ease; border: 1px solid #e8ecf1; background: #fff; height: 100%; display: flex; flex-direction: column;">
+    
+    <!-- ====== تصویر ====== -->
+    <div class="product-card__image" style="padding: 15px; background: #f8fafc; position: relative; flex-shrink: 0;">
+        <a href="{{ product.get_absolute_url }}" style="display: block;">
+            <img src="{{ media_url }}{{ product.image_name }}" alt="{{ product.product_name }}" loading="lazy" style="width: 100%; height: 180px; object-fit: cover; border-radius: 8px;">
+        </a>
+        
+        <!-- ====== برچسب جدید ====== -->
+        <div class="product-card__badges-list" style="position: absolute; top: 10px; right: 10px; z-index: 2; display: flex; flex-direction: column; gap: 5px;">
+            <div class="product-card__badge product-card__badge--new" style="background: #28a745; color: #fff; font-size: 10px; padding: 3px 10px; border-radius: 20px; font-weight: 600;">
+                ✨ جدید
+            </div>
+            {% if product.get_price_by_discount < product.price %}
+                <div class="product-card__badge product-card__badge--sale" style="background: #e94560; color: #fff; font-size: 10px; padding: 3px 10px; border-radius: 20px; font-weight: 600;">
+                    {{ product.get_discount_percent }}% تخفیف
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- ====== اطلاعات ====== -->
+    <div class="product-card__info" style="padding: 12px 15px 10px; flex: 1; display: flex; flex-direction: column;">
+        <div class="product-card__name" style="font-size: 14px; font-weight: 600; margin-bottom: 5px; height: 40px; overflow: hidden;">
+            <a href="{{ product.get_absolute_url }}" style="color: #1a1a2e; text-decoration: none; transition: color 0.3s;">
+                {{ product.product_name|truncatechars:35 }}
+            </a>
+        </div>
+        
+        <!-- ====== قیمت ====== -->
+        <div class="product-card__prices" style="margin-top: auto;">
+            {% if product.get_number_in_warehouse <= 0 %}
+                <span style="color: #e94560; font-weight: 600;">ناموجود</span>
+            {% else %}
+                {% if product.get_price_by_discount < product.price %}
+                    <del style="color: #999; font-size: 12px;">{{ product.price|intcomma }} تومان</del>
+                    <div style="color: #e94560; font-weight: 700; font-size: 16px;">{{ product.get_price_by_discount|intcomma }} تومان</div>
+                {% else %}
+                    <div style="color: #1a1a2e; font-weight: 700; font-size: 16px;">{{ product.price|intcomma }} تومان</div>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- ====== دکمه‌ها ====== -->
+    <div class="product-card__actions" style="padding: 10px 15px 15px; border-top: 1px solid #f0f2f5; flex-shrink: 0;">
+        <div class="product-card__buttons" style="display: flex; gap: 6px;">
+            {% if product.get_number_in_warehouse > 0 %}
+                <button class="btn btn-primary btn-sm add-to-cart-btn" type="button" data-product-id="{{ product.id }}" style="flex: 1; font-size: 12px; padding: 7px 12px; background: #4a90d9; border: none; color: #fff; border-radius: 6px; cursor: pointer; transition: all 0.3s; font-weight: 500;">
+                    <i class="fa fa-shopping-cart"></i> افزودن
+                </button>
+            {% else %}
+                <button class="btn btn-secondary btn-sm" disabled style="flex: 1; font-size: 12px; padding: 7px 12px; background: #e8ecf1; border: none; color: #999; border-radius: 6px; cursor: not-allowed;">
+                    <i class="fa fa-times"></i> ناموجود
+                </button>
+            {% endif %}
+            
+            {% if user.is_authenticated %}
+                <button class="btn btn-light btn-sm wishlist-btn" type="button" data-product-id="{{ product.id }}" style="width: 34px; height: 34px; border-radius: 50%; border: 1px solid #d0d5dc; background: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s; padding: 0;">
+                    {% if product.get_user_favorite %}
+                        <i class="fa fa-heart" style="color: #e94560; font-size: 15px;"></i>
+                    {% else %}
+                        <i class="fa fa-heart-o" style="color: #6c7a8a; font-size: 15px;"></i>
+                    {% endif %}
+                </button>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================
+     TYPE 3: کارت کامل محصول (برای صفحه محصولات)
+     ============================================================ -->
+{% elif type == 3 %}
+<div class="products-list__item">
+    <div class="product-card" style="border-radius: 12px; overflow: hidden; transition: all 0.3s ease; border: 1px solid #e8ecf1; background: #fff; height: 100%; display: flex; flex-direction: column;">
+        <div class="product-card__badges-list" style="position: absolute; top: 10px; right: 10px; z-index: 2; display: flex; flex-direction: column; gap: 5px;">
+            <div class="product-card__badge product-card__badge--new" style="background: #28a745; color: #fff; font-size: 10px; padding: 3px 10px; border-radius: 20px; font-weight: 600;">جدید</div>
+            {% if product.get_price_by_discount < product.price %}
+                <div class="product-card__badge product-card__badge--sale" style="background: #e94560; color: #fff; font-size: 10px; padding: 3px 10px; border-radius: 20px; font-weight: 600;">
+                    {{ product.get_discount_percent }}% تخفیف
+                </div>
+            {% endif %}
+        </div>
+        <div class="product-card__image" style="padding: 15px; background: #f8fafc; flex-shrink: 0;">
+            <a href="{% url 'products:product_details' slug=product.slug %}" style="display: block;">
+                <img src="{{ media_url }}{{ product.image_name }}" alt="{{ product.product_name }}" loading="lazy" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
+            </a>
+        </div>
+        <div class="product-card__info" style="padding: 12px 15px; flex: 1; display: flex; flex-direction: column;">
+            <div class="product-card__name" style="font-size: 15px; font-weight: 600; margin-bottom: 5px; height: 44px; overflow: hidden;">
+                <a href="{% url 'products:product_details' slug=product.slug %}" style="color: #1a1a2e; text-decoration: none;">{{ product.product_name|truncatechars:35 }}</a>
+            </div>
+            <div class="product-card__availability" style="font-size: 12px; margin-bottom: 5px;">
+                موجودی: 
+                {% if product.get_number_in_warehouse > 0 %}
+                    <span class="text-success"><i class="fa fa-check-circle"></i> موجود</span>
+                {% else %}
+                    <span class="text-danger"><i class="fa fa-times-circle"></i> ناموجود</span>
+                {% endif %}
+            </div>
+            <div class="product-card__prices" style="margin-top: auto;">
+                {% if product.get_price_by_discount < product.price %}
+                    <del style="color: #999; font-size: 13px;">{{ product.price|intcomma }} تومان</del>
+                    <div style="color: #e94560; font-weight: 700; font-size: 18px;">{{ product.get_price_by_discount|intcomma }} تومان</div>
+                {% else %}
+                    <div style="color: #1a1a2e; font-weight: 700; font-size: 18px;">{{ product.price|intcomma }} تومان</div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="product-card__actions" style="padding: 10px 15px 15px; border-top: 1px solid #f0f2f5; flex-shrink: 0;">
+            <div class="product-card__buttons" style="display: flex; gap: 6px; flex-wrap: wrap;">
+                {% if product.get_number_in_warehouse > 0 %}
+                    <button class="btn btn-primary btn-sm add-to-cart-btn" type="button" data-product-id="{{ product.id }}" style="flex: 1; min-width: 70px; font-size: 12px; padding: 7px 12px; background: #4a90d9; border: none; color: #fff; border-radius: 6px; cursor: pointer; transition: all 0.3s; font-weight: 500;">
+                        <i class="fa fa-shopping-cart"></i> افزودن
+                    </button>
+                {% endif %}
+                <button class="btn btn-light btn-sm wishlist-btn" type="button" data-product-id="{{ product.id }}" style="width: 34px; height: 34px; border-radius: 50%; border: 1px solid #d0d5dc; background: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s; padding: 0;">
+                    {% if product.get_user_favorite %}
+                        <i class="fa fa-heart" style="color: #e94560; font-size: 15px;"></i>
+                    {% else %}
+                        <i class="fa fa-heart-o" style="color: #6c7a8a; font-size: 15px;"></i>
+                    {% endif %}
+                </button>
+                <button class="btn btn-light btn-sm compare-btn" type="button" data-product-id="{{ product.id }}" style="width: 34px; height: 34px; border-radius: 50%; border: 1px solid #d0d5dc; background: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s; padding: 0;">
+                    <i class="fa fa-balance-scale" style="color: #6c7a8a; font-size: 14px;"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================
+     TYPE 4: کارت متخصصان
+     ============================================================ -->
+{% elif type == 4 %}
+<div class="products-list__item">
+    <div class="product-card" style="border-radius: 12px; overflow: hidden; transition: all 0.3s ease; border: 1px solid #e8ecf1; background: #fff; height: 100%; display: flex; flex-direction: column;">
+        <div class="product-card__badges-list" style="position: absolute; top: 10px; right: 10px; z-index: 2;">
+            <div class="product-card__badge product-card__badge--new" style="background: #28a745; color: #fff; font-size: 10px; padding: 3px 10px; border-radius: 20px; font-weight: 600;">متخصص</div>
+        </div>
+        <div class="product-card__image" style="padding: 15px; background: #f8fafc; flex-shrink: 0;">
+            <a href="{% url 'specialties:expert_of_group' slug=specialtie.slug %}" style="display: block;">
+                <img src="{{ media_url }}{{ specialtie.image_name }}" alt="{{ specialtie.group_title }}" loading="lazy" style="width: 100%; height: 180px; object-fit: cover; border-radius: 8px;">
+            </a>
+        </div>
+        <div class="product-card__info" style="padding: 12px 15px; flex: 1; display: flex; flex-direction: column;">
+            <div class="product-card__name" style="font-size: 15px; font-weight: 600; margin-bottom: 5px;">
+                <a href="{% url 'specialties:expert_of_group' slug=specialtie.slug %}" style="color: #1a1a2e; text-decoration: none;">{{ specialtie.group_title }}</a>
+            </div>
+            <div class="product-card__description" style="font-size: 13px; color: #666; margin-top: 5px;">
+                {{ specialtie.description|truncatechars:50 }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<script>
+// ============================================================
+// توابع جاوااسکریپت (با Event Listener برای دکمه‌ها)
+// ============================================================
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // ====== ۱. افزودن به سبد خرید ======
+    document.querySelectorAll('.add-to-cart-btn').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const productId = this.dataset.productId;
+            const btn = this;
+            
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i>';
+            
+            fetch(`/orders/add-to-cart/?productId=${productId}&quantity=1`, {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    updateCartCount(data.cart_count);
+                    showToast('success', 'محصول به سبد خرید اضافه شد');
+                } else {
+                    showToast('error', data.message || 'خطا در افزودن به سبد خرید');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showToast('error', 'خطا در ارتباط با سرور');
+            })
+            .finally(() => {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fa fa-shopping-cart"></i> افزودن';
+            });
+        });
+    });
+
+    // ====== ۲. افزودن/حذف از علاقه‌مندی‌ها ======
+    document.querySelectorAll('.wishlist-btn').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const productId = this.dataset.productId;
+            const icon = this.querySelector('i');
+            const btn = this;
+            
+            btn.disabled = true;
+            
+            fetch(`/products/toggle-favorite/?productId=${productId}`, {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    if (data.is_favorite) {
+                        icon.className = 'fa fa-heart';
+                        icon.style.color = '#e94560';
+                        showToast('success', 'به علاقه‌مندی‌ها اضافه شد');
+                    } else {
+                        icon.className = 'fa fa-heart-o';
+                        icon.style.color = '#6c7a8a';
+                        showToast('info', 'از علاقه‌مندی‌ها حذف شد');
+                    }
+                    updateFavoriteCount(data.favorite_count);
+                } else {
+                    showToast('error', data.message || 'خطا در عملیات');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showToast('error', 'خطا در ارتباط با سرور');
+            })
+            .finally(() => {
+                btn.disabled = false;
+            });
+        });
+    });
+
+    // ====== ۳. افزودن به لیست مقایسه ======
+    document.querySelectorAll('.compare-btn').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const productId = this.dataset.productId;
+            const btn = this;
+            
+            btn.disabled = true;
+            
+            fetch(`/products/add-to-compare-list/?productId=${productId}`, {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    updateCompareCount(data.compare_count);
+                    showToast('success', 'به لیست مقایسه اضافه شد');
+                } else {
+                    showToast('error', data.message || 'خطا در افزودن به مقایسه');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showToast('error', 'خطا در ارتباط با سرور');
+            })
+            .finally(() => {
+                btn.disabled = false;
+            });
+        });
+    });
+
+});
+
+// ====== توابع کمکی ======
+function updateCartCount(count) {
+    const badge = document.getElementById('cartCount');
+    if (badge) {
+        badge.textContent = count;
+        badge.style.display = count > 0 ? 'flex' : 'none';
+    }
+}
+
+function updateFavoriteCount(count) {
+    const badge = document.getElementById('favoriteCountIcon');
+    if (badge) {
+        badge.textContent = count;
+        badge.style.display = count > 0 ? 'flex' : 'none';
+    }
+}
+
+function updateCompareCount(count) {
+    const badge = document.getElementById('compareCount');
+    if (badge) {
+        badge.textContent = count;
+        badge.style.display = count > 0 ? 'flex' : 'none';
+    }
+}
+
+function showToast(type, message) {
+    const oldToast = document.querySelector('.custom-toast');
+    if (oldToast) oldToast.remove();
+    
+    const toast = document.createElement('div');
+    toast.className = `custom-toast toast-${type}`;
+    toast.innerHTML = `
+        <div class="toast-content">
+            <i class="fa ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'}"></i>
+            <span>${message}</span>
+        </div>
+        <button class="toast-close" onclick="this.parentElement.remove()">&times;</button>
+    `;
+    document.body.appendChild(toast);
+    
+    setTimeout(() => toast.classList.add('show'), 10);
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
+}
+</script>
+
+<style>
+/* ====== استایل دکمه‌ها (رنگ آبی #4a90d9) ====== */
+.btn-primary {
+    background: #4a90d9 !important;
+    border: none !important;
+    color: #fff !important;
+}
+.btn-primary:hover {
+    background: #3a7bc8 !important;
+}
+
+.btn-light:hover {
+    background: #f0f2f5 !important;
+    border-color: #4a90d9 !important;
+}
+
+/* ====== استایل کارت ====== */
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    border-color: #4a90d9;
+}
+
+/* ====== استایل Toast ====== */
+.custom-toast {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    background: #1a1a2e;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 10px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    min-width: 300px;
+    max-width: 450px;
+    z-index: 99999;
+    transform: translateX(-100%);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    border-right: 4px solid #e94560;
+}
+.custom-toast.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+.custom-toast.toast-success { border-right-color: #28a745; }
+.custom-toast.toast-error { border-right-color: #dc3545; }
+.custom-toast.toast-info { border-right-color: #17a2b8; }
+
+.toast-content { display: flex; align-items: center; gap: 10px; }
+.toast-content i { font-size: 20px; }
+.toast-close { background: none; border: none; color: rgba(255,255,255,0.5); font-size: 20px; cursor: pointer; }
+.toast-close:hover { color: #fff; }
+
+.btn-secondary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+</style>
