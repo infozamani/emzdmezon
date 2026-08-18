@@ -154,7 +154,7 @@
                                     style="background-image: url('{{ media_url }}{{ slide.image_title }}')">
                                 </div>
                                 
-                                <div class="block-slideshow__slide-content">
+                                {% comment %} <div class="block-slideshow__slide-content">
                                     <div class="block-slideshow__slide-title">
                                     {% if slide.slider_title1 %}
                                         {{ slide.slider_title1 }}
@@ -171,7 +171,7 @@
                                                 {{ slide.slider_title3 }}
                                             {% endif %}
                                     </div>
-                                </div>
+                                </div> {% endcomment %}
                             </a>
                         {% endfor %}
                     </div>
@@ -181,5 +181,3 @@
     </div>
 </div>
 <!-- .block-slideshow / end --> 
-
-
