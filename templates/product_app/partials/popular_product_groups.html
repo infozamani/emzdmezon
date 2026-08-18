@@ -1,5 +1,3 @@
-{% load static %}
-
 <div class="block block--highlighted block-categories block-categories--layout--compact">
     <style>
         /* ==========================================================
@@ -40,7 +38,7 @@
         /* ====== لیست کارت‌ها ====== */
         .block-categories__list {
             display: grid;
-            grid-template-columns: repeat(4, 1fr); /* ← ۴ کارت در هر ردیف (لب‌تاپ) */
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 25px;
         }
 
@@ -54,8 +52,6 @@
             aspect-ratio: 16 / 10;
             background: #1a1a2e;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
         }
 
         /* ====== تصویر پس‌زمینه ====== */
@@ -100,105 +96,165 @@
             z-index: 3;
         }
 
+        /* ====== تعداد ====== */
+        .category-card__count {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 4px 14px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #1a1a2e;
+            border: 2px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .category-card__count .num {
+            color: #e94560;
+            font-weight: 900;
+            font-size: 14px;
+        }
+        .category-card__count .label {
+            color: #64748b;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
         /* ====== نام گروه ====== */
         .category-card__name {
             margin: 0;
+            z-index: 4;
+        }
+        .category-card__name a {
             color: #ffffff !important;
             font-size: 20px;
             font-weight: 700;
             text-decoration: none;
+            display: block;
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
             letter-spacing: 0.3px;
             line-height: 1.3;
         }
 
-        /* ====== هاور افکت‌ها (فقط برای ماوس) ====== */
-        @media (hover: hover) {
-            .category-card:hover {
-                transform: translateY(-8px) scale(1.02);
-                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-            }
+        {% comment %} /* ====== دکمه مشاهده ====== */
+        .category-card__btn {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 6px 20px;
+            background: #e94560;
+            color: #fff;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        } {% endcomment %}
+        {% comment %} .category-card__btn:hover {
+            background: #c73652;
+            transform: scale(1.05);
+        } {% endcomment %}
 
-            .category-card:hover .category-card__bg {
-                transform: scale(1.08);
-            }
-
-            .category-card:hover .category-card__overlay {
-                background: linear-gradient(
-                    to top,
-                    rgba(0, 0, 0, 0.8) 0%,
-                    rgba(0, 0, 0, 0.4) 40%,
-                    rgba(0, 0, 0, 0.15) 70%,
-                    rgba(0, 0, 0, 0.05) 100%
-                );
-            }
+        /* ====== هاور افکت‌ها ====== */
+        .category-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
         }
 
-        /* ====== افکت کلیک (برای همه دستگاه‌ها) ====== */
-        .category-card:active {
-            transform: scale(0.97);
-            transition: transform 0.1s ease;
+        .category-card:hover .category-card__bg {
+            transform: scale(1.08);
         }
 
-        /* ==========================================================
-           واکنش‌گرایی (Responsive)
-           ========================================================== */
-
-        /* ====== تبلت و صفحه‌های متوسط ====== */
-        @media (max-width: 1200px) {
-            .block-categories__list {
-                grid-template-columns: repeat(3, 1fr); /* ← ۳ کارت در هر ردیف */
-                gap: 20px;
-            }
-            .category-card__name {
-                font-size: 18px;
-            }
+        .category-card:hover .category-card__overlay {
+            background: linear-gradient(
+                to top,
+                rgba(0, 0, 0, 0.8) 0%,
+                rgba(0, 0, 0, 0.4) 40%,
+                rgba(0, 0, 0, 0.15) 70%,
+                rgba(0, 0, 0, 0.05) 100%
+            );
         }
 
-        /* ====== تبلت کوچک ====== */
+        .category-card:hover .category-card__name a {
+            color: #fff;
+            text-shadow: 0 2px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        /* ====== واکنش‌گرایی ====== */
         @media (max-width: 992px) {
             .block-categories__list {
-                grid-template-columns: repeat(2, 1fr); /* ← ۲ کارت در هر ردیف */
-                gap: 18px;
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+                gap: 20px;
             }
-            .category-card__name {
-                font-size: 17px;
+            .category-card__name a {
+                font-size: 18px;
             }
         }
 
-        /* ====== موبایل (هدف اصلی) ====== */
         @media (max-width: 768px) {
             .block-categories__list {
-                grid-template-columns: 1fr; /* ← ۱ کارت در هر ردیف (موبایل) */
-                gap: 16px;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
             }
             .category-card {
-                aspect-ratio: 16 / 9; /* نسبت تصویر کشیده‌تر برای موبایل */
+                aspect-ratio: 4 / 3;
             }
             .category-card__content {
-                padding: 24px 20px 20px;
+                padding: 20px 15px 18px;
             }
-            .category-card__name {
-                font-size: 18px;
+            .category-card__name a {
+                font-size: 15px;
+            }
+            .category-card__btn {
+                font-size: 11px;
+                padding: 4px 14px;
+            }
+            .category-card__count {
+                top: 10px;
+                right: 10px;
+                padding: 3px 10px;
+                font-size: 11px;
             }
             .block-header__title {
                 font-size: 24px;
             }
         }
 
-        /* ====== موبایل خیلی کوچک ====== */
         @media (max-width: 480px) {
             .block-categories__list {
-                gap: 14px;
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
             }
             .category-card {
-                aspect-ratio: 16 / 10;
+                aspect-ratio: 3 / 2;
+            }
+            .category-card__name a {
+                font-size: 13px;
             }
             .category-card__content {
-                padding: 18px 16px 16px;
+                padding: 14px 12px 12px;
             }
-            .category-card__name {
-                font-size: 16px;
+            .category-card__btn {
+                font-size: 10px;
+                padding: 3px 12px;
+                margin-top: 8px;
+            }
+            .category-card__count {
+                top: 8px;
+                right: 8px;
+                padding: 2px 8px;
+                font-size: 10px;
+            }
+            .category-card__count .num {
+                font-size: 11px;
             }
             .block-header__title {
                 font-size: 20px;
@@ -209,158 +265,80 @@
     <div class="container">
         <!-- ====== هدر ====== -->
         <div class="block-header">
-            <h3 class="block-header__title">دسته بندی ها</h3>
+            <h3 class="block-header__title">    دسته بندی ها    </h3>
             <div class="block-header__divider"></div>
         </div>
 
         <!-- ====== لیست کارت‌ها ====== -->
         <div class="block-categories__list">
             {% for group in product_groups %}
-            <div class="category-card" 
-                 data-url="{% url 'products:product_of_group' slug=group.slug %}"
-                 data-slug="{{ group.slug }}"
-                 onclick="navigateToGroup(this)">
+            <a href="{% url 'products:product_of_group' slug=group.slug %}" class="category-card" style="text-decoration: none;">
                 
                 <!-- ====== تصویر پس‌زمینه ====== -->
                 <div class="category-card__bg" 
-                     style="background-image: url('
-                         {% if group.image_name %}
-                             {{ media_url }}{{ group.image_name }}
-                         {% else %}
-                             {% static 'images/default-category.jpg' %}
-                         {% endif %}
-                     ');">
+                     style="background-image: url('{{ media_url }}{{ group.image_name|default:'images/default-group.jpg' }}');">
                 </div>
                 
                 <!-- ====== اوورلی تیره ====== -->
                 <div class="category-card__overlay"></div>
                 
-                <!-- ====== نام گروه ====== -->
-                <div class="category-card__content">
-                    <h4 class="category-card__name">{{ group.name|default:"بدون نام" }}</h4>
-                </div>
-            </div>
-            {% empty %}
-            <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #64748b;">
-                <i class="fa fa-folder-open" style="font-size: 48px; display: block; margin-bottom: 10px;"></i>
-                هیچ دسته‌بندی وجود ندارد.
-            </div>
+                {% comment %} <!-- ====== تعداد محصول ====== -->
+                <div class="category-card__count" title="تعداد محصول">
+                    <span class="num">{{ group.count }}</span>
+                    <span class="label">محصول</span>
+                </div> {% endcomment %}
+                
+                       </a>
             {% endfor %}
         </div>
     </div>
 </div>
 
-<!-- ============================================================
-     اسکریپت کنترل رویدادهای لمسی و کلیک
-     ============================================================ -->
 <script>
-(function() {
-    'use strict';
-
-    // ============================================================
-    // ۱. تابع هدایت به گروه
-    // ============================================================
-    window.navigateToGroup = function(element) {
-        if (element.dataset.navigating === 'true') {
-            return;
+// ============================================================
+// جلوگیری از تداخل رویدادهای لمسی و ماوس
+// ============================================================
+document.addEventListener('DOMContentLoaded', function() {
+    const cards = document.querySelectorAll('.category-card');
+    
+    cards.forEach(card => {
+        // ====== ۱. غیرفعال کردن Hover در دستگاه‌های لمسی ======
+        if ('ontouchstart' in window) {
+            card.classList.add('touch-device');
         }
-
-        const url = element.dataset.url;
-        if (!url) {
-            console.error('آدرس گروه یافت نشد');
-            return;
-        }
-
-        element.dataset.navigating = 'true';
-        window.location.href = url;
-    };
-
-    // ============================================================
-    // ۲. مدیریت رویدادهای لمسی (برای لپ‌تاپ‌های تاچ)
-    // ============================================================
-    document.addEventListener('DOMContentLoaded', function() {
-        const cards = document.querySelectorAll('.category-card');
         
-        cards.forEach(card => {
-            let touchHandled = false;
-            let touchMoved = false;
-
-            card.addEventListener('touchstart', function(e) {
-                touchHandled = false;
-                touchMoved = false;
-                
-                const touch = e.touches[0];
-                this.dataset.startX = touch.clientX;
-                this.dataset.startY = touch.clientY;
-            }, { passive: true });
-
-            card.addEventListener('touchmove', function(e) {
-                const touch = e.touches[0];
-                const startX = parseFloat(this.dataset.startX || 0);
-                const startY = parseFloat(this.dataset.startY || 0);
-                
-                if (Math.abs(touch.clientX - startX) > 10 || 
-                    Math.abs(touch.clientY - startY) > 10) {
-                    touchMoved = true;
-                }
-            }, { passive: true });
-
-            card.addEventListener('touchend', function(e) {
-                if (touchMoved) {
-                    return;
-                }
-
-                if (touchHandled) {
-                    e.preventDefault();
-                    return;
-                }
-
-                touchHandled = true;
-                e.preventDefault();
-
-                const url = this.dataset.url;
-                if (url) {
-                    window.location.href = url;
-                }
-            }, { passive: false });
-
-            card.addEventListener('click', function(e) {
-                if (touchHandled) {
-                    e.preventDefault();
-                    return;
-                }
-
-                if (e.target.closest('a') || e.target.closest('button')) {
-                    return;
-                }
-
-                const url = this.dataset.url;
-                if (url) {
-                    e.preventDefault();
-                    this.style.transform = 'scale(0.97)';
-                    setTimeout(() => {
-                        window.location.href = url;
-                    }, 150);
-                }
-            });
-
-            card.addEventListener('touchcancel', function() {
-                touchHandled = false;
-                touchMoved = false;
-            }, { passive: true });
+        // ====== ۲. جلوگیری از اجرای دو باره رویداد ======
+        let isTouched = false;
+        
+        card.addEventListener('touchstart', function(e) {
+            isTouched = true;
+            // جلوگیری از رویداد mouseenter
+            this.style.pointerEvents = 'none';
+            setTimeout(() => {
+                this.style.pointerEvents = 'auto';
+            }, 300);
         });
-
-        // تشخیص دستگاه تاچ
-        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
         
-        if (isTouchDevice) {
-            document.querySelectorAll('.category-card').forEach(card => {
-                card.classList.add('touch-device');
-            });
-        }
+        card.addEventListener('touchend', function(e) {
+            if (isTouched) {
+                isTouched = false;
+                // هدایت به لینک
+                const href = this.getAttribute('href');
+                if (href && href !== '#') {
+                    window.location.href = href;
+                }
+            }
+        });
+        
+        // ====== ۳. جلوگیری از کلیک دو باره ======
+        card.addEventListener('click', function(e) {
+            if (isTouched) {
+                e.preventDefault();
+                isTouched = false;
+            }
+        });
     });
-
-})();
+});
 </script>
 
 <style>
@@ -382,5 +360,16 @@
         rgba(0, 0, 0, 0.1) 70%,
         rgba(0, 0, 0, 0.05) 100%
     ) !important;
+}
+
+/* ====== بهبود واکنش‌گرایی لمسی ====== */
+.category-card {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+.category-card:active {
+    transform: scale(0.97);
+    transition: transform 0.1s ease;
 }
 </style>
