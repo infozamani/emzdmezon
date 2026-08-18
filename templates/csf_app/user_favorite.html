@@ -1,82 +1,275 @@
 {% extends "main_template.html" %}
-
-
 {% load humanize %}
 
 {% block title %}
-	فروشگاه
+    علاقه‌مندی‌ها | صنعت پویا
 {% endblock title %}
 
 {% block content %}
 
-		<!-- site__body -->
-		<div class="site__body">
-			<div class="page-header">
-				<div class="page-header__container container">
-					<div class="page-header__breadcrumb">
-						<nav aria-label="breadcrumb">
-							<ol class="breadcrumb">
-								<li class="breadcrumb-item"><a href="{% url "main:index" %}">خانه</a>
-									/
-								</li>
-								<li class="breadcrumb-item active" aria-current="page">علاقه‌مندی‌ها</li>
-							</ol>
-						</nav>
-					</div>
-					<div class="page-header__title">
-						<h1>علاقه‌مندی‌ها</h1></div>
-				</div>
-			</div>
-			<div class="block">
-				<div class="container">
-                    
-					    <table class="wishlist">
+<!-- site__body -->
+<div class="site__body">
+    <div class="page-header">
+        <div class="page-header__container container">
+            <div class="page-header__breadcrumb">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'main:index' %}">خانه</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">علاقه‌مندی‌ها</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="page-header__title d-flex justify-content-between align-items-center">
+                <h1>علاقه‌مندی‌ها</h1>
+                <span class="badge badge-primary" id="favoriteCount">{{ user_favorite|length }}</span>
+            </div>
+        </div>
+    </div>
 
-                            <thead class="wishlist__head">
-                                <tr class="wishlist__row">
-                                    <th class="wishlist__column wishlist__column--image">تصویر</th>
-                                    <th class="wishlist__column wishlist__column--product">محصول</th>
-                                    <th class="wishlist__column wishlist__column--stock">وضعیت انبار</th>
-                                    <th class="wishlist__column wishlist__column--price">قیمت</th>
-                                    <th class="wishlist__column wishlist__column--tocart"></th>
-                                    <th class="wishlist__column wishlist__column--remove"></th>
-                                </tr>
-                            </thead>
-						<tbody class="wishlist__body">
+    <div class="block">
+        <div class="container">
+            {% if user_favorite %}
+                <div class="table-responsive">
+                    <table class="wishlist table table-bordered">
+                        <thead class="wishlist__head">
+                            <tr class="wishlist__row">
+                                <th class="wishlist__column wishlist__column--image">تصویر</th>
+                                <th class="wishlist__column wishlist__column--product">محصول</th>
+                                <th class="wishlist__column wishlist__column--stock">وضعیت انبار</th>
+                                <th class="wishlist__column wishlist__column--price">قیمت</th>
+                                <th class="wishlist__column wishlist__column--tocart"></th>
+                                <th class="wishlist__column wishlist__column--remove"></th>
+                            </tr>
+                        </thead>
+                        <tbody class="wishlist__body">
                             {% for favorite in user_favorite %}
-                                <tr class="wishlist__row">
+                                <tr class="wishlist__row" id="favorite-row-{{ favorite.product.id }}">
                                     <td class="wishlist__column wishlist__column--image">
-                                        <a href=""><img src="{{media_url}}{{favorite.product.image_name}}" alt=""></a>
+                                        <a href="{% url 'products:product_details' favorite.product.slug %}">
+                                            <img src="{{ media_url }}{{ favorite.product.image_name }}" alt="{{ favorite.product.product_name }}" style="width: 80px; height: 80px; object-fit: cover;">
+                                        </a>
                                     </td>
                                     <td class="wishlist__column wishlist__column--product">
-                                        <a href="" class="wishlist__product-name">
-                                            {{favorite.product.product_name}}
+                                        <a href="{% url 'products:product_details' favorite.product.slug %}" class="wishlist__product-name">
+                                            {{ favorite.product.product_name }}
                                         </a>
                                     </td>
                                     <td class="wishlist__column wishlist__column--stock">
-                                       {% if favorite.product.get_number_in_warehouse > 0 %}
-                                            <div class="badge badge-success">موجود در انبار</div>
+                                        {% if favorite.product.get_number_in_warehouse > 0 %}
+                                            <span class="badge badge-success"><i class="fa fa-check-circle"></i> موجود در انبار</span>
                                         {% else %}
-                                            <div class=" badge badge-success">موجود نمی باشد</div>
+                                            <span class="badge badge-danger"><i class="fa fa-times-circle"></i> ناموجود</span>
                                         {% endif %}
                                     </td>
-                                    <td class="wishlist__column wishlist__column--price">{{favorite.product.price|intcomma}}تومان</td>
+                                    <td class="wishlist__column wishlist__column--price">
+                                        <strong>{{ favorite.product.price|intcomma }} تومان</strong>
+                                    </td>
                                     <td class="wishlist__column wishlist__column--tocart">
                                         {% if favorite.product.get_number_in_warehouse > 0 %}
-                                            <button type="button" class="btn btn-primary btn-sm" onclick="add_to_shop_cart({{favorite.id}},2)">افزودن به سبد</button>
+                                            <button type="button" class="btn btn-primary btn-sm" onclick="addToCart({{ favorite.product.id }})">
+                                                <i class="fa fa-shopping-cart"></i> افزودن به سبد
+                                            </button>
                                         {% else %}
-                                        <button class="btn btn-primary product-card__addtocart" type="button"  >
-                                            افزودن به سبد
-                                        </button>    
-
-                                            </td>
+                                            <button class="btn btn-secondary btn-sm" disabled>
+                                                <i class="fa fa-times"></i> ناموجود
+                                            </button>
                                         {% endif %}
-
+                                    </td>
+                                    <td class="wishlist__column wishlist__column--remove">
+                                        <button type="button" class="btn btn-danger btn-sm" onclick="removeFromFavorite({{ favorite.product.id }})">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
                             {% endfor %}
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-		<!-- site__body / end -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- دکمه بازگشت -->
+                <div style="text-align: center; margin: 30px 0;">
+                    <a href="{% url 'main:index' %}" class="btn btn-primary">
+                        <i class="fa fa-arrow-right"></i> بازگشت به فروشگاه
+                    </a>
+                </div>
+
+            {% else %}
+                <!-- لیست خالی -->
+                <div style="text-align: center; padding: 80px 0;">
+                    <i class="fa fa-heart" style="font-size: 72px; color: #e94560;"></i>
+                    <h2 style="color: #1a1a2e; margin: 30px 0;">لیست علاقه‌مندی‌های شما خالی است</h2>
+                    <p style="color: #999;">محصولات مورد علاقه خود را به این لیست اضافه کنید</p>
+                    <a href="{% url 'main:index' %}" class="btn btn-primary btn-lg">
+                        <i class="fa fa-shopping-cart"></i> شروع خرید
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<!-- site__body / end -->
+
+<!-- ============================================
+     اسکریپت‌ها
+     ============================================ -->
+<script>
+// ============================================================
+// ۱. افزودن به سبد خرید (با استفاده از تابع موجود در myscript.js)
+// ============================================================
+function addToCart(productId) {
+    // اگر تابع add_to_shop_cart در myscript.js وجود دارد، از آن استفاده کنید
+    if (typeof add_to_shop_cart === 'function') {
+        add_to_shop_cart(productId, 1);
+    } else {
+        // یا از این روش استفاده کنید
+        $.ajax({
+            type: "GET",
+            url: "/orders/add_to_shop_cart/",
+            data: {
+                product_id: productId,
+                qty: 1
+            },
+            success: function(res) {
+                alert("✅ کالا با موفقیت به سبد خرید اضافه شد");
+                status_of_shop_cart();
+            },
+            error: function(xhr, status, error) {
+                console.error("Error:", error);
+                alert("❌ خطا در افزودن به سبد خرید");
+            }
+        });
+    }
+}
+
+// ============================================================
+// ۲. حذف از لیست علاقه‌مندی‌ها
+// ============================================================
+function removeFromFavorite(productId) {
+    if (!confirm('آیا از حذف این محصول از لیست علاقه‌مندی‌ها مطمئن هستید؟')) {
+        return;
+    }
+    
+    $.ajax({
+        type: "GET",
+        url: "/csf/remove_from_favorite/",
+        data: {
+            productId: productId
+        },
+        success: function(res) {
+            alert("✅ محصول از لیست علاقه‌مندی‌ها حذف شد");
+            // حذف ردیف از جدول
+            var row = document.getElementById('favorite-row-' + productId);
+            if (row) {
+                row.style.transition = 'all 0.3s ease';
+                row.style.opacity = '0';
+                row.style.transform = 'translateX(-50px)';
+                setTimeout(function() {
+                    row.remove();
+                    // به‌روزرسانی تعداد
+                    var countBadge = document.getElementById('favoriteCount');
+                    if (countBadge) {
+                        var newCount = parseInt(countBadge.textContent) - 1;
+                        countBadge.textContent = newCount;
+                        if (newCount === 0) {
+                            location.reload();
+                        }
+                    }
+                }, 300);
+            }
+            status_of_favorite_list();
+        },
+        error: function(xhr, status, error) {
+            console.error("Error:", error);
+            alert("❌ خطا در حذف از لیست علاقه‌مندی‌ها");
+        }
+    });
+}
+
+// ============================================================
+// ۳. به‌روزرسانی تعداد علاقه‌مندی‌ها
+// ============================================================
+function status_of_favorite_list() {
+    $.ajax({
+        type: "GET",
+        url: "/products/status_of_favorite_list/",
+        success: function(res) {
+            var badge = document.getElementById('favoriteCount');
+            if (badge) {
+                badge.textContent = res || '0';
+            }
+            // به‌روزرسانی در نوار
+            var navBadge = document.getElementById('favoriteCountIcon');
+            if (navBadge) {
+                navBadge.textContent = res || '0';
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("Error in status_of_favorite_list:", error);
+        }
+    });
+}
+
+// ============================================================
+// ۴. به‌روزرسانی تعداد سبد خرید
+// ============================================================
+function status_of_shop_cart() {
+    $.ajax({
+        type: "GET",
+        url: "/orders/status_of_shop_cart/",
+        success: function(res) {
+            var badge = document.getElementById('cartCount');
+            if (badge) {
+                badge.textContent = res || '0';
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("Error in status_of_shop_cart:", error);
+        }
+    });
+}
+
+// ============================================================
+// ۵. بارگذاری اولیه
+// ============================================================
+$(document).ready(function() {
+    status_of_favorite_list();
+    status_of_shop_cart();
+});
+</script>
+
+<style>
+/* ====== استایل جدول علاقه‌مندی‌ها ====== */
+.wishlist__column--image img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.wishlist__row {
+    transition: all 0.3s ease;
+}
+
+.wishlist__row:hover {
+    background: #f8f9fa;
+}
+
+.wishlist__product-name {
+    color: #1a1a2e;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.wishlist__product-name:hover {
+    color: #e94560;
+}
+
+@media (max-width: 768px) {
+    .wishlist__column--image img {
+        width: 60px;
+        height: 60px;
+    }
+}
+</style>
+
 {% endblock content %}

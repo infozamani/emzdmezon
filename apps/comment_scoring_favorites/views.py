@@ -89,7 +89,30 @@ def add_to_product_fvorite(request):
     shop_cart.add_to_shop_cart(product, qty)
     return  HttpResponse(shop_cart.count)                          
                                   
-                                  
+# ================================================================
+# حذف از علاقه‌مندی‌ها (تابع جدید)
+# ================================================================
+def remove_from_favorite(request):
+    productId = request.GET.get('productId')
+    
+    if not productId:
+        return HttpResponse('error: productId required', status=400)
+    
+    if not request.user.is_authenticated:
+        return HttpResponse('error: please login first', status=401)
+    
+    try:
+        favorite = Favorite.objects.filter(
+            Q(favorite_user_id=request.user.id) & 
+            Q(product_id=productId)
+        )
+        if favorite.exists():
+            favorite.delete()
+            return HttpResponse('success: removed from favorites')
+        else:
+            return HttpResponse('error: not found in favorites', status=404)
+    except Exception as e:
+        return HttpResponse(f'error: {str(e)}', status=500)                                
                                   
                                   
                                   

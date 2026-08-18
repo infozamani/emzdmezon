@@ -182,6 +182,36 @@
     padding: 20px;
     border: 1px solid var(--glass-border);
 }
+
+/* Toast */
+.custom-toast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: #1a1a2e;
+    color: #fff;
+    padding: 15px 25px;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 280px;
+    max-width: 450px;
+    z-index: 99999;
+    transform: translateX(120%);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    border-right: 4px solid #22c55e;
+    direction: rtl;
+}
+.custom-toast.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+.custom-toast.toast-error {
+    border-right-color: #ef4444;
+}
 </style>
 
 <div class="site__body">
@@ -256,7 +286,7 @@
                         <div class="product__description">
                             {% autoescape off %}
                                 {{ product.summery_description }}
-                                <a href="#tab-description">توضیحات بیشتر</a>
+                                <a href="#tab-description" style="color: var(--blue-primary);">توضیحات بیشتر</a>
                             {% endautoescape %}
                         </div>
                         
@@ -450,90 +480,107 @@
 
 <script>
 // ============================================================
-// افزودن به سبد خرید
+// ۱. افزودن به سبد خرید (اصلاح مسیر)
 // ============================================================
 function addToCart(productId) {
-    const quantity = document.getElementById('product-quantity').value;
+    const quantity = document.getElementById('product-quantity')?.value || 1;
     
-    fetch(`/orders/add-to-cart/?productId=${productId}&quantity=${quantity}`, {
+    // ✅ مسیر صحیح: /orders/add_to_shop_cart/
+    fetch(`/orders/add_to_shop_cart/?product_id=${productId}&qty=${quantity}`, {
         method: 'GET',
         headers: {
             'X-Requested-With': 'XMLHttpRequest'
         }
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.status === 'success') {
-            const cartCount = document.getElementById('cartCount');
-            if (cartCount) {
-                cartCount.textContent = data.cart_count || 0;
-            }
-            showToast('success', '✅ محصول با موفقیت به سبد خرید اضافه شد');
-        } else {
-            showToast('error', data.message || 'خطا در افزودن به سبد خرید');
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('خطا در پاسخ سرور');
         }
+        return response.text();
+    })
+    .then(data => {
+        showToast('success', '✅ محصول با موفقیت به سبد خرید اضافه شد');
+        // به‌روزرسانی تعداد سبد
+        fetch('/orders/status_of_shop_cart/')
+            .then(res => res.text())
+            .then(count => {
+                const badge = document.getElementById('cartCount');
+                if (badge) badge.textContent = count || '0';
+            });
     })
     .catch(error => {
-        showToast('error', 'خطا در ارتباط با سرور');
+        console.error('Error:', error);
+        showToast('error', '❌ خطا در ارتباط با سرور');
     });
 }
 
 // ============================================================
-// افزودن به مقایسه
+// ۲. افزودن به مقایسه (اصلاح مسیر)
 // ============================================================
 function addToCompare(productId) {
+    // ✅ مسیر صحیح: /products/add-to-compare-list/
     fetch(`/products/add-to-compare-list/?productId=${productId}`, {
         method: 'GET',
         headers: {
             'X-Requested-With': 'XMLHttpRequest'
         }
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('خطا در پاسخ سرور');
+        }
+        return response.json();
+    })
     .then(data => {
         if (data.status === 'success') {
-            showToast('success', data.message || 'محصول به لیست مقایسه اضافه شد');
-            const compareCount = document.getElementById('compareCount');
-            if (compareCount) {
-                compareCount.textContent = data.compare_count || 0;
-            }
+            showToast('success', '✅ محصول به لیست مقایسه اضافه شد');
+            const badge = document.getElementById('compareCount');
+            if (badge) badge.textContent = data.compare_count || '0';
         } else {
-            showToast('error', data.message || 'خطا در افزودن به لیست مقایسه');
+            showToast('error', data.message || '❌ خطا در افزودن به لیست مقایسه');
         }
     })
     .catch(error => {
-        showToast('error', 'خطا در ارتباط با سرور');
+        console.error('Error:', error);
+        showToast('error', '❌ خطا در ارتباط با سرور');
     });
 }
 
 // ============================================================
-// افزودن به علاقه‌مندی
+// ۳. افزودن به علاقه‌مندی (اصلاح مسیر)
 // ============================================================
 function addToWishlist(productId) {
-    fetch(`/csf/add-to-favorite/?productId=${productId}`, {
+    // ✅ مسیر صحیح: /csf/add_to_favorite/
+    fetch(`/csf/add_to_favorite/?productId=${productId}`, {
         method: 'GET',
         headers: {
             'X-Requested-With': 'XMLHttpRequest'
         }
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.status === 'success') {
-            showToast('success', data.message || 'محصول به علاقه‌مندی‌ها اضافه شد');
-            const favoriteCount = document.getElementById('favoriteCount');
-            if (favoriteCount) {
-                favoriteCount.textContent = data.favorite_count || 0;
-            }
-        } else {
-            showToast('error', data.message || 'خطا در افزودن به علاقه‌مندی‌ها');
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('خطا در پاسخ سرور');
         }
+        return response.text();
+    })
+    .then(data => {
+        showToast('success', '❤️ محصول به علاقه‌مندی‌ها اضافه شد');
+        // به‌روزرسانی تعداد علاقه‌مندی
+        fetch('/products/status_of_favorite_list/')
+            .then(res => res.text())
+            .then(count => {
+                const badge = document.getElementById('favoriteCount');
+                if (badge) badge.textContent = count || '0';
+            });
     })
     .catch(error => {
-        showToast('error', 'خطا در ارتباط با سرور');
+        console.error('Error:', error);
+        showToast('error', '❌ خطا در ارتباط با سرور');
     });
 }
 
 // ============================================================
-// امتیازدهی
+// ۴. امتیازدهی (اصلاح مسیر)
 // ============================================================
 function addScore(score, productId) {
     for (let i = 1; i <= 5; i++) {
@@ -543,24 +590,69 @@ function addScore(score, productId) {
                 star.className = 'fa fa-star';
                 star.style.color = '#fbbf24';
             } else {
-                star.className = 'fa fa-star rating-star-empty';
-                star.style.color = '';
+                star.className = 'fa fa-star';
+                star.style.color = '#d1d5db';
             }
         }
     }
     
-    fetch(`/products/add-score/?productId=${productId}&score=${score}`, {
+    // ✅ مسیر صحیح: /csf/add_score/
+    fetch(`/csf/add_score/?productId=${productId}&score=${score}`, {
         method: 'GET',
         headers: {
             'X-Requested-With': 'XMLHttpRequest'
         }
     })
-    .then(response => response.json())
+    .then(response => response.text())
     .then(data => {
-        if (data.status === 'success') {
-            showToast('success', 'امتیاز شما با موفقیت ثبت شد');
-            setTimeout(() => location.reload(), 1500);
-        } else {
-            showToast('error', data.message || 'خطا در ثبت امتیاز');
+        showToast('success', '⭐ امتیاز شما با موفقیت ثبت شد');
+        setTimeout(() => location.reload(), 1500);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showToast('error', '❌ خطا در ثبت امتیاز');
+    });
+}
 
-            {% endblock content %}
+// ============================================================
+// ۵. اشتراک‌گذاری
+// ============================================================
+function shareProduct() {
+    if (navigator.share) {
+        navigator.share({
+            title: '{{ product.product_name }}',
+            url: window.location.href
+        }).catch(() => {});
+    } else {
+        navigator.clipboard.writeText(window.location.href)
+            .then(() => showToast('success', '✅ لینک محصول کپی شد'))
+            .catch(() => showToast('error', '❌ خطا در کپی لینک'));
+    }
+}
+
+// ============================================================
+// ۶. نمایش پیام (Toast)
+// ============================================================
+function showToast(type, message) {
+    const oldToast = document.querySelector('.custom-toast');
+    if (oldToast) oldToast.remove();
+    
+    const toast = document.createElement('div');
+    toast.className = `custom-toast ${type === 'error' ? 'toast-error' : ''}`;
+    toast.innerHTML = `
+        <i class="fa ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}" 
+           style="color: ${type === 'success' ? '#22c55e' : '#ef4444'}; font-size: 20px;"></i>
+        <span style="flex:1; font-size:14px;">${message}</span>
+        <button onclick="this.parentElement.remove()" 
+                style="background:none; border:none; color:rgba(255,255,255,0.5); font-size:20px; cursor:pointer;">&times;</button>
+    `;
+    document.body.appendChild(toast);
+    
+    setTimeout(() => toast.classList.add('show'), 10);
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 400);
+    }, 4000);
+}
+</script>
+{% endblock content %}

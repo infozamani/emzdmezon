@@ -21,15 +21,12 @@
     --text-dark: #0F172A;
     --text-body: #334155;
     --text-muted: #64748B;
-    --glass-bg: rgba(255, 255, 255, 0.75);
-    --glass-border: rgba(255, 255, 255, 0.6);
     --shadow-blue: rgba(59, 130, 246, 0.15);
 }
 
 .compare-page {
     padding: 30px 0;
-    background: var(--glass-bg);
-    backdrop-filter: blur(8px);
+    background: #f8fafc;
     min-height: 60vh;
 }
 .compare-header {
@@ -53,13 +50,14 @@
 .compare-table-wrap {
     background: white;
     border-radius: 16px;
-    overflow: hidden;
+    overflow-x: auto;
     box-shadow: 0 4px 20px var(--shadow-blue);
     border: 1px solid var(--blue-soft);
 }
 .compare-table {
     width: 100%;
     border-collapse: collapse;
+    min-width: 500px;
 }
 .compare-table th,
 .compare-table td {
@@ -68,39 +66,62 @@
     text-align: center;
     vertical-align: middle;
 }
-.compare-table th {
+.compare-table thead th {
     background: linear-gradient(135deg, var(--blue-deep), var(--purple-mix));
     color: white;
     font-weight: 600;
     font-size: 15px;
 }
+.compare-table thead th:first-child {
+    background: var(--blue-deep);
+}
+.compare-table thead th .product-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+.compare-table thead th .product-header .product-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px solid rgba(255,255,255,0.2);
+    background: white;
+}
+.compare-table thead th .product-header .product-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.compare-table thead th .product-header .product-name-link {
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+    text-decoration: none;
+}
+.compare-table thead th .product-header .product-name-link:hover {
+    color: var(--blue-glow);
+}
+.compare-table thead th .btn-remove {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.5);
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.compare-table thead th .btn-remove:hover {
+    color: #ef4444;
+    transform: scale(1.2);
+}
+
 .compare-table td {
     font-size: 14px;
     color: var(--text-body);
 }
 .compare-table tr:hover td {
     background: rgba(59, 130, 246, 0.04);
-}
-.compare-table .product-image img {
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
-    border-radius: 10px;
-    border: 2px solid var(--blue-soft);
-    transition: all 0.3s ease;
-}
-.compare-table .product-image img:hover {
-    border-color: var(--blue-primary);
-    transform: scale(1.05);
-}
-.compare-table .product-name a {
-    color: var(--text-dark);
-    font-weight: 600;
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-.compare-table .product-name a:hover {
-    color: var(--blue-primary);
 }
 .compare-table .product-price {
     font-weight: 700;
@@ -111,18 +132,6 @@
     font-weight: 400;
     font-size: 13px;
     margin-left: 8px;
-}
-.compare-table .btn-remove {
-    background: none;
-    border: none;
-    color: #ef4444;
-    font-size: 18px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    padding: 5px 10px;
-}
-.compare-table .btn-remove:hover {
-    transform: scale(1.2);
 }
 .compare-table .btn-add-cart-compare {
     background: linear-gradient(135deg, var(--blue-primary), var(--purple-mix));
@@ -139,6 +148,7 @@
     transform: translateY(-2px);
     box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
 }
+
 .compare-empty {
     text-align: center;
     padding: 80px 20px;
@@ -191,11 +201,47 @@
     background: var(--blue-light);
     transform: translateY(-3px);
 }
+
+.custom-toast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: #1a1a2e;
+    color: #fff;
+    padding: 15px 25px;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 280px;
+    max-width: 450px;
+    z-index: 99999;
+    transform: translateX(120%);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    border-right: 4px solid #22c55e;
+    direction: rtl;
+}
+.custom-toast.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+.custom-toast.toast-error {
+    border-right-color: #ef4444;
+}
+.toast-close {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.5);
+    font-size: 20px;
+    cursor: pointer;
+}
+
 @media (max-width: 768px) {
-    .compare-table-wrap { overflow-x: auto; }
-    .compare-table { min-width: 600px; }
-    .compare-table th, .compare-table td { padding: 10px 14px; font-size: 13px; }
-    .compare-table .product-image img { width: 60px; height: 60px; }
+    .compare-table { font-size: 13px; }
+    .compare-table th, .compare-table td { padding: 10px 14px; }
+    .compare-table thead th .product-header .product-img { width: 60px; height: 60px; }
     .compare-header h2 { font-size: 22px; }
 }
 </style>
@@ -205,32 +251,35 @@
         <div class="compare-header">
             <h2><i class="fa fa-balance-scale"></i> مقایسه محصولات</h2>
             <p style="color: var(--text-muted);">
-                <span class="badge">{{ compare_list.count }}</span> محصول برای مقایسه انتخاب شده است
+                <span class="badge">{{ compare_list|length }}</span> محصول برای مقایسه انتخاب شده است
             </p>
         </div>
 
-        {% if compare_list.count > 0 %}
+        {% if products|length > 0 %}
             <div class="compare-table-wrap">
                 <table class="compare-table" id="compare-table">
                     <thead>
                         <tr>
-                            <th style="width: 120px;">ویژگی</th>
+                            <th style="min-width:100px;">ویژگی</th>
                             {% for product in products %}
                             <th>
-                                <div class="product-image">
-                                    <img src="{{ media_url }}{{ product.image_name }}" alt="{{ product.product_name }}">
+                                <div class="product-header">
+                                    <div class="product-img">
+                                        <img src="{{ media_url }}{{ product.image_name }}" alt="{{ product.product_name }}">
+                                    </div>
+                                    <a href="{% url 'products:product_details' slug=product.slug %}" class="product-name-link">
+                                        {{ product.product_name|truncatechars:20 }}
+                                    </a>
+                                    <button class="btn-remove" onclick="deleteFromCompare({{ product.id }})" title="حذف از مقایسه">
+                                        <i class="fa fa-times-circle"></i>
+                                    </button>
                                 </div>
-                                <div class="product-name">
-                                    <a href="{% url 'products:product_details' slug=product.slug %}">{{ product.product_name|truncatechars:30 }}</a>
-                                </div>
-                                <button class="btn-remove" onclick="deleteFromCompare({{ product.id }})" title="حذف از مقایسه">
-                                    <i class="fa fa-times-circle"></i>
-                                </button>
                             </th>
                             {% endfor %}
                         </tr>
                     </thead>
                     <tbody>
+                        <!-- ردیف قیمت -->
                         <tr>
                             <td><strong>قیمت</strong></td>
                             {% for product in products %}
@@ -249,6 +298,8 @@
                             </td>
                             {% endfor %}
                         </tr>
+                        
+                        <!-- ردیف موجودی -->
                         <tr>
                             <td><strong>موجودی</strong></td>
                             {% for product in products %}
@@ -261,28 +312,46 @@
                             </td>
                             {% endfor %}
                         </tr>
+                        
+                        <!-- ردیف برند -->
                         <tr>
                             <td><strong>برند</strong></td>
                             {% for product in products %}
                             <td>{{ product.brand.brand_name|default:"-" }}</td>
                             {% endfor %}
                         </tr>
-                        {% for feature in features %}
-                        <tr>
-                            <td><strong>{{ feature.feature_name }}</strong></td>
-                            {% for product in products %}
-                            <td>
-                                {% for pf in product.product_features.all %}
-                                    {% if pf.feature == feature %}
-                                        {{ pf.value }}
-                                    {% endif %}
-                                {% empty %}
-                                    -
+                        
+                        <!-- ==========================================
+                             نمایش ویژگی‌های محصولات (روش اصلاح‌شده)
+                             ========================================== -->
+                        {% if features %}
+                            {% for feature in features %}
+                            <tr>
+                                <td><strong>{{ feature.feature_name }}</strong></td>
+                                {% for product in products %}
+                                <td>
+                                    {# پیدا کردن مقدار ویژگی برای این محصول #}
+                                    {% for pf in product.product_features.all %}
+                                        {% if pf.feature.id == feature.id %}
+                                            {{ pf.value }}
+                                        {% endif %}
+                                    {% empty %}
+                                        <span style="color: #999;">-</span>
+                                    {% endfor %}
+                                </td>
                                 {% endfor %}
-                            </td>
+                            </tr>
                             {% endfor %}
-                        </tr>
-                        {% endfor %}
+                        {% else %}
+                            <!-- اگر ویژگی‌ای وجود نداشت، پیام نمایش بده -->
+                            <tr>
+                                <td colspan="{{ products|length|add:1 }}" style="color: #999; padding: 20px;">
+                                    <i class="fa fa-info-circle"></i> این محصولات دارای ویژگی خاصی نیستند.
+                                </td>
+                            </tr>
+                        {% endif %}
+                        
+                        <!-- ردیف عملیات -->
                         <tr>
                             <td><strong>عملیات</strong></td>
                             {% for product in products %}
@@ -323,106 +392,102 @@
 </div>
 
 <script>
+// ============================================================
+// ۱. حذف از لیست مقایسه
+// ============================================================
 function deleteFromCompare(productId) {
-    if (confirm('آیا از حذف این کالا از لیست مقایسه مطمئن هستید؟')) {
-        fetch(`/products/delete-from-compare-list/?productId=${productId}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    window.location.reload();
-                } else {
-                    showToast('error', data.message || 'خطا در حذف');
-                }
-            })
-            .catch(error => {
-                showToast('error', 'خطا در ارتباط با سرور');
-            });
+    if (!confirm('آیا از حذف این کالا از لیست مقایسه مطمئن هستید؟')) {
+        return;
     }
+    
+    fetch(`/products/delete-from-compare-list/?productId=${productId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                showToast('success', '✅ کالا از لیست مقایسه حذف شد');
+                setTimeout(() => location.reload(), 500);
+            } else {
+                showToast('error', data.message || '❌ خطا در حذف');
+            }
+        })
+        .catch(error => {
+            showToast('error', '❌ خطا در ارتباط با سرور');
+        });
 }
 
+// ============================================================
+// ۲. خالی کردن لیست مقایسه
+// ============================================================
 function clearCompareList() {
-    if (confirm('آیا از خالی کردن لیست مقایسه مطمئن هستید؟')) {
-        fetch('/products/clear-compare-list/')
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    window.location.reload();
-                } else {
-                    showToast('error', data.message || 'خطا در خالی کردن لیست');
-                }
-            })
-            .catch(error => {
-                showToast('error', 'خطا در ارتباط با سرور');
-            });
+    if (!confirm('آیا از خالی کردن لیست مقایسه مطمئن هستید؟')) {
+        return;
     }
+    
+    fetch('/products/clear-compare-list/')
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                showToast('success', '✅ لیست مقایسه خالی شد');
+                setTimeout(() => location.reload(), 500);
+            } else {
+                showToast('error', data.message || '❌ خطا در خالی کردن لیست');
+            }
+        })
+        .catch(error => {
+            showToast('error', '❌ خطا در ارتباط با سرور');
+        });
 }
 
+// ============================================================
+// ۳. افزودن به سبد خرید از صفحه مقایسه
+// ============================================================
 function addToCart(productId) {
-    fetch(`/orders/add-to-cart/?productId=${productId}&quantity=1`, {
+    fetch(`/orders/add_to_shop_cart/?product_id=${productId}&qty=1`, {
         method: 'GET',
         headers: {
             'X-Requested-With': 'XMLHttpRequest'
         }
     })
-    .then(response => response.json())
+    .then(response => response.text())
     .then(data => {
-        if (data.status === 'success') {
-            showToast('success', '✅ محصول با موفقیت به سبد خرید اضافه شد');
-            const cartCount = document.getElementById('cartCount');
-            if (cartCount) cartCount.textContent = data.cart_count || 0;
-        } else {
-            showToast('error', data.message || 'خطا در افزودن به سبد خرید');
-        }
+        showToast('success', '✅ محصول با موفقیت به سبد خرید اضافه شد');
+        // به‌روزرسانی تعداد
+        fetch('/orders/status_of_shop_cart/')
+            .then(res => res.text())
+            .then(count => {
+                const badge = document.getElementById('cartCount');
+                if (badge) badge.textContent = count || '0';
+            });
     })
     .catch(error => {
-        showToast('error', 'خطا در ارتباط با سرور');
+        console.error('Error:', error);
+        showToast('error', '❌ خطا در ارتباط با سرور');
     });
 }
 
+// ============================================================
+// ۴. نمایش پیام (Toast)
+// ============================================================
 function showToast(type, message) {
     const oldToast = document.querySelector('.custom-toast');
     if (oldToast) oldToast.remove();
     
-    const colors = { 'success': '#22c55e', 'error': '#ef4444' };
     const toast = document.createElement('div');
-    toast.className = 'custom-toast';
-    toast.style.cssText = `
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        background: #1a1a2e;
-        color: #fff;
-        padding: 15px 25px;
-        border-radius: 12px;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        min-width: 280px;
-        max-width: 450px;
-        z-index: 99999;
-        transform: translateX(120%);
-        opacity: 0;
-        transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        border-right: 4px solid ${colors[type] || '#333'};
-        direction: rtl;
-        font-family: 'Vazir', 'Tahoma', sans-serif;
-    `;
+    toast.className = `custom-toast ${type === 'error' ? 'toast-error' : ''}`;
     toast.innerHTML = `
         <i class="fa ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}" 
-           style="color: ${colors[type] || '#fff'}; font-size: 20px;"></i>
+           style="color: ${type === 'success' ? '#22c55e' : '#ef4444'}; font-size: 20px;"></i>
         <span style="flex:1; font-size:14px;">${message}</span>
-        <button onclick="this.parentElement.remove()" 
-                style="background:none; border:none; color:rgba(255,255,255,0.5); font-size:20px; cursor:pointer;">&times;</button>
+        <button class="toast-close" onclick="this.parentElement.remove()">&times;</button>
     `;
     document.body.appendChild(toast);
     
-    setTimeout(() => { toast.style.transform = 'translateX(0)'; toast.style.opacity = '1'; }, 10);
+    setTimeout(() => toast.classList.add('show'), 10);
     setTimeout(() => {
-        toast.style.transform = 'translateX(120%)';
-        toast.style.opacity = '0';
+        toast.classList.remove('show');
         setTimeout(() => toast.remove(), 400);
     }, 4000);
 }
 </script>
+
 {% endblock content %}

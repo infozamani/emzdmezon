@@ -25,7 +25,9 @@ urlpatterns = [
     path('delete-from-compare-list/', delete_from_compare_list, name='delete_from_compare_list'),
     path('clear-compare-list/', clear_compare_list, name='clear_compare_list'),
     
-    # ====== علاقه‌مندی ======
-    path('toggle-favorite/', toggle_favorite, name='toggle_favorite'),
-    path('add-score/', add_score, name='add_score'),
+    
+     # ====== علاقه‌مندی ======
+    path('status_of_favorite_list/', status_of_favorite_list, name='status_of_favorite_list'),
+    # path('toggle-favorite/', toggle_favorite, name='toggle_favorite'),
+    # path('add-score/', add_score, name='add_score'),
 ]

@@ -622,37 +622,74 @@
 
 })();
 
+// ============================================================
+// توابع آپدیت (اصلاح‌شده)
+// ============================================================
 function updateCartCount() {
-    fetch('{% url "orders:status_of_shop_cart" %}')
-        .then(response => response.text())
-        .then(count => { document.getElementById('cartCount').textContent = count; })
-        .catch(error => console.error('Error:', error));
+    fetch('/orders/status-of-shop-cart/', {
+        method: 'GET',
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => response.text())
+    .then(count => {
+        const badge = document.getElementById('cartCount');
+        if (badge) {
+            badge.textContent = count || '0';
+        }
+    })
+    .catch(error => console.error('Error updating cart:', error));
 }
 
 function updateFavoriteCount() {
-    fetch('{% url "orders:status_of_favorites" %}')
-        .then(response => response.text())
-        .then(count => { document.getElementById('favoriteCount').textContent = count; })
-        .catch(error => console.error('Error:', error));
+    fetch('/orders/status-of-favorites/', {
+        method: 'GET',
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => response.text())
+    .then(count => {
+        const badge = document.getElementById('favoriteCount');
+        if (badge) {
+            badge.textContent = count || '0';
+        }
+    })
+    .catch(error => console.error('Error updating favorites:', error));
 }
 
 function updateCompareCount() {
-    fetch('{% url "orders:status_of_compare" %}')
-        .then(response => response.text())
-        .then(count => { document.getElementById('compareCount').textContent = count; })
-        .catch(error => console.error('Error:', error));
+    fetch('/orders/status-of-compare/', {
+        method: 'GET',
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => response.text())
+    .then(count => {
+        const badge = document.getElementById('compareCount');
+        if (badge) {
+            badge.textContent = count || '0';
+        }
+    })
+    .catch(error => console.error('Error updating compare:', error));
 }
 
 document.addEventListener('DOMContentLoaded', function() {
     updateCartCount();
     updateFavoriteCount();
     updateCompareCount();
+    
+    // به‌روزرسانی هر 10 ثانیه
     setInterval(function() {
         updateCartCount();
         updateFavoriteCount();
         updateCompareCount();
-    }, 20000);
-    // تشخیص اسکرول برای تغییر ظاهر نوار
+    }, 10000);
+});
+
+// تشخیص اسکرول برای تغییر ظاهر نوار
 window.addEventListener('scroll', function() {
     const nav = document.querySelector('.snav');
     if (nav) {
@@ -662,6 +699,5 @@ window.addEventListener('scroll', function() {
             nav.classList.remove('scrolled');
         }
     }
-});
 });
 </script>

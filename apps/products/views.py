@@ -264,6 +264,8 @@ def status_of_compare_list(request):
     return HttpResponse(compareList.count)
 
 
+# apps/products/views.py
+
 def add_to_compare_list(request):
     """افزودن محصول به لیست مقایسه (AJAX)"""
     product_id = request.GET.get('productId')
@@ -274,11 +276,20 @@ def add_to_compare_list(request):
     compareList = CompareProduct(request)
     result = compareList.add_to_compare_product(product_id)
     
+    # ✅ دریافت ویژگی‌ها برای نمایش در جدول
+    products = Product.objects.filter(id__in=compareList.compare_product)
+    features = []
+    for product in products:
+        for item in product.product_features.all():
+            if item.feature not in features:
+                features.append(item.feature)
+    
     if result:
         return JsonResponse({
             'status': 'success',
             'message': 'محصول به لیست مقایسه اضافه شد',
-            'compare_count': compareList.count
+            'compare_count': compareList.count,
+            'features_count': len(features)
         })
     else:
         return JsonResponse({
