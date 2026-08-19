@@ -1,4 +1,4 @@
-{% load static %}
+{% comment %} {% load static %}
 
 <div class="block block--highlighted block-categories block-categories--layout--compact">
     <style>
@@ -240,7 +240,7 @@
                 <div class="category-card__count" title="تعداد محصول">
                     <span class="num">{{ group.count }}</span>
                     <span class="label">محصول</span>
-                </div> {% endcomment %}
+                </div>  
                 
                        </a>
             {% endfor %}
@@ -360,7 +360,7 @@
 
 })();
 </script>
-{% comment %} 
+ 
 <style>
 /* ====== غیرفعال کردن Hover در دستگاه‌های لمسی ====== */
 .touch-device:hover {
@@ -381,4 +381,399 @@
         rgba(0, 0, 0, 0.05) 100%
     ) !important;
 }
-</style> {% endcomment %}
+</style>   {% endcomment %}
+{% load static %}
+
+<div class="block block--highlighted block-categories block-categories--layout--compact">
+    <style>
+        /* ==========================================================
+           کارت‌های گروه با تصویر پس‌زمینه Full Cover
+           ========================================================== */
+        .block-categories--layout--compact {
+            padding: 50px 0;
+            margin: 40px 0;
+            background: #f8fafc;
+        }
+        
+        .block-categories--layout--compact .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ====== هدر ====== */
+        .block-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .block-header__title {
+            font-size: 32px;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+        .block-header__divider {
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #e94560, #c73652);
+            border-radius: 2px;
+            margin: 0 auto;
+        }
+
+        /* ====== لیست کارت‌ها ====== */
+        .block-categories__list {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+        }
+
+        /* ====== کارت اصلی ====== */
+        .category-card {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            aspect-ratio: 16 / 10;
+            background: #1a1a2e;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        /* ====== رنگ‌های پس‌زمینه برای گروه‌های بدون تصویر ====== */
+        .category-card__bg--color-1 { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .category-card__bg--color-2 { background: linear-gradient(135deg, #f093fb, #f5576c); }
+        .category-card__bg--color-3 { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+        .category-card__bg--color-4 { background: linear-gradient(135deg, #43e97b, #38f9d7); }
+        .category-card__bg--color-5 { background: linear-gradient(135deg, #fa709a, #fee140); }
+        .category-card__bg--color-6 { background: linear-gradient(135deg, #a18cd1, #fbc2eb); }
+        .category-card__bg--color-7 { background: linear-gradient(135deg, #fccb90, #d57eeb); }
+        .category-card__bg--color-8 { background: linear-gradient(135deg, #89f7fe, #66a6ff); }
+
+        /* ====== تصویر پس‌زمینه (فقط در صورت وجود) ====== */
+        .category-card__bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            transition: transform 0.6s ease;
+            z-index: 1;
+        }
+
+        /* ====== اوورلی (سایه تیره روی تصویر) ====== */
+        .category-card__overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to top,
+                rgba(0, 0, 0, 0.7) 0%,
+                rgba(0, 0, 0, 0.3) 40%,
+                rgba(0, 0, 0, 0.1) 70%,
+                rgba(0, 0, 0, 0.05) 100%
+            );
+            z-index: 2;
+            transition: all 0.4s ease;
+        }
+
+        /* ====== محتوای کارت ====== */
+        .category-card__content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 30px 25px 25px;
+            z-index: 3;
+        }
+
+        /* ====== نام گروه ====== */
+        .category-card__name {
+            margin: 0;
+            color: #ffffff !important;
+            font-size: 20px;
+            font-weight: 700;
+            text-decoration: none;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            letter-spacing: 0.3px;
+            line-height: 1.3;
+        }
+
+        /* ====== هاور افکت‌ها (فقط برای ماوس) ====== */
+        @media (hover: hover) {
+            .category-card:hover {
+                transform: translateY(-8px) scale(1.02);
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            }
+
+            .category-card:hover .category-card__bg {
+                transform: scale(1.08);
+            }
+
+            .category-card:hover .category-card__overlay {
+                background: linear-gradient(
+                    to top,
+                    rgba(0, 0, 0, 0.8) 0%,
+                    rgba(0, 0, 0, 0.4) 40%,
+                    rgba(0, 0, 0, 0.15) 70%,
+                    rgba(0, 0, 0, 0.05) 100%
+                );
+            }
+        }
+
+        /* ====== افکت کلیک (برای همه دستگاه‌ها) ====== */
+        .category-card:active {
+            transform: scale(0.97);
+            transition: transform 0.1s ease;
+        }
+
+        /* ==========================================================
+           واکنش‌گرایی (Responsive)
+           ========================================================== */
+
+        /* ====== تبلت و صفحه‌های متوسط ====== */
+        @media (max-width: 1200px) {
+            .block-categories__list {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 20px;
+            }
+            .category-card__name {
+                font-size: 18px;
+            }
+        }
+
+        /* ====== تبلت کوچک ====== */
+        @media (max-width: 992px) {
+            .block-categories__list {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 18px;
+            }
+            .category-card__name {
+                font-size: 17px;
+            }
+        }
+
+        /* ====== موبایل ====== */
+        @media (max-width: 768px) {
+            .block-categories__list {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            .category-card {
+                aspect-ratio: 16 / 9;
+            }
+            .category-card__content {
+                padding: 24px 20px 20px;
+            }
+            .category-card__name {
+                font-size: 18px;
+            }
+            .block-header__title {
+                font-size: 24px;
+            }
+        }
+
+        /* ====== موبایل خیلی کوچک ====== */
+        @media (max-width: 480px) {
+            .block-categories__list {
+                gap: 14px;
+            }
+            .category-card {
+                aspect-ratio: 16 / 10;
+            }
+            .category-card__content {
+                padding: 18px 16px 16px;
+            }
+            .category-card__name {
+                font-size: 16px;
+            }
+            .block-header__title {
+                font-size: 20px;
+            }
+        }
+    </style>
+
+    <div class="container">
+        <!-- ====== هدر ====== -->
+        <div class="block-header">
+            <h3 class="block-header__title">دسته بندی ها</h3>
+            <div class="block-header__divider"></div>
+        </div>
+
+        <!-- ====== لیست کارت‌ها ====== -->
+        <div class="block-categories__list">
+            {% for group in product_groups %}
+            <div class="category-card" 
+                 data-url="{% url 'products:product_of_group' slug=group.slug %}"
+                 data-slug="{{ group.slug }}"
+                 onclick="navigateToGroup(this)">
+                
+                <!-- ====== تصویر پس‌زمینه (فقط در صورت وجود تصویر) ====== -->
+                {% if group.image_name %}
+                    <div class="category-card__bg" 
+                         style="background-image: url('{{ media_url }}{{ group.image_name }}');">
+                    </div>
+                {% else %}
+                    <!-- اگر تصویر وجود نداشت، از رنگ‌های گرادینت استفاده کن -->
+                    <div class="category-card__bg category-card__bg--color-{{ forloop.counter|divisibleby:8|add:1 }}"></div>
+                {% endif %}
+                
+                <!-- ====== اوورلی تیره ====== -->
+                <div class="category-card__overlay"></div>
+                
+                <!-- ====== نام گروه ====== -->
+                <div class="category-card__content">
+                    {% comment %} <h4 class="category-card__name">{{ group.name|default:"بدون نام" }}</h4> {% endcomment %}
+                </div>
+            </div>
+            {% empty %}
+            <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #64748b;">
+                <i class="fa fa-folder-open" style="font-size: 48px; display: block; margin-bottom: 10px;"></i>
+                هیچ دسته‌بندی وجود ندارد.
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================
+     اسکریپت کنترل رویدادهای لمسی و کلیک
+     ============================================================ -->
+<script>
+(function() {
+    'use strict';
+
+    // ============================================================
+    // ۱. تابع هدایت به گروه
+    // ============================================================
+    window.navigateToGroup = function(element) {
+        if (element.dataset.navigating === 'true') {
+            return;
+        }
+
+        const url = element.dataset.url;
+        if (!url) {
+            console.error('آدرس گروه یافت نشد');
+            return;
+        }
+
+        element.dataset.navigating = 'true';
+        window.location.href = url;
+    };
+
+    // ============================================================
+    // ۲. مدیریت رویدادهای لمسی (برای لپ‌تاپ‌های تاچ)
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', function() {
+        const cards = document.querySelectorAll('.category-card');
+        
+        cards.forEach(card => {
+            let touchHandled = false;
+            let touchMoved = false;
+
+            card.addEventListener('touchstart', function(e) {
+                touchHandled = false;
+                touchMoved = false;
+                
+                const touch = e.touches[0];
+                this.dataset.startX = touch.clientX;
+                this.dataset.startY = touch.clientY;
+            }, { passive: true });
+
+            card.addEventListener('touchmove', function(e) {
+                const touch = e.touches[0];
+                const startX = parseFloat(this.dataset.startX || 0);
+                const startY = parseFloat(this.dataset.startY || 0);
+                
+                if (Math.abs(touch.clientX - startX) > 10 || 
+                    Math.abs(touch.clientY - startY) > 10) {
+                    touchMoved = true;
+                }
+            }, { passive: true });
+
+            card.addEventListener('touchend', function(e) {
+                if (touchMoved) {
+                    return;
+                }
+
+                if (touchHandled) {
+                    e.preventDefault();
+                    return;
+                }
+
+                touchHandled = true;
+                e.preventDefault();
+
+                const url = this.dataset.url;
+                if (url) {
+                    window.location.href = url;
+                }
+            }, { passive: false });
+
+            card.addEventListener('click', function(e) {
+                if (touchHandled) {
+                    e.preventDefault();
+                    return;
+                }
+
+                if (e.target.closest('a') || e.target.closest('button')) {
+                    return;
+                }
+
+                const url = this.dataset.url;
+                if (url) {
+                    e.preventDefault();
+                    this.style.transform = 'scale(0.97)';
+                    setTimeout(() => {
+                        window.location.href = url;
+                    }, 150);
+                }
+            });
+
+            card.addEventListener('touchcancel', function() {
+                touchHandled = false;
+                touchMoved = false;
+            }, { passive: true });
+        });
+
+        // تشخیص دستگاه تاچ
+        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+        
+        if (isTouchDevice) {
+            document.querySelectorAll('.category-card').forEach(card => {
+                card.classList.add('touch-device');
+            });
+        }
+    });
+
+})();
+</script>
+
+<style>
+/* ====== غیرفعال کردن Hover در دستگاه‌های لمسی ====== */
+.touch-device:hover {
+    transform: none !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+}
+
+.touch-device:hover .category-card__bg {
+    transform: none !important;
+}
+
+.touch-device:hover .category-card__overlay {
+    background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.7) 0%,
+        rgba(0, 0, 0, 0.3) 40%,
+        rgba(0, 0, 0, 0.1) 70%,
+        rgba(0, 0, 0, 0.05) 100%
+    ) !important;
+}
+</style>
