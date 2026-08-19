@@ -10,7 +10,6 @@ urlpatterns = [
     path('related_products/<slug:slug>/', get_related_products, name='related_products'),
     path('product_groups/', ProductGroupView.as_view(), name='product_groups'),
     path('product_of_group/<slug:slug>/', ProductsBygroupView.as_view(), name='product_of_group'),
-    # path('ajax_admin/', get_filter_value_for_feature, name='filter_value_for_feature'),
     path('product_groups_partial/', get_product_groups, name='product_groups_partial'),
     path('ProductsBygroup/<slug:slug>/', ProductsBygroupView.as_view(), name='ProductsBygroup'),
     path('brands_partial/<slug:slug>/', get_brands, name='brands_partial'),
